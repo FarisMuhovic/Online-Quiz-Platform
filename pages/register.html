@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register page</title>
+    <link rel="stylesheet" type="text/css" href="index.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../stylesheets/authentication.css"
+    />
+
+    <!-- Google Icons HTML Link -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
+  </head>
+  <body>
+    <main>
+      <section class="welcome-text">
+        <h1>Register for an account</h1>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore.
+        </p>
+      </section>
+      <form action="" class="register-form" method="post">
+        <label>
+          <span class="material-symbols-outlined"> person </span>
+          <input
+            type="text"
+            name="firstName"
+            id="firstName"
+            placeholder="First name"
+            required
+          />
+        </label>
+        <label>
+          <span class="material-symbols-outlined"> person </span>
+          <input
+            type="text"
+            name="lastName"
+            id="lastName"
+            placeholder="Last name"
+            required
+          />
+        </label>
+        <label>
+          <span class="material-symbols-outlined"> mail </span>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="E-Mail"
+            required
+          />
+        </label>
+        <label>
+          <span class="material-symbols-outlined"> lock </span>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Password"
+            required
+          />
+          <span class="material-symbols-outlined" id="visibilityIcon">
+            visibility_off
+          </span>
+          <!-- Use in javascript onClick when user wants to see the password
+        <span class="material-symbols-outlined"> visibility </span> -->
+          <p>Your password must have at least 8 characters</p>
+        </label>
+        <label>
+          <p>What describes you best?</p>
+          <select name="userType" id="userType" required>
+            <option value="student">Student</option>
+            <option value="highSchooler">High Schooler</option>
+            <option value="educator">Educator</option>
+            <option value="enthusiast">Quiz Enthusiast</option>
+          </select>
+        </label>
+        <label>
+          <input type="checkbox" name="agreeTerms" id="agreeTerms" required />
+          <p>
+            By creating an account means you agree to the
+            <a href="#">Terms & Conditions</a> and our
+            <a href="#">Privacy Policy</a>
+          </p>
+        </label>
+        <button>Register</button>
+      </form>
+      <p class="redirection-text">
+        Already have an account? <a href="./login.html">Log in</a>
+      </p>
+    </main>
+    <footer></footer>
+  </body>
+</html>
