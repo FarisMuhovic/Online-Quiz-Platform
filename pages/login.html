@@ -4,13 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login page</title>
-    <link rel="stylesheet" type="text/css" href="index.css" />
+    <link rel="stylesheet" type="text/css" href="../index.css" />
     <link
       rel="stylesheet"
       type="text/css"
       href="../stylesheets/authentication.css"
     />
-
     <!-- Google Icons HTML Link -->
     <link
       rel="stylesheet"
@@ -19,15 +18,17 @@
   </head>
   <body>
     <main>
-      <section class="welcome-text">
-        <h1>Log into your account</h1>
+      <section class="left-side">
+        <h1>Welcome back to the Quiz Application!</h1>
+        <p>Log in to your account to continue your quiz journey.</p>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore.
+          New to the Quiz Application?
+          <a href="./register.html">Sign up here</a> to get started!
         </p>
       </section>
-      <form action="" class="login-form" method="post">
-        <label>
+      <form action="" class="auth-form right-side" method="post">
+        <h1 class="form-heading">Login here</h1>
+        <label class="label-for-mail">
           <span class="material-symbols-outlined"> mail </span>
           <input
             type="email"
@@ -37,7 +38,7 @@
             required
           />
         </label>
-        <label>
+        <label class="label-for-password">
           <span class="material-symbols-outlined"> lock </span>
           <input
             type="password"
@@ -46,22 +47,25 @@
             placeholder="Password"
             required
           />
-          <span class="material-symbols-outlined" id="visibilityIcon">
-            visibility_off
-          </span>
+          <button type="button" id="visibilityButton">
+            <span class="material-symbols-outlined" id="visibilityIcon">
+              visibility_off
+            </span>
+          </button>
           <!-- Use in javascript onClick when user wants to see the password
-        <span class="material-symbols-outlined"> visibility </span> -->
+          <span class="material-symbols-outlined"> visibility </span> -->
         </label>
-        <label>
+        <label class="label-checkbox">
           <input type="checkbox" name="rememberMe" id="rememberMe" />
           <span>Remember me</span>
         </label>
-        <button>Login</button>
+        <a href="#" class="forgot-pass-link">Forgot password?</a>
+        <button type="submit" class="form-submit-btn">Login</button>
+        <p class="mobile-p">
+          New to the Quiz Application?
+          <a href="./register.html">Sign up here</a> to get started!
+        </p>
       </form>
-      <p class="redirection-text">
-        Dont have an account? <a href="./register.html">Register now</a>
-      </p>
     </main>
-    <footer></footer>
   </body>
 </html>

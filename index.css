@@ -11,9 +11,15 @@ html {
 }
 
 :root {
-  /* color pallete */
-  /* light mode */
+  --primary-color: #9d9df1;
   /* dark mode */
+  --font-primary-color-dark: rgb(50, 50, 50);
+  --font-accent-color-dark: rgb(30, 30, 30);
+  /* light mode */
+  --font-primary-color-light: rgb(209, 209, 209);
+  --font-accent-color-light: rgb(230, 230, 230);
+  /* Misc */
+  --transition-time: 0.3s;
 }
 
 /*  Large devices (desktops, less than 1200px) */
