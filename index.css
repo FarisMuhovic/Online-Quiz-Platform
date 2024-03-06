@@ -12,10 +12,12 @@ html {
 
 :root {
   --primary-color: #9d9df1;
-  /* dark mode */
+  /* light modee */
   --font-primary-color-dark: rgb(50, 50, 50);
   --font-accent-color-dark: rgb(30, 30, 30);
-  /* light mode */
+  --bg-color-primary: snow;
+  --bg-color-accent: white;
+  /* dark mode */
   --font-primary-color-light: rgb(209, 209, 209);
   --font-accent-color-light: rgb(230, 230, 230);
   /* Misc */

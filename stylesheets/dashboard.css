@@ -1,0 +1,99 @@
+body {
+  background-color: var(--bg-color-primary);
+}
+.dashboard {
+  margin: 2vw 3vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 3rem 1rem;
+}
+.dashboard-item {
+  background-color: var(--bg-color-accent);
+  padding: 1rem;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-bottom: 3px solid var(--primary-color);
+}
+.dashboard-item h1 {
+  color: var(--font-accent-color-dark);
+  padding-bottom: 0.5rem;
+}
+.dashboard-item p {
+  color: var(--font-primary-color-dark);
+  padding-bottom: 0.5rem 0;
+}
+.dashboard-item a {
+  text-decoration: none;
+  color: inherit;
+}
+.dashboard-item a > img {
+  width: 100%;
+  height: auto;
+  transition: var(--transition-time);
+  transform: translateY(-35px);
+  background-color: var(--bg-color-accent);
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
+}
+.dashboard-item a > img:hover,
+.dashboard-item a > img:active {
+  scale: 1.03;
+}
+.welcome {
+  font-size: 1.15rem;
+  grid-column: 1/-1;
+}
+.log-out {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.log-out:hover,
+.log-out:active {
+  background-color: var(--bg-color-primary);
+}
+.log-out button {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+.log-out span {
+  font-size: 15rem;
+  color: var(--primary-color);
+  padding: 0 1rem;
+}
+
+/*  Large devices (desktops, less than 1200px) */
+@media (max-width: 1199.98px) {
+}
+
+/* Medium devices (tablets, less than 992px) */
+@media (max-width: 991.98px) {
+  .dashboard {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+/*  Small devices (landscape phones, less than 768px) */
+@media (max-width: 767.98px) {
+  .dashboard {
+    margin: 1rem;
+    gap: 2rem 0.5rem;
+  }
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+    margin: 1rem;
+    gap: 2rem 0.5rem;
+  }
+  .log-out span {
+    font-size: 5rem;
+  }
+  .dashboard-item {
+    text-align: center;
+  }
+}
