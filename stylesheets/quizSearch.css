@@ -1,0 +1,119 @@
+.quiz-search-page {
+  margin: 2vw 3vw;
+}
+.form-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+  color: var(--font-accent-color-dark);
+}
+.quiz-search-page form {
+  background-color: var(--bg-color-accent);
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  height: 75px;
+  border-bottom: 1px solid var(--primary-color);
+}
+.quiz-search-page form:first-child {
+  flex-grow: 1;
+}
+.quiz-search-page form:first-child > input {
+  height: 100%;
+  width: 100%;
+  padding: 0.5rem;
+}
+.quiz-search-page form:first-child > button {
+  height: 100%;
+  width: 100%;
+  max-width: 175px;
+  background-color: var(--primary-color);
+  border: none;
+  padding: 0.25rem 0.5rem;
+}
+.quiz-search-page form:last-child > button {
+  height: 100%;
+  min-width: 100px;
+  padding: 0.25rem 0.5rem;
+  background-color: var(--primary-color);
+  border: none;
+}
+.quizzes-container {
+  padding: 3rem 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem 1.5rem;
+}
+.quiz-banner {
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  padding: 1rem 1.5rem;
+  background-color: var(--bg-color-accent);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.text-container {
+  padding-top: 1rem;
+}
+.quiz-banner img {
+  width: 100%;
+}
+.quiz-banner a {
+  text-decoration: none;
+  color: inherit;
+  margin-top: auto;
+  width: 100%;
+  height: 50px;
+  background-color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+}
+.quiz-time {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+/*  Large devices (desktops, less than 1300px) */
+@media (max-width: 1299.98px) {
+  .quizzes-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Medium devices (tablets, less than 992px) */
+@media (max-width: 991.98px) {
+  .quizzes-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .form-wrapper {
+    flex-direction: column;
+  }
+  .form-wrapper form {
+    width: 100%;
+  }
+}
+
+/*  Small devices (landscape phones, less than 768px) */
+@media (max-width: 767.98px) {
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+  .quizzes-container {
+    grid-template-columns: 1fr;
+  }
+  .form-wrapper form:first-child {
+    flex-direction: column;
+    height: 125px;
+  }
+  .quiz-search-page form:first-child > button {
+    max-width: 100%;
+  }
+}
