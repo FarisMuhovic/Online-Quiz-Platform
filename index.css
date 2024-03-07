@@ -162,6 +162,14 @@ footer {
   transform: rotate(-135deg);
 }
 
+button {
+  border: none;
+  outline: none;
+  padding: 0.5rem;
+  text-align: center;
+  background-color: var(--primary-color);
+}
+
 /*  Large devices (desktops, less than 1200px) */
 @media (max-width: 1199.98px) {
 }
