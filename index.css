@@ -30,7 +30,7 @@ body {
 /* Navigation bar */
 .header-nav,
 .footer-nav {
-  height: 75px;
+  min-height: 75px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -48,6 +48,7 @@ nav > ul {
   flex-wrap: wrap;
   gap: 1rem;
   margin: 0;
+  padding: 1rem;
 }
 nav > ul > li:hover {
   color: var(--primary-color);
