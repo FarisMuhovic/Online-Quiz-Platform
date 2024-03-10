@@ -79,7 +79,7 @@
   border: 1px solid transparent;
 }
 .quiz button:last-child:hover {
-  background-color: white;
+  background-color: var(--bg-color-accent);
   color: red;
   border: 1px solid red;
 }

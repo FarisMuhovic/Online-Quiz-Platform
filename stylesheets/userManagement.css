@@ -76,6 +76,26 @@
 .demote {
   background-color: red;
 }
+.form-submit-btn:hover {
+  background-color: #01015c !important;
+  color: var(--bg-color-accent);
+}
+#promote-btn {
+  border: 1px solid transparent;
+}
+#promote-btn:hover {
+  background-color: var(--bg-color-accent);
+  color: orange;
+  border: 1px solid orange;
+}
+#remove-user-btn {
+  border: 1px solid transparent;
+}
+#remove-user-btn:hover {
+  background-color: var(--bg-color-accent);
+  color: red;
+  border: 1px solid red;
+}
 /*  Large devices (desktops, less than 1200px) */
 @media (max-width: 1199.98px) {
   .user-info {
