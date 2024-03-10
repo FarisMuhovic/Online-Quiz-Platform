@@ -70,15 +70,17 @@
 .user button:last-child {
   background-color: #cc0000;
 }
+.promote {
+  background-color: green;
+}
+.demote {
+  background-color: red;
+}
 /*  Large devices (desktops, less than 1200px) */
 @media (max-width: 1199.98px) {
   .user-info {
     flex-direction: column;
   }
-}
-
-/* Medium devices (tablets, less than 992px) */
-@media (max-width: 991.98px) {
 }
 
 /*  Small devices (landscape phones, less than 768px) */

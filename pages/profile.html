@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile page</title>
     <link rel="stylesheet" type="text/css" href="../index.css" />
-    <link rel="stylesheet" type="text/css" href="../stylesheets/profile.css" />
+    <link rel="stylesheet" href="../stylesheets/profile.css" />
+    <!-- Favicon -->
+    <link rel="icon" href="../images/favicon.png" type="image/x-icon" />
     <!-- Google Icons HTML Link -->
     <link
       rel="stylesheet"
@@ -85,21 +87,21 @@
       </nav>
     </header>
     <main class="profile-page">
-      <section class="personal-info">
+      <section class="personal-info" id="personal-info">
         <h2>Welcome back, Faris! 👋</h2>
         <p>Joined: 24/9/2023</p>
         <h2>Profile Details</h2>
         <p>Full Name: Faris Muhovic</p>
         <p>Date of Birth: Not set</p>
         <p>Country: Not set</p>
-        <button>Change information</button>
+        <button id="change-info-btn">Change information</button>
       </section>
       <section class="avatar">
         <h2>Your avatar</h2>
-        <img src="../images/avatars/avatar_2.png" alt="" />
-        <button>Change avatar</button>
+        <img src="../images/avatars/avatar_2.png" alt="avatar" />
+        <button id="change-avatar-btn">Change avatar</button>
       </section>
-      <section class="achievements">
+      <section class="achievements" id="achivements-container">
         <h2>Achievements</h2>
         <div class="achievement">
           <span class="material-symbols-outlined"> event_available </span>
@@ -125,7 +127,7 @@
     </main>
     <footer>
       <nav class="footer-nav">
-        <ul>
+        <ul id="footer-nav-list">
           <li>
             <a href="../index.html">
               <span>Dashboard</span>
@@ -172,10 +174,10 @@
     </footer>
     <!-- Modals  -->
     <!-- Modal for avatar change -->
-    <!-- <div id="modal">
+    <!-- <form action="" method="post" id="modal-for-avatar">
       <div class="modal-header-def">
         <h3 class="modal-title-def">Select an avatar</h3>
-        <button type="button" class="close">
+        <button type="button" class="close" id="close-btn-top">
           <span>&times;</span>
         </button>
       </div>
@@ -191,19 +193,19 @@
         <img src="../images/avatars/avatar_9.png" alt="avatar" />
       </div>
       <div class="modal-footer-def">
-        <button type="button">Save changes</button>
-        <button type="button">Close</button>
+        <button type="submit">Save changes</button>
+        <button type="button" id="close-btn-footer">Close</button>
       </div>
-    </div> -->
+    </form> -->
     <!-- Modal for personal info change -->
-    <!-- <div id="modal">
+    <!-- <div id="modal-for-info">
       <div class="modal-header-def">
         <h3 class="modal-title-def">Change info</h3>
         <button type="button" class="close">
           <span>&times;</span>
         </button>
       </div>
-      <form action="" method="post" class="modal-form">
+      <form action="" method="post" class="modal-form" id="info-form">
         <input type="date" name="dateOfBirth" id="dateOfBirth" required />
         <input type="text" name="country" required placeholder="Country" />
         <button type="submit">Save changes</button>

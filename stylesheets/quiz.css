@@ -1,0 +1,57 @@
+.quiz {
+  min-height: 100vh;
+  margin: 2rem 3rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  gap: 1rem;
+}
+.quiz > form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.quiz .time {
+  position: fixed;
+  right: 15px;
+  z-index: 2;
+  background-color: var(--bg-color-accent);
+  padding: 0.5rem;
+  color: red;
+  font-size: 1.15rem;
+  border: 2px solid var(--primary-color);
+}
+.time p {
+  margin: 0;
+}
+.heading {
+  background-color: var(--bg-color-accent);
+  padding: 1rem;
+  border-bottom: 2px solid var(--primary-color);
+}
+.question {
+  background-color: var(--bg-color-accent);
+  padding: 1rem;
+  border-bottom: 2px solid var(--primary-color);
+}
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+}
+.btn-group label {
+  text-align: start;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+}
+/* radio btn styling */
+.me-2 {
+  display: none;
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+  .quiz {
+    margin: 1rem;
+  }
+}

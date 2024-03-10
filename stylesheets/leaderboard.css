@@ -7,12 +7,11 @@
   margin: 2rem auto;
 }
 .leaderboard-heading {
-  /* width: 100%; */
   text-align: center;
   background-color: var(--bg-color-accent);
   padding: 1rem;
 }
-/* starts from 3 because heading is 1, 2 is user */
+/* starts from 3 because heading is 1 */
 .leaderboard-page section:nth-child(2) {
   background-color: var(--bg-color-accent);
 }
@@ -47,14 +46,6 @@
   width: 60px;
   height: 60px;
 }
-/*  Large devices (desktops, less than 1200px) */
-@media (max-width: 1199.98px) {
-}
-
-/* Medium devices (tablets, less than 992px) */
-@media (max-width: 991.98px) {
-}
-
 /*  Small devices (landscape phones, less than 768px) */
 @media (max-width: 767.98px) {
   .user-ranking {
@@ -71,12 +62,5 @@
   }
   .leaderboard-page {
     margin: 1rem;
-  }
-  /* HERE CHANGE */
-}
-
-/* Extra small devices (portrait phones, less than 576px) */
-@media (max-width: 575.98px) {
-  .user-ranking {
   }
 }

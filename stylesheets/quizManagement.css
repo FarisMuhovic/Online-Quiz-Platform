@@ -28,6 +28,10 @@
   border: none;
   padding: 0.25rem 0.5rem;
 }
+.quiz-management button:hover {
+  background-color: #01015c;
+  color: var(--bg-color-accent);
+}
 .quiz-management form > button:last-child {
   max-width: 300px;
 }
@@ -72,10 +76,14 @@
 }
 .quiz button:last-child {
   background-color: #cc0000;
+  border: 1px solid transparent;
 }
-
+.quiz button:last-child:hover {
+  background-color: white;
+  color: red;
+  border: 1px solid red;
+}
 #modal {
-  /* display: flex; */
   display: none;
   flex-direction: column;
   max-width: 650px;
@@ -177,10 +185,6 @@
   .quiz-info {
     flex-direction: column;
   }
-}
-
-/* Medium devices (tablets, less than 992px) */
-@media (max-width: 991.98px) {
 }
 
 /*  Small devices (landscape phones, less than 768px) */

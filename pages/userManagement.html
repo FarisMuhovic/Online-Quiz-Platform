@@ -10,6 +10,9 @@
       type="text/css"
       href="../stylesheets/userManagement.css"
     />
+    <!-- Favicon -->
+    <link rel="icon" href="../images/favicon.png" type="image/x-icon" />
+
     <!-- Google Icons HTML Link -->
     <link
       rel="stylesheet"
@@ -89,7 +92,7 @@
       </nav>
     </header>
     <main class="user-management-page">
-      <form action="" method="post">
+      <form action="" method="post" id="search-form">
         <input
           type="search"
           name="searchQuery"
@@ -100,16 +103,17 @@
         <button type="submit" class="form-submit-btn">Search</button>
       </form>
       <h1 class="users-heading">Users</h1>
-      <section class="users-section">
+      <section class="users-section" id="user-container">
         <div class="user">
-          <div class="user-info">
+          <div class="user-info" id="user-info">
             <p>Name: Faris Muhovic</p>
             <p>Type: User</p>
             <p>Email: faris.muhovic@stu.ibu.edu.ba</p>
             <p>Date registered: 24/07/2024</p>
           </div>
           <div class="btns-wrapper">
-            <button>Promote</button> <button>Remove</button>
+            <button id="promote-btn">Promote</button>
+            <button id="remove-user-btn">Remove</button>
           </div>
         </div>
         <div class="user">
@@ -164,7 +168,7 @@
     </main>
     <footer>
       <nav class="footer-nav">
-        <ul>
+        <ul id="footer-nav-list">
           <li>
             <a href="../index.html">
               <span>Dashboard</span>

@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
     <link rel="stylesheet" type="text/css" href="index.css" />
-    <!-- <link rel="icon" href="path_to_your_favicon.ico" type="image/x-icon" /> -->
-    <!-- Google Icons HTML Link -->
     <link rel="stylesheet" href="./stylesheets/dashboard.css" />
+    <!-- Favicon -->
+    <link rel="icon" href="./images/favicon.png" type="image/x-icon" />
+    <!-- Google Icons HTML Link -->
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
@@ -18,7 +19,7 @@
       <section class="dashboard-item welcome">
         <h1>Welcome back, Faris Muhovic 👋</h1>
         <p>Today is Saturday, 24.07.2022</p>
-        <p class="fact">
+        <p id="fun-fact-p">
           Fun fact: A blue whale's heart is the size of a Volkswagen Beetle!
         </p>
       </section>
@@ -26,7 +27,7 @@
         <a href="./pages/quizSearch.html">
           <img
             src="./images/dashboard-banners/quizbanner.png"
-            alt="quizbanner"
+            alt="Quiz banner"
           />
           <h1>Browse quizes</h1>
         </a>
@@ -34,28 +35,40 @@
       </section>
       <section class="dashboard-item">
         <a href="./pages/profile.html">
-          <img src="./images/dashboard-banners/profilebanner.png" alt="" />
+          <img
+            src="./images/dashboard-banners/profilebanner.png"
+            alt="Profile banner"
+          />
           <h1>Profile page</h1>
         </a>
         <p>Edit your profile information.</p>
       </section>
       <section class="dashboard-item">
         <a href="./pages/quizHistory.html">
-          <img src="./images/dashboard-banners/quizhistory.png" alt="" />
+          <img
+            src="./images/dashboard-banners/quizhistory.png"
+            alt="Quiz history banner"
+          />
           <h1>Quiz history</h1>
         </a>
         <p>Check your recently done quizzes and answers.</p>
       </section>
       <section class="dashboard-item">
         <a href="./pages/leaderboard.html">
-          <img src="./images/dashboard-banners/leaderboard.png" alt="" />
+          <img
+            src="./images/dashboard-banners/leaderboard.png"
+            alt="Leaderboard banner"
+          />
           <h1>Leaderboard</h1>
         </a>
         <p>Check who was the most badges received.</p>
       </section>
       <section class="dashboard-item">
         <a href="./pages/analytics.html">
-          <img src="./images/dashboard-banners/stats.png" alt="" />
+          <img
+            src="./images/dashboard-banners/stats.png"
+            alt="Statistics banner"
+          />
           <h1>Your statistics</h1>
         </a>
         <p>Check interesting statistical data based on your quiz attempts</p>
@@ -63,20 +76,28 @@
       <!-- Admin sections -->
       <section class="dashboard-item">
         <a href="./pages/quizManagement.html">
-          <img src="./images/dashboard-banners/settings.png" alt="" />
+          <img
+            src="./images/dashboard-banners/settings.png"
+            alt="Quiz management banner"
+          />
           <h1>Manage quizes</h1>
         </a>
         <p>Create, edit or delete quizzes.</p>
       </section>
       <section class="dashboard-item">
         <a href="./pages/userManagement.html">
-          <img src="./images/dashboard-banners/manageusers.png" alt="" />
+          <img
+            src="./images/dashboard-banners/manageusers.png"
+            alt="User management banner"
+          />
           <h1>Manage users</h1>
         </a>
         <p>See a list of users, and create them or update their information.</p>
       </section>
       <section class="dashboard-item log-out">
-        <button><span class="material-symbols-outlined"> logout </span></button>
+        <button id="logout-btn">
+          <span class="material-symbols-outlined"> logout </span>
+        </button>
       </section>
     </main>
   </body>

@@ -10,6 +10,9 @@
       type="text/css"
       href="../stylesheets/quizReview.css"
     />
+    <!-- Favicon -->
+    <link rel="icon" href="../images/favicon.png" type="image/x-icon" />
+
     <!-- Google Icons HTML Link -->
     <link
       rel="stylesheet"
@@ -88,7 +91,7 @@
         </ul>
       </nav>
     </header>
-    <main class="quiz-review">
+    <main class="quiz-review" id="quiz-review-container">
       <section class="heading">
         <h1>Chemistry Basics</h1>
         <h3>Science</h3>
@@ -142,7 +145,7 @@
 
     <footer>
       <nav class="footer-nav">
-        <ul>
+        <ul id="footer-nav-list">
           <li>
             <a href="../index.html">
               <span>Dashboard</span>
@@ -187,5 +190,14 @@
       </nav>
       <p>© 2024 All Rights Reserved</p>
     </footer>
+    <script>
+      // Hamburger menu toggle
+      const ham = document.getElementById("hamburger-menu")
+      const list = document.getElementById("header-nav-list")
+      ham.addEventListener("click", e => {
+        ham.classList.toggle("open")
+        list.classList.toggle("show")
+      })
+    </script>
   </body>
 </html>

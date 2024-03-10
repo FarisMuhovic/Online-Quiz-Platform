@@ -10,6 +10,9 @@
       type="text/css"
       href="../stylesheets/quizManagement.css"
     />
+    <!-- Favicon -->
+    <link rel="icon" href="../images/favicon.png" type="image/x-icon" />
+
     <!-- Google Icons HTML Link -->
     <link
       rel="stylesheet"
@@ -89,7 +92,7 @@
       </nav>
     </header>
     <main class="quiz-management">
-      <form action="" method="post">
+      <form action="" method="post" id="search-form">
         <input
           type="search"
           name="searchQuery"
@@ -98,17 +101,18 @@
           required
         />
         <button type="submit" class="form-submit-btn">Search</button>
-        <button type="button">Create a new quiz</button>
+        <button type="button" id="new-quiz-btn">Create a new quiz</button>
       </form>
       <h1 class="quizzes-heading">Current quizzes</h1>
-      <section class="quiz-section">
+      <section class="quiz-section" id="quiz-container">
         <div class="quiz">
           <div class="quiz-info">
             <p>Chemistry Basics</p>
             <p></p>
           </div>
           <div class="btns-wrapper">
-            <button>Edit</button> <button>Delete</button>
+            <button id="edit-quiz-btn-modal">Edit</button>
+            <button id="delete-quiz-btn-modal">Delete</button>
           </div>
         </div>
         <div class="quiz">
@@ -131,7 +135,7 @@
     </main>
     <footer>
       <nav class="footer-nav">
-        <ul>
+        <ul id="footer-nav-list">
           <li>
             <a href="../index.html">
               <span>Dashboard</span>
@@ -180,12 +184,12 @@
     <div id="modal">
       <div class="modal-header-def">
         <h3 class="modal-title-def">Create a quiz</h3>
-        <button type="button" class="close">
+        <button type="button" class="close" id="close-btn-head">
           <span>&times;</span>
         </button>
       </div>
       <div class="modal-body-def">
-        <form action="" method="post">
+        <form action="" method="post" id="create-quiz-form-head">
           <input
             type="text"
             name="title"
@@ -228,9 +232,9 @@
             <option value="music">Music</option>
             <option value="movies">Movies</option>
           </select>
-          <button type="button">Add question</button>
+          <button type="button" id="add-question-btn">Add question</button>
           <!-- dynamically generate questions with javascript on buttn click -->
-          <div class="questions-container">
+          <div class="questions-container" id="questions-container">
             <div class="question">
               <div class="question-header">
                 <input
@@ -272,7 +276,7 @@
               </div>
 
               <div class="question-footer">
-                <button type="button">
+                <button type="button" id="delete-question-btn">
                   <span class="material-symbols-outlined"> delete </span>
                 </button>
               </div>
@@ -326,7 +330,7 @@
           </div>
           <div class="modal-footer-def">
             <button type="submit">Save changes</button>
-            <button type="button">Close</button>
+            <button type="button" id="close-btn-footer">Close</button>
           </div>
         </form>
       </div>

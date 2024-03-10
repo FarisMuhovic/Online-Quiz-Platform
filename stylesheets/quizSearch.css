@@ -42,6 +42,13 @@
   background-color: var(--primary-color);
   border: none;
 }
+.quiz-search-page form:first-child > button:hover,
+#clear-filters-btn:hover,
+.quiz-banner > a:hover {
+  background-color: #01015c;
+  color: white;
+  transition: var(--transition-time);
+}
 .quizzes-container {
   padding: 3rem 0;
   display: grid;
@@ -80,6 +87,7 @@
   align-items: center;
   gap: 0.5rem;
 }
+
 /*  Large devices (desktops, less than 1300px) */
 @media (max-width: 1299.98px) {
   .quizzes-container {
@@ -99,11 +107,6 @@
     width: 100%;
   }
 }
-
-/*  Small devices (landscape phones, less than 768px) */
-@media (max-width: 767.98px) {
-}
-
 /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) {
   .quizzes-container {

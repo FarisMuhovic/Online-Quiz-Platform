@@ -22,7 +22,6 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  /* grid-column: 1/-1; */
 }
 .profile-page h2 {
   text-align: center;
@@ -36,10 +35,15 @@
   border: none;
   padding: 1rem;
 }
+.profile-page button:hover {
+  background-color: #01015c;
+  color: var(--bg-color-accent);
+}
 .personal-info button,
 .avatar button {
   margin-top: auto;
 }
+
 .avatar img {
   height: 70%;
   width: 70%;
@@ -73,8 +77,12 @@
   justify-content: center;
   align-items: center;
 }
-#modal {
-  position: absolute;
+.modal-for-avatar {
+  background-color: red;
+}
+#modal-for-avatar,
+#modal-for-info {
+  position: absolute !important;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -96,10 +104,10 @@
   border-bottom: 1px solid black;
   margin: 1rem 0;
 }
-#modal h3 {
+/* #modal-for-avatar h3 {
   padding: 0;
   margin: 0;
-}
+} */
 .close {
   background-color: transparent;
   border: none;
@@ -117,7 +125,7 @@
   height: 100%;
 }
 .modal-body-def img:hover {
-  scale: 1.05;
+  scale: 1.1;
   cursor: pointer;
 }
 .modal-form {
@@ -128,6 +136,9 @@
 }
 .modal-form input {
   padding: 0.5rem;
+}
+.selected-avatar {
+  border: 3px solid var(--primary-color);
 }
 /*  Large devices (desktops, less than 1200px) */
 @media (max-width: 1199.98px) {
@@ -163,5 +174,14 @@
   .profile-page {
     margin: 1rem;
     grid-template-columns: 1fr;
+  }
+  #modal-for-avatar,
+  #modal-for-info {
+    top: 15%;
+    transform: translate(-50%, -0%);
+  }
+  #info-form {
+    display: flex;
+    flex-direction: column;
   }
 }
