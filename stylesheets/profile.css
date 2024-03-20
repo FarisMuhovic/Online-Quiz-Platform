@@ -10,13 +10,17 @@
 .profile-page section {
   background-color: white;
   padding: 1rem;
-  border-bottom: 1px solid var(--primary-color);
-  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
+    rgb(209, 213, 219) 0px 0px 0px 1px inset;
 }
 .personal-info {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   grid-column: 1/-1;
+}
+.personal-info p {
+  margin-bottom: 0.5rem;
 }
 .avatar {
   display: flex;
@@ -25,8 +29,9 @@
 }
 .profile-page h2 {
   text-align: center;
-  border-bottom: 1px solid var(--primary-color);
-  padding: 0.25rem;
+  border-bottom: 2px solid rgba(128, 128, 128, 0.548);
+  padding: 0.25rem 0.25rem 0.5rem 0.25rem;
+  font-size: 1.85rem;
 }
 .profile-page button {
   width: 100%;
@@ -39,11 +44,6 @@
   background-color: #01015c;
   color: var(--bg-color-accent);
 }
-.personal-info button,
-.avatar button {
-  margin-top: auto;
-}
-
 .avatar img {
   height: 70%;
   width: 70%;
@@ -51,23 +51,27 @@
 }
 .achievements {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 1rem;
   flex-direction: column;
   overflow: scroll;
-  /* grid-column: 1/-1; */
+  max-height: 650px;
+}
+.achievements h2 {
+  font-size: 1.85rem;
 }
 .achievement {
   display: grid;
   grid-template-columns: 50px 1fr;
   grid-template-rows: 40px 1fr;
   place-items: center;
-  border: 1px solid var(--primary-color);
   padding: 0.5rem;
   column-gap: 0.5rem;
   text-align: center;
   width: fit-content;
   min-width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
+    rgb(209, 213, 219) 0px 0px 0px 1px inset;
 }
 .achievement span {
   font-size: 2rem;
@@ -150,8 +154,8 @@
 /* Medium devices (tablets, less than 992px) */
 @media (max-width: 991.98px) {
   .profile-page {
-    width: 100%;
-    margin: 2rem 0;
+    width: 95%;
+    margin: 1rem;
   }
   .avatar {
     grid-column: 1/-1;
@@ -163,16 +167,11 @@
 
 /*  Small devices (landscape phones, less than 768px) */
 @media (max-width: 767.98px) {
-  .profile-page {
-    width: auto;
-    margin: 2rem 0;
-  }
 }
 
 /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) {
   .profile-page {
-    margin: 1rem;
     grid-template-columns: 1fr;
   }
   #modal-for-avatar,

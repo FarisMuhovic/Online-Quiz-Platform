@@ -1,0 +1,181 @@
+<div class="quiz-search-page">
+  <!-- Custom form / search bar component from bootstrap -->
+  <div class="form-wrapper">
+    <form action="" method="post" id="search-form">
+      <input
+        type="search"
+        name="searchQuery"
+        id="search-bar"
+        placeholder="Search for an quiz name."
+        required
+      />
+      <button type="submit" class="form-submit-btn">Search</button>
+    </form>
+    <form action="" method="post" id="category-form">
+      <label class="label-for-select">
+        <!-- Bootstrap 5 select component -->
+        <select
+          class="selectpicker form-control border rounded-0 border-bottom border-dark border-2 px-2 py-2"
+          name="category"
+          id="category"
+          required
+        >
+          <option value="none" selected>Category</option>
+          <option value="science">Science</option>
+          <option value="math">Mathematics</option>
+          <option value="history">History</option>
+          <option value="literature">Literature</option>
+          <option value="geography">Geography</option>
+          <option value="languages">Languages</option>
+          <option value="sports">Sports</option>
+          <option value="music">Music</option>
+          <option value="movies">Movies</option>
+        </select>
+      </label>
+      <button type="button" id="clear-filters-btn">Clear filters</button>
+    </form>
+  </div>
+  <h1 class="page-heading">Currently available quizzes</h1>
+  <!-- All the quizzes query results will go in quizzes container -->
+  <section class="quizzes-container" id="quiz-container">
+    <!-- 3 dummy quizzes for demonstrating purposes -->
+    <section class="quiz-banner">
+      <img
+        src="../images/quiz-type-banners/science.jpg"
+        alt="Science banner"
+        loading="lazy"
+      />
+      <div class="text-container">
+        <h1>Chemistry Basics</h1>
+        <p>Category: Science</p>
+        <p class="quiz-time">
+          <span class="material-symbols-outlined"> schedule </span>
+          <span>30 minutes</span>
+        </p>
+        <p>20 questions</p>
+        <p>
+          Test your knowledge of fundamental concepts in chemistry with this
+          introductory quiz. Covering topics such as atomic structure, chemical
+          reactions, and the periodic table, this quiz is suitable for beginners
+          and enthusiasts alike.
+        </p>
+      </div>
+      <a href="./quiz.html">Start quiz</a>
+    </section>
+
+    <section class="quiz-banner">
+      <img
+        src="../images/quiz-type-banners/math.jpg"
+        alt="Math banner"
+        loading="lazy"
+      />
+      <div class="text-container">
+        <h1>Mathematics Challenge</h1>
+        <p>Category: Mathematics</p>
+        <p class="quiz-time">
+          <span class="material-symbols-outlined">schedule</span>
+          <span>45 minutes</span>
+        </p>
+        <p>25 questions</p>
+        <p>
+          Dive into the world of numbers and patterns. This quiz covers
+          everything from basic arithmetic to more challenging algebra and
+          geometry problems. Perfect for sharpening your mathematical skills.
+        </p>
+      </div>
+      <a href="./quiz.html">Start quiz</a>
+    </section>
+
+    <section class="quiz-banner">
+      <img
+        src="../images/quiz-type-banners/history.jpg"
+        alt="History banner"
+        loading="lazy"
+      />
+      <div class="text-container">
+        <h1>History Trivia</h1>
+        <p>Category: History</p>
+        <p class="quiz-time">
+          <span class="material-symbols-outlined">schedule</span>
+          <span>30 minutes</span>
+        </p>
+        <p>15 questions</p>
+        <p>
+          Explore significant events, notable figures, and cultural revolutions
+          from around the globe. Test your knowledge of world history and
+          discover the stories that shaped our past.
+        </p>
+      </div>
+      <a href="./quiz.html">Start quiz</a>
+    </section>
+
+    <section class="quiz-banner">
+      <img
+        src="../images/quiz-type-banners/literature.jpg"
+        alt="Literature banner"
+        loading="lazy"
+      />
+      <div class="text-container">
+        <h1>Literary Legends</h1>
+        <p>Category: Literature</p>
+        <p class="quiz-time">
+          <span class="material-symbols-outlined">schedule</span>
+          <span>35 minutes</span>
+        </p>
+        <p>20 questions</p>
+        <p>
+          From classic novels to contemporary poetry, test your knowledge of
+          literary masterpieces and the authors who penned them. A quiz for true
+          book lovers and literature enthusiasts.
+        </p>
+      </div>
+      <a href="./quiz.html">Start quiz</a>
+    </section>
+
+    <section class="quiz-banner">
+      <img
+        src="../images/quiz-type-banners/geography.jpg"
+        alt="Geography banner"
+        loading="lazy"
+      />
+      <div class="text-container">
+        <h1>Geographical Explorations</h1>
+        <p>Category: Geography</p>
+        <p class="quiz-time">
+          <span class="material-symbols-outlined">schedule</span>
+          <span>20 minutes</span>
+        </p>
+        <p>10 questions</p>
+        <p>
+          Journey through diverse landscapes, from the highest mountains to the
+          deepest oceans. Test your knowledge of world geography, countries,
+          capitals, and natural wonders.
+        </p>
+      </div>
+      <a href="./quiz.html">Start quiz</a>
+    </section>
+
+    <section class="quiz-banner">
+      <img
+        src="../images/quiz-type-banners/music.jpg"
+        alt="Music banner"
+        loading="lazy"
+      />
+      <div class="text-container">
+        <h1>Musical Mastery</h1>
+        <p>Category: Music</p>
+        <p class="quiz-time">
+          <span class="material-symbols-outlined">schedule</span>
+          <span>25 minutes</span>
+        </p>
+        <p>15 questions</p>
+        <p>
+          From classical symphonies to modern pop hits, test your knowledge
+          across various music genres and eras. Discover the composers,
+          performers, and songs that have left their mark on the world of music.
+        </p>
+      </div>
+      <a href="./quiz.html">Start quiz</a>
+    </section>
+  </section>
+</div>

@@ -1,12 +1,12 @@
-html {
+/* html {
   background-image: url("../images/authbanner.png");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
   height: 100vh;
-}
+} */
 
-main {
+/* main {
   display: flex;
   position: absolute;
   top: 50%;
@@ -19,7 +19,7 @@ main {
   margin: 0;
   border-radius: 1rem;
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.764);
-}
+} */
 
 .left-side {
   background-image: url("../images/authbanner.png");
@@ -151,8 +151,8 @@ main {
 
 /*  Small devices (landscape phones, less than 768px) */
 @media (max-width: 767.98px) {
-  main {
-    /* Reseting properties */
+  /* Reseting properties */
+  /* main {
     flex-direction: column;
     position: relative;
     top: 0;
@@ -161,7 +161,7 @@ main {
     justify-content: center;
     align-items: center;
     width: 100%;
-  }
+  } */
   .left-side {
     display: none;
   }

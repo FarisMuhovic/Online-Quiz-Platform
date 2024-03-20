@@ -8,14 +8,15 @@
   background-color: var(--bg-color-accent);
   padding: 1rem;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  border-bottom: 3px solid var(--primary-color);
+  border-bottom: 2px solid var(--primary-color);
 }
 .quiz-browser {
-  border: 3px solid var(--primary-color);
+  border: 2px solid var(--primary-color);
 }
 .dashboard-item h1 {
   color: var(--font-accent-color-dark);
   padding-bottom: 0.5rem;
+  font-size: 1.85rem;
 }
 .dashboard-item p {
   color: var(--font-primary-color-dark);
@@ -24,6 +25,10 @@
 .dashboard-item a {
   text-decoration: none;
   color: inherit;
+}
+.dashboard-item #fun-fact-p {
+  color: var(--primary-color);
+  margin-bottom: 0;
 }
 .dashboard-item a > img {
   width: 100%;
@@ -38,8 +43,11 @@
   scale: 1.03;
 }
 .welcome {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   grid-column: 1/-1;
+}
+.welcome h1 {
+  font-size: 1.85rem;
 }
 .log-out {
   display: flex;
@@ -68,6 +76,9 @@
   .dashboard {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
+  .dashboard-item {
+    text-align: center;
+  }
 }
 
 /*  Small devices (landscape phones, less than 768px) */
@@ -87,8 +98,5 @@
   }
   .log-out span {
     font-size: 5rem;
-  }
-  .dashboard-item {
-    text-align: center;
   }
 }
