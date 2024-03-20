@@ -68,14 +68,6 @@
         display: block;
       }
       @keyframes appear {
-        /* 0% {
-          opacity: 0;
-          rotate: 4325deg;
-        }
-        100% {
-          opacity: 1;
-          rotate: 0deg;
-        } */
         from {
           opacity: 0;
           transform: translateX(-100px);
@@ -161,18 +153,18 @@
     </header>
 
     <main id="spapp" role="main">
-      <section id="register" data-load="register.html"></section>
-      <section id="login" data-load="login.html"></section>
-      <section id="dashboard" data-load="dashboard.html"></section>
-      <section id="quizSearch" data-load="quizSearch.html"></section>
-      <section id="profile" data-load="profile.html"></section>
-      <section id="quizHistory" data-load="quizHistory.html"></section>
-      <section id="leaderboard" data-load="leaderboard.html"></section>
-      <section id="analytics" data-load="analytics.html"></section>
-      <section id="quizManagement" data-load="quizManagement.html"></section>
-      <section id="userManagement" data-load="userManagement.html"></section>
-      <section id="quiz" data-load="quiz.html"></section>
-      <section id="quizReview" data-load="quizReview.html"></section>
+      <section id="register"></section>
+      <section id="login"></section>
+      <section id="dashboard"></section>
+      <section id="quizSearch"></section>
+      <section id="profile"></section>
+      <section id="quizHistory"></section>
+      <section id="leaderboard"></section>
+      <section id="analytics"></section>
+      <section id="quizManagement"></section>
+      <section id="userManagement"></section>
+      <section id="quiz"></section>
+      <section id="quizReview"></section>
     </main>
 
     <footer>
@@ -230,7 +222,6 @@
     ></script>
     <!-- Scripts for SPA -->
     <script src="./library/spap/jquery.spapp.min.js"></script>
-    <script src="./library/spap/app.js"></script>
-    <script src="./scripts/pagesHandling.js"></script>
+    <script src="./library/spap/app.js" type="module"></script>
   </body>
 </html>

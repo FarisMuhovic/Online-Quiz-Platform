@@ -1,11 +1,4 @@
-const headerList = document.getElementById("header-nav-list")
-const hamburgerBtn = document.getElementById("hamburger-menu")
-hamburgerBtn.addEventListener("click", () => {
-  hamburgerBtn.classList.toggle("open")
-  headerList.classList.toggle("show")
-})
-
-const changeTitle = hash => {
+export const changeTitle = hash => {
   switch (hash) {
     case "#analytics":
       document.title = "Analysing charts"
@@ -48,7 +41,7 @@ const changeTitle = hash => {
   }
 }
 
-const showNavFooter = hash => {
+export const showNavFooter = hash => {
   if (hash === "#login" || hash === "#register" || hash === "#dashboard") {
     $("footer").css("display", "none")
     $("header").css("display", "none")
@@ -58,16 +51,14 @@ const showNavFooter = hash => {
   }
 }
 
-const updateListItemColor = (hash, elementID) => {
+export const updateListItemColor = (hash, elementID) => {
   $(`#${elementID}`)
     .find("a")
     .each((index, link) => {
       link.classList.remove("active-link")
       if (link.attributes[0].nodeValue === hash) {
         link.classList.add("active-link")
-        window.scrollTo(0, 0)
         if (window.innerHeight <= 768) {
-          console.log(window.innerHeight)
           hamburgerBtn.classList.remove("open")
           headerList.classList.remove("show")
         }
@@ -75,10 +66,7 @@ const updateListItemColor = (hash, elementID) => {
     })
 }
 
-$(window).on("hashchange", () => {
-  const hash = window.location.hash
-  updateListItemColor(hash, "header-nav-list")
-  updateListItemColor(hash, "footer-nav-list")
-  showNavFooter(hash)
-  changeTitle(hash)
-})
+export const logout = () => {
+  console.log("logging out the user")
+  window.location.href = "index.html#login"
+}
