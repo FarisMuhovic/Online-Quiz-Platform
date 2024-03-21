@@ -11,6 +11,7 @@ import {
   logout,
 } from "../../scripts/pageFunctions.js"
 
+import {passwordFieldChange} from "../../scripts/authFunctions.js"
 var app = $.spapp({
   defaultView: "#dashboard",
   templateDir: "views/",
@@ -25,6 +26,7 @@ app.route({
     const hash = window.location.hash
     changeTitle(hash)
     updateNav(hash)
+    passwordFieldChange()
   },
 })
 
@@ -36,6 +38,7 @@ app.route({
     const hash = window.location.hash
     changeTitle(hash)
     updateNav(hash)
+    passwordFieldChange()
   },
 })
 
@@ -163,15 +166,17 @@ hamburgerBtn.addEventListener("click", () => {
   hamburgerBtn.classList.toggle("open")
   headerList.classList.toggle("show")
 })
+//log out nav btn
 $(".logout-btn").on("click", () => {
   logout()
 })
+
 function updateNav(hash) {
   changeTitle(hash)
   showNavFooter(hash)
   updateListItemColor(hash, "header-nav-list")
   updateListItemColor(hash, "footer-nav-list")
-  window.scrollTo(0, 0)
+  window.scrollTo(0, 0) // remove scroll to section animation
 }
 
 // Run the app
