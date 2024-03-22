@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "title": "The Element-ary Challenge",
+    "category": "Science",
+    "imgSrc": "./images/quiz-type-banners/science.jpg",
+    "alt": "Science banner",
+    "quizTime": "30 minutes",
+    "questionsCount": 20,
+    "description": "Test your knowledge of fundamental concepts in chemistry with this introductory quiz. Covering topics such as atomic structure, chemical reactions, and the periodic table, this quiz is suitable for beginners and enthusiasts alike."
+  },
+  {
+    "id": 2,
+    "title": "Number Crunchin' Challenge",
+    "category": "Math",
+    "imgSrc": "./images/quiz-type-banners/math.jpg",
+    "alt": "Math banner",
+    "quizTime": 45,
+    "questionsCount": 25,
+    "description": "Dive into the world of numbers and patterns. This quiz covers everything from basic arithmetic to more challenging algebra and geometry problems. Perfect for sharpening your mathematical skills."
+  },
+  {
+    "id": 3,
+    "title": "Time Travel Trivia",
+    "category": "History",
+    "imgSrc": "./images/quiz-type-banners/history.jpg",
+    "alt": "History banner",
+    "quizTime": 30,
+    "questionsCount": 15,
+    "description": "Explore significant events, notable figures, and cultural revolutions from around the globe. Test your knowledge of world history and discover the stories that shaped our past."
+  },
+  {
+    "id": 4,
+    "title": "Who Wrote That?",
+    "category": "Literature",
+    "imgSrc": "./images/quiz-type-banners/literature.jpg",
+    "alt": "Literature banner",
+    "quizTime": 35,
+    "questionsCount": 20,
+    "description": "From classic novels to contemporary poetry, test your knowledge of literary masterpieces and the authors who penned them. A quiz for true book lovers and literature enthusiasts."
+  },
+  {
+    "id": 5,
+    "title": "Globe-Trotting Trivia",
+    "category": "Geography",
+    "imgSrc": "./images/quiz-type-banners/geography.jpg",
+    "alt": "Geography banner",
+    "quizTime": 25,
+    "questionsCount": 10,
+    "description": "Journey through diverse landscapes, from the highest mountains to the deepest oceans. Test your knowledge of world geography, countries, capitals, and natural wonders."
+  },
+  {
+    "id": 6,
+    "title": "Melody Master",
+    "category": "Music",
+    "imgSrc": "./images/quiz-type-banners/music.jpg",
+    "alt": "Music banner",
+    "quizTime": 35,
+    "questionsCount": 15,
+    "description": "From classical symphonies to modern pop hits, test your knowledge across various music genres and eras. Discover the composers, performers, and songs that have left their mark on the world of music."
+  },
+  {
+    "id": 5,
+    "title": "Civilizations and Conflicts",
+    "category": "History",
+    "imgSrc": "./images/quiz-type-banners/history.jpg",
+    "alt": "History banner",
+    "quizTime": "40 minutes",
+    "questionsCount": 30,
+    "description": "Explore major historical events from around the globe with this comprehensive quiz. Test your knowledge on everything from ancient civilizations to modern conflicts."
+  },
+  {
+    "id": 6,
+    "title": "Speak Like a Citizen of the World",
+    "category": "Music",
+    "imgSrc": "./images/quiz-type-banners/music.jpg",
+    "alt": "Music banner",
+    "quizTime": "25 minutes",
+    "questionsCount": 20,
+    "description": "How well do you know your music? This quiz challenges you to identify different musical genres and answer trivia questions related to famous musicians and bands."
+  },
+  {
+    "id": 7,
+    "title": "Silver Screen Classics",
+    "category": "Movies",
+    "imgSrc": "./images/quiz-type-banners/movies.jpg",
+    "alt": "Movie banner",
+    "quizTime": "30 minutes",
+    "questionsCount": 25,
+    "description": "Calling all cinephiles! Put your movie knowledge to the test with this quiz on classic films. From golden age Hollywood to cult favorites, this quiz covers a wide range of genres and eras."
+  },
+  {
+    "id": 8,
+    "title": "World Languages",
+    "category": "Languages",
+    "imgSrc": "./images/quiz-type-banners/languages.jpg",
+    "alt": "Language banner",
+    "quizTime": "20 minutes",
+    "questionsCount": 15,
+    "description": "Are you a language enthusiast? Test your knowledge of different languages from around the world in this quiz. You might encounter interesting facts, trivia, and pronunciation challenges."
+  },
+  {
+    "id": 9,
+    "title": "The Sporting World",
+    "category": "Sports",
+    "imgSrc": "./images/quiz-type-banners/sport.jpg",
+    "alt": "Sports banner",
+    "quizTime": "35 minutes",
+    "questionsCount": 25,
+    "description": "Do you consider yourself a sports fanatic? This quiz tests your knowledge on various sports, athletes, and iconic moments. Get ready to answer trivia on everything from football to gymnastics!"
+  },
+  {
+    "id": 10,
+    "title": "Literary Masters",
+    "category": "Literature",
+    "imgSrc": "./images/quiz-type-banners/literature.jpg",
+    "alt": "Literature banner",
+    "quizTime": "45 minutes",
+    "questionsCount": 35,
+    "description": "Delve into the world of renowned authors and iconic characters with this literature quiz. Test your knowledge of classic novels, famous quotes, and literary history."
+  },
+  {
+    "id": 11,
+    "title": "Geographical Whiz",
+    "category": "Geography",
+    "imgSrc": "./images/quiz-type-banners/geography.jpg",
+    "alt": "Geography banner",
+    "quizTime": "20 minutes",
+    "questionsCount": 18,
+    "description": "Brush up on your geographical knowledge with this quiz! Test your skills on countries, capitals, landmarks, and interesting facts about our planet."
+  },
+  {
+    "id": 12,
+    "title": "Math Mania",
+    "category": "Math",
+    "imgSrc": "./images/quiz-type-banners/math.jpg",
+    "alt": "Math banner",
+    "quizTime": "30 minutes",
+    "questionsCount": 22,
+    "description": "Are you a math whiz? Challenge yourself with this quiz that covers various mathematical concepts, formulas, and problem-solving techniques."
+  }
+]
