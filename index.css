@@ -1,35 +1,66 @@
-/* Global styles css file for every html file */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@500&family=Lato&family=Roboto&family=Work+Sans:wght@300;400&display=swap");
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  font-family: "Roboto";
-}
-
-body {
-  background-color: var(--bg-color-primary) !important;
-}
+@import url("https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
 
 :root {
+  /* colors */
   --primary-color: #8a8ad6;
-  /* light modee */
   --font-primary-color-dark: rgb(50, 50, 50);
   --font-accent-color-dark: rgb(30, 30, 30);
   --bg-color-primary: snow;
   --bg-color-accent: white;
-  /* dark mode */
-  --font-primary-color-light: rgb(209, 209, 209);
-  --font-accent-color-light: rgb(230, 230, 230);
   /* Misc */
   --transition-time: 0.3s;
   --uni-box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
     rgb(209, 213, 219) 0px 0px 0px 1px inset;
+  --border-main: 3px solid var(--primary-color);
+  /* --border-secondary: ;
+  /* font */
+  --font-family-heading: "Raleway", sans-serif;
+  --font-family-p: "Roboto";
+  --font-heading-size: 1.8rem;
+  --font-heading-small-size: 1.5rem;
+  --font-p-size: 1rem;
 }
-
+body {
+  background-color: var(--bg-color-primary) !important;
+  font-family: "Alegreya", serif;
+}
+h1,
+h3 {
+  font-family: var(--font-family-heading);
+  color: var(--font-accent-color-dark);
+  margin: 0 !important;
+}
+h1 {
+  font-size: var(--font-heading-size) !important;
+}
+h3 {
+  font-size: var(--font-heading-small-size) !important;
+}
+p {
+  font-family: var(--font-family-p);
+  font-size: var(--font-p-size) !important;
+  color: var(--font-primary-color-dark);
+  margin: 0 !important;
+}
+a {
+  text-decoration: none !important;
+  color: inherit !important;
+  transition: var(--transition-time);
+}
+button {
+  border: none;
+  outline: none;
+  padding: 0.5rem;
+  text-align: center;
+  background-color: var(--primary-color);
+  transition: var(--transition-time);
+}
+#heading-of-page {
+  background-color: var(--bg-color-accent);
+  padding: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+}
 /* Navigation bar */
 .header-nav,
 .footer-nav {
@@ -54,14 +85,12 @@ nav > ul {
   padding: 1rem;
 }
 nav > ul > li a:hover {
-  color: var(--primary-color);
+  color: var(--primary-color) !important;
 }
 .active-link {
   color: var(--primary-color);
 }
 nav > ul > li > a {
-  text-decoration: none;
-  color: inherit;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -69,7 +98,7 @@ nav > ul > li > a {
 }
 .logout-btn {
   background-color: transparent;
-  border: none;
+  /* border: none; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -87,15 +116,18 @@ footer {
   background-color: var(--bg-color-accent);
   border-top: 1px solid rgb(209, 213, 219);
 }
-footer > p {
-  margin: 1rem;
-}
 .footer-nav {
   height: fit-content;
-  padding: 1rem;
-  border-bottom: 3px solid var(--font-accent-color-dark);
+  border-bottom: 2px solid black;
+  max-width: 50%;
+  width: 800px;
 }
-
+#footer-nav-list {
+  padding: 0;
+}
+footer p {
+  padding: 1rem;
+}
 /* Hamburger menu */
 #hamburger-menu {
   display: none;
@@ -144,15 +176,12 @@ footer > p {
   transform: rotate(-135deg);
 }
 
-button {
-  border: none;
-  outline: none;
-  padding: 0.5rem;
-  text-align: center;
-  background-color: var(--primary-color);
-  transition: var(--transition-time);
+/* Medium devices (tablets, less than 992px) */
+@media (max-width: 991.98px) {
+  #heading-of-page {
+    text-align: center;
+  }
 }
-
 /*  Small devices (landscape phones, less than 768px) */
 @media (max-width: 767.98px) {
   /* Hamburger menu setup */
@@ -186,6 +215,6 @@ button {
     width: 100%;
     display: flex;
     padding: 0.75rem 0.5rem;
-    border-bottom: 3px solid var(--font-accent-color-dark);
+    border-bottom: 2px solid black;
   }
 }
