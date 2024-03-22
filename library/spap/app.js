@@ -2,6 +2,7 @@ import {
   setNewFact,
   setCurrentDate,
   findUsername,
+  checkUserRole,
 } from "../../scripts/dashboardFunctions.js"
 
 import {
@@ -12,6 +13,12 @@ import {
 } from "../../scripts/pageFunctions.js"
 
 import {passwordFieldChange} from "../../scripts/authFunctions.js"
+
+import {
+  fetchQuizzes,
+  searchQuiz,
+  clearSearchFilters,
+} from "../../scripts/quizSearchFunctions.js"
 var app = $.spapp({
   defaultView: "#dashboard",
   templateDir: "views/",
@@ -46,17 +53,19 @@ app.route({
   view: "dashboard",
   load: "dashboard.html",
   onCreate: function () {
-    setNewFact()
     setCurrentDate()
     findUsername()
     $("#logout-dash").on("click", () => {
       logout()
     })
+    checkUserRole("dash")
   },
   onReady: function () {
     const hash = window.location.hash
     changeTitle(hash)
     updateNav(hash)
+    setNewFact()
+    // add or remove admin fields
   },
 })
 
@@ -68,6 +77,9 @@ app.route({
     const hash = window.location.hash
     changeTitle(hash)
     updateNav(hash)
+    fetchQuizzes()
+    clearSearchFilters()
+    searchQuiz()
   },
 })
 
@@ -160,6 +172,7 @@ app.route({
 })
 
 // Navigation Bars functionality
+// for nav add or remove admin fields
 const headerList = document.getElementById("header-nav-list")
 const hamburgerBtn = document.getElementById("hamburger-menu")
 hamburgerBtn.addEventListener("click", () => {
@@ -171,13 +184,13 @@ $(".logout-btn").on("click", () => {
   logout()
 })
 
-function updateNav(hash) {
+const updateNav = hash => {
   changeTitle(hash)
   showNavFooter(hash)
   updateListItemColor(hash, "header-nav-list")
   updateListItemColor(hash, "footer-nav-list")
   window.scrollTo(0, 0) // remove scroll to section animation
 }
-
+checkUserRole()
 // Run the app
 app.run()
