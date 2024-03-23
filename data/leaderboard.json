@@ -1,0 +1,74 @@
+[
+  {
+    "ranking": 1,
+    "avatar": "./images/avatars/avatar_1.png",
+    "name": "Emily Smith",
+    "points": 25,
+    "quizzesTaken": 5,
+    "favoriteCategory": "Science"
+  },
+  {
+    "ranking": 2,
+    "avatar": "./images/avatars/avatar_2.png",
+    "name": "John Doe",
+    "points": 22,
+    "quizzesTaken": 4,
+    "favoriteCategory": "History"
+  },
+  {
+    "ranking": 3,
+    "avatar": "./images/avatars/avatar_3.png",
+    "name": "Alice Johnson",
+    "points": 20,
+    "quizzesTaken": 3,
+    "favoriteCategory": "Literature"
+  },
+  {
+    "ranking": 4,
+    "avatar": "./images/avatars/avatar_4.png",
+    "name": "Michael Brown",
+    "points": 18,
+    "quizzesTaken": 3,
+    "favoriteCategory": "Geography"
+  },
+  {
+    "ranking": 5,
+    "avatar": "./images/avatars/avatar_5.png",
+    "name": "Sophia Wilson",
+    "points": 15,
+    "quizzesTaken": 2,
+    "favoriteCategory": "Movies"
+  },
+  {
+    "ranking": 6,
+    "avatar": "./images/avatars/avatar_6.png",
+    "name": "David Garcia",
+    "points": 12,
+    "quizzesTaken": 2,
+    "favoriteCategory": "Music"
+  },
+  {
+    "ranking": 7,
+    "avatar": "./images/avatars/avatar_7.png",
+    "name": "Dave Dude",
+    "points": 3,
+    "quizzesTaken": 1,
+    "favoriteCategory": "Geography"
+  },
+  {
+    "ranking": 8,
+    "avatar": "./images/avatars/avatar_8.png",
+    "name": "Emma Davis",
+    "points": 2,
+    "quizzesTaken": 1,
+    "favoriteCategory": "Science"
+  },
+  {
+    "ranking": 9,
+    "avatar": "./images/avatars/avatar_9.png",
+    "name": "Daniel Martinez",
+    "points": 1,
+    "quizzesTaken": 1,
+    "favoriteCategory": "History"
+  }
+]

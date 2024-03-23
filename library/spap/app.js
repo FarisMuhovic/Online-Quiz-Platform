@@ -25,6 +25,7 @@ import {
   searchQuizHistory,
 } from "../../scripts/historyFunctions.js"
 
+import {fetchTopUsers} from "../../scripts/leaderboardFunctions.js"
 var app = $.spapp({
   defaultView: "#dashboard",
   templateDir: "views/",
@@ -116,7 +117,9 @@ app.route({
 app.route({
   view: "leaderboard",
   load: "leaderboard.html",
-  onCreate: function () {},
+  onCreate: function () {
+    fetchTopUsers()
+  },
   onReady: function () {
     const hash = window.location.hash
     changeTitle(hash)
