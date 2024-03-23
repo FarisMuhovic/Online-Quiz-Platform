@@ -3,62 +3,43 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 #quiz-history-container {
   margin: 0;
 }
-.page-heading {
-  padding: 1rem;
-  background-color: var(--bg-color-accent);
-  box-shadow: var(--uni-box-shadow);
-  font-size: 1.85rem;
-}
 .history-item {
-  padding: 1rem;
   display: grid;
   grid-template-columns: 2fr repeat(5, 1fr);
   justify-content: center;
   align-items: center;
+  padding: 1rem;
   width: 100%;
-  background-color: var(--bg-color-accent);
   gap: 0.5rem;
-  box-shadow: var(--uni-box-shadow);
-}
-.history-item > h3 {
-  margin: 0;
-  font-size: 1.35rem;
+  background-color: var(--bg-color-accent);
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
 }
 .history-item > p {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  margin: 0;
+  text-align: center;
 }
 .history-item a {
-  text-decoration: none;
-  color: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: var(--primary-color);
   padding: 0.5rem;
   text-align: center;
+  height: 60px;
 }
-.history-item a:hover {
+.history-item a:hover,
+#search-form button:hover {
   background-color: #01015c;
-  color: var(--bg-color-accent);
+  color: var(--bg-color-accent) !important;
 }
-/*  Small devices (landscape phones, less than 768px) */
-@media (max-width: 767.98px) {
-  .history-item {
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    text-align: center;
-  }
-  .page-heading {
-    text-align: center;
-  }
-}
-
 .quiz-history-page form {
   background-color: var(--bg-color-accent);
   padding: 1rem;
@@ -82,15 +63,27 @@
   border: none;
   padding: 0.25rem 0.5rem;
 }
-
+@media (max-width: 991.98px) {
+  .quiz-history-page {
+    margin: 2rem 1rem;
+  }
+}
 /*  Small devices (landscape phones, less than 768px) */
 @media (max-width: 767.98px) {
-  .quiz-history-page {
-    margin: 1rem;
+  .history-item {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    text-align: center;
+  }
+  .page-heading {
+    text-align: center;
   }
   .quiz-history-page form {
     flex-direction: column;
     height: 150px;
+  }
+  .quiz-history-page form:first-child > button {
+    max-width: 100%;
   }
 }
 

@@ -19,6 +19,12 @@ import {
   searchQuiz,
   clearSearchFilters,
 } from "../../scripts/quizSearchFunctions.js"
+
+import {
+  fetchQuizHistory,
+  searchQuizHistory,
+} from "../../scripts/historyFunctions.js"
+
 var app = $.spapp({
   defaultView: "#dashboard",
   templateDir: "views/",
@@ -102,6 +108,8 @@ app.route({
     const hash = window.location.hash
     changeTitle(hash)
     updateNav(hash)
+    fetchQuizHistory()
+    searchQuizHistory()
   },
 })
 
