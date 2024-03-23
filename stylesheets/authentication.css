@@ -44,12 +44,9 @@
 .left-side p {
   text-align: center;
   width: 100%;
-}
-.left-side p {
-  color: var(font-primary-color-light);
+  color: var(--font-accent-color-light);
 }
 .left-side p > a {
-  color: inherit;
   font-weight: bold;
 }
 .right-side {
@@ -76,6 +73,9 @@
   position: relative;
   height: fit-content;
 }
+.auth-form button {
+  margin-top: 57px;
+}
 .auth-form > label > span {
   position: absolute;
   left: 10px;
@@ -85,7 +85,7 @@
   width: 100%;
   border: none;
   outline: none;
-  padding: 1rem;
+  padding: 1rem 0.5rem;
   padding-left: 3rem;
   border: 2px solid transparent;
   font-size: 1.1rem;
@@ -104,6 +104,14 @@
   right: 10px;
   background-color: transparent;
   border: none;
+  margin-top: 0;
+}
+#redirect {
+  margin-top: auto !important;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  box-shadow: 0px 0px 3px black;
+  padding: 1rem;
 }
 .label-for-password,
 .label-for-mail,
@@ -154,7 +162,9 @@
 /*  Small devices (landscape phones, less than 768px) */
 @media (max-width: 767.98px) {
   /* Reseting properties */
-
+  .auth-form button {
+    margin-top: 0;
+  }
   #register,
   #login {
     flex-direction: column;

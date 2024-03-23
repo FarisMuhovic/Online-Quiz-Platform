@@ -2,9 +2,9 @@
   <section class="left-side">
     <h1>Welcome to the Quiz Application!</h1>
     <p>Log in to your account to continue your quiz journey.</p>
-    <p>
+    <p id="redirect">
       New to the Quiz Application?
-      <a href="./register.html">Sign up here</a> to get started!
+      <a href="#register">Sign up here</a> to get started!
     </p>
   </section>
   <form action="" class="auth-form right-side" method="post" id="login-form">
@@ -33,18 +33,16 @@
           visibility_off
         </span>
       </button>
-      <!-- Use in javascript onClick when user wants to see the password
-          <span class="material-symbols-outlined"> visibility </span> -->
     </label>
     <label class="label-checkbox">
       <input type="checkbox" name="rememberMe" id="rememberMe" />
       <span>Remember me</span>
     </label>
-    <a href="#" class="forgot-pass-link">Forgot password?</a>
+    <a class="forgot-pass-link">Forgot password?</a>
     <button type="submit" class="form-submit-btn">Login</button>
     <p class="mobile-p">
       New to the Quiz Application?
-      <a href="./register.html">Sign up here</a> to get started!
+      <a href="#register">Sign up here</a> to get started!
     </p>
   </form>
 </div>
