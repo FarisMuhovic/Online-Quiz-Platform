@@ -179,6 +179,30 @@ footer p {
   transform: rotate(-135deg);
 }
 
+#error-banner {
+  width: 100vw;
+  height: 100vh;
+}
+#return-to-dashboard-error {
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, 15%);
+  background-color: var(--primary-color);
+  color: white !important;
+  font-weight: bold;
+  border-radius: 5px;
+  padding: 1rem;
+  width: 250px;
+  text-align: center;
+  transition: var(--transition-time);
+  border: 3px solid transparent;
+}
+#return-to-dashboard-error:hover {
+  background-color: white;
+  color: var(--primary-color) !important;
+  border: var(--border-main);
+}
 /* Medium devices (tablets, less than 992px) */
 @media (max-width: 991.98px) {
   #heading-of-page {

@@ -9,10 +9,21 @@ import {
 var app = $.spapp({
   defaultView: "#dashboard",
   templateDir: "views/",
-  // pageNotFound: "error_404",
+  pageNotFound: "error",
 })
 
 import {passwordFieldChange, logout} from "../../scripts/authFunctions.js"
+
+app.route({
+  view: "error",
+  load: "error_404.html",
+  onCreate: function () {
+    showNavFooter(window.location.hash)
+  },
+  onReady: function () {
+    showNavFooter(window.location.hash)
+  },
+})
 
 app.route({
   view: "register",
@@ -198,5 +209,4 @@ const navSettings = hash => {
   updateListItemColor(hash, "footer-nav-list")
   exitAfterAnchorClick() // for mobile only
 }
-
 app.run()
