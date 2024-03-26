@@ -1,15 +1,13 @@
 export const fetchQuizHistory = (value = "") => {
   const quizHistoryContainer = document.getElementById("quiz-history-container")
-  fetch("../data/quizHistory.json")
-    .then(response => response.json())
-    .then(data => {
-      quizHistoryContainer.innerHTML = `<h1 id="heading-of-page">Your recently taken quizes</h1>`
-      data.forEach(quiz => {
-        if (quiz.title.toLowerCase().includes(value.toLowerCase())) {
-          fillHTMLHistory(quizHistoryContainer, quiz)
-        }
-      })
+  $.get("../data/quizHistory.json", (data, status) => {
+    quizHistoryContainer.innerHTML = ""
+    data.forEach(quiz => {
+      if (quiz.title.toLowerCase().includes(value.toLowerCase())) {
+        fillHTMLHistory(quizHistoryContainer, quiz)
+      }
     })
+  })
 }
 export const searchQuizHistory = () => {
   $("#search-form").on("submit", e => {
@@ -24,17 +22,23 @@ const fillHTMLHistory = (quizHistoryContainer, quiz) => {
   <section class="history-item">
     <h3>${quiz.title}</h3>
     <p>
+      <span class="material-symbols-outlined"> category </span>
+      <span>${quiz.category}</span>
+    </p>
+    <p >
       <span class="material-symbols-outlined"> calendar_month </span>
       <span>${quiz.date}</span>
     </p>
-    <p>
-      <span class="material-symbols-outlined">schedule</span>
-      <span>${quiz.timeTaken} minutes</span>
+    <p >
+      <span class="material-symbols-outlined"> schedule </span>
+      <span>${quiz.timeTaken} minutes taken</span>
     </p>
     <p>Score: ${quiz.correctAnswers}/${quiz.questionCount} <span style="color:${
     scorePercentage < 55 ? "red" : "green"
   }">(${Math.round(scorePercentage)}%)</span></p>
-    <a href="#">Review Answers</a>
-    <a href="#">Retake Quiz</a>
+    <div class="links">
+    <a href="#quiz?idname" style="background-color: white">Review quiz</a>
+    <a href="#quiz?idname">Retake quiz</a>
+    </div>
   </section>`
 }

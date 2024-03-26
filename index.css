@@ -13,7 +13,6 @@
   --uni-box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
     rgb(209, 213, 219) 0px 0px 0px 1px inset;
   --border-main: 3px solid var(--primary-color);
-  /* --border-secondary: ;
   /* font */
   --font-family-heading: "Raleway", sans-serif;
   --font-family-p: "Roboto";
@@ -55,11 +54,13 @@ button {
   text-align: center;
   background-color: var(--primary-color);
   transition: var(--transition-time);
+  font-size: var(--font-p-size) !important;
 }
 #heading-of-page {
   background-color: var(--bg-color-accent);
   padding: 1rem;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+  border-bottom: var(--border-main);
 }
 /* Navigation bar */
 .header-nav,
@@ -88,7 +89,7 @@ nav > ul > li a:hover {
   color: var(--primary-color) !important;
 }
 .active-link {
-  color: var(--primary-color);
+  color: var(--primary-color) !important;
 }
 nav > ul > li > a {
   display: flex;
@@ -97,12 +98,14 @@ nav > ul > li > a {
   gap: 0.25rem;
 }
 .logout-btn {
-  background-color: transparent;
-  /* border: none; */
   display: flex;
+  background-color: transparent;
   justify-content: center;
   align-items: center;
   color: var(--primary-color);
+}
+nav > ul > li > button {
+  padding: 0 !important;
 }
 /* Footer */
 footer {
@@ -119,8 +122,8 @@ footer {
 .footer-nav {
   height: fit-content;
   border-bottom: 2px solid black;
-  max-width: 50%;
-  width: 800px;
+  padding: 1rem;
+  text-align: center;
 }
 #footer-nav-list {
   padding: 0;
@@ -169,7 +172,7 @@ footer p {
 }
 .animated-icon1.open span:nth-child(2) {
   opacity: 0;
-  left: -60px;
+  transform: translateX(-60px);
 }
 .animated-icon1.open span:nth-child(3) {
   top: 11px;
@@ -210,6 +213,7 @@ footer p {
     height: 100vh;
     z-index: 4;
     background-color: var(--bg-color-accent);
+    border-bottom: var(--border-main);
   }
   .show li {
     width: 100%;

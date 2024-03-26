@@ -1,31 +1,56 @@
 export const fetchTopUsers = () => {
-  const leaderboardContainer = document.getElementById("leaderboard-container")
-  // 2 fetches 1 for this user 1 for other 9
-  fetch("../data/user.json")
-    .then(response => response.json())
-    .then(data => {
-      fillHTMLusers(leaderboardContainer, data)
-      fetch("../data/leaderboard.json")
-        .then(response => response.json())
-        .then(data =>
-          data.forEach(user => fillHTMLusers(leaderboardContainer, user))
-        )
-    })
+  $.get("../data/leaderboard.json", (data, status) => {
+    // console.log(data, status)
+    fillFirstThree(data)
+    for (let i = 3; i < data.length; i++) {
+      fillLowerLeaderboard(data, i)
+    }
+  })
 }
 
-const fillHTMLusers = (leaderboardContainer, user) => {
-  console.log(user)
-  leaderboardContainer.innerHTML += `
-  <section class="user-ranking">
-    <p>
-      <span class="user-ranking-label">Ranking: </span>
-      <span>${user.ranking}</span>
-    </p>
-    <img src="./images/avatars/avatar_7.png" alt="avatar" loading="lazy" />
-    <p>${user.name}</p>
-    <p>${user.points} points</p>
-    <p>${user.quizzesTaken} quizzes taken</p>
-    <p>Favourite category: ${user.favoriteCategory}</p>
-  </section>
-`
+const fillFirstThree = data => {
+  $("#first").html(
+    `
+    <span class="material-symbols-outlined"> workspace_premium </span>
+    <img src="../images/avatars/${data[0].avatar}" alt="avatar" />
+    <p>${data[0].name}</p>
+    <p>${data[0].quizzesTaken} quizzes taken</p>
+    <p>${data[0].points} points</p>
+    <p>Favourite category: ${data[0].favoriteCategory}</p>
+    `
+  )
+  $("#second").html(
+    `
+    <span class="material-symbols-outlined"> workspace_premium </span>
+    <img src="../images/avatars/${data[1].avatar}" alt="avatar" />
+    <p>${data[1].name}</p>
+    <p>${data[1].quizzesTaken} quizzes taken</p>
+    <p>${data[1].points} points</p>
+    <p>Favourite category: ${data[1].favoriteCategory}</p>
+    `
+  )
+  $("#third").html(
+    `
+    <span class="material-symbols-outlined"> workspace_premium </span>
+    <img src="../images/avatars/${data[2].avatar}" alt="avatar" />
+    <p>${data[2].name}</p>
+    <p>${data[2].quizzesTaken} quizzes taken</p>
+    <p>${data[2].points} points</p>
+    <p>Favourite category: ${data[2].favoriteCategory}</p>
+    `
+  )
+}
+const fillLowerLeaderboard = (data, i) => {
+  $("#rest-players").append(
+    `    
+    <div class="user-container">
+      <img src="../images/avatars/${data[i].avatar}" alt="avatar" />
+      <p>Rank ${data[i].ranking}</p>
+      <p>${data[i].name}c</p>
+      <p>${data[i].quizzesTaken} quizzes taken</p>
+      <p>${data[i].points} points</p>
+      <p>Favourite category: ${data[i].favoriteCategory}</p>
+    </div>
+  `
+  )
 }

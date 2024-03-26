@@ -44,7 +44,6 @@ export const searchQuiz = () => {
 
 export const clearSearchFilters = () => {
   $("#clear-filters-btn").on("click", () => {
-    console.log("hey")
     $("#search-bar").val("")
     $("#category").val("none")
     fetchQuizzes()
@@ -55,18 +54,23 @@ const fillHTML = (quizContainer, quiz) => {
   quizContainer.innerHTML += `
   <section class="quiz-banner">
     <img
-      src="${quiz.imgSrc}"
+      src="../images/quiz-type-banners/${quiz.imgSrc}"
       alt="${quiz.alt}"
       loading="lazy"
     />
     <div class="text-container">
       <h3>${quiz.title}</h3>
-      <p>Category: ${quiz.category}</p>
+      <p>
+        <span class="material-symbols-outlined">
+          category
+        </span>
+        <span>${quiz.category}</span>        
+      </p>
       <p class="quiz-time">
         <span class="material-symbols-outlined"> schedule </span>
         <span>${quiz.quizTime} minutes</span>
       </p>
-      <p>${quiz.questionsCount} questions</p>
+      <p>Questions: <b>${quiz.questionsCount}</b> </p>
       <p>
         ${quiz.description}
       </p>

@@ -45,7 +45,7 @@ export const setCurrentDate = () => {
 const setUsername = name => {
   $("#username-h").text(`Welcome back, ${name} 👋`)
 }
-
+// ajax
 export const findUsername = () => {
   let name = localStorage.getItem("name")
   if (name) {
@@ -67,7 +67,7 @@ export const findUsername = () => {
       })
   }
 }
-
+// ajax
 export const checkUserRole = type => {
   const role = localStorage.getItem("role")
   if (role == "admin") {
@@ -152,15 +152,15 @@ const addAdminListItem = () => {
 
   const quizManagementFooter = document.createElement("li")
   quizManagementFooter.innerHTML = `
-    <a href="#quizManagement.html">
+    <a href="#quizManagement">
       <span>Quiz management</span>
     </a>`
 
   const userManagementFooter = document.createElement("li")
   userManagementFooter.innerHTML = `
-    <a href="#userManagement.html">
+    <a href="#userManagement">
       <span>User management</span>
     </a>`
 
-  footerList.appendChild(quizManagementFooter, userManagementFooter)
+  footerList.append(quizManagementFooter, userManagementFooter)
 }

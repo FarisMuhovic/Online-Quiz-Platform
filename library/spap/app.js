@@ -1,45 +1,27 @@
 import {
-  setNewFact,
-  setCurrentDate,
-  findUsername,
-  checkUserRole,
-} from "../../scripts/dashboardFunctions.js"
-
-import {
   changeTitle,
+  hamburgerMenu,
+  exitAfterAnchorClick,
   showNavFooter,
   updateListItemColor,
-  logout,
 } from "../../scripts/pageFunctions.js"
 
-import {passwordFieldChange} from "../../scripts/authFunctions.js"
-
-import {
-  fetchQuizzes,
-  searchQuiz,
-  clearSearchFilters,
-} from "../../scripts/quizSearchFunctions.js"
-
-import {
-  fetchQuizHistory,
-  searchQuizHistory,
-} from "../../scripts/historyFunctions.js"
-
-import {fetchTopUsers} from "../../scripts/leaderboardFunctions.js"
 var app = $.spapp({
   defaultView: "#dashboard",
   templateDir: "views/",
   // pageNotFound: "error_404",
 })
 
+import {passwordFieldChange, logout} from "../../scripts/authFunctions.js"
+
 app.route({
   view: "register",
   load: "register.html",
-  onCreate: function () {},
+  onCreate: function () {
+    showNavFooter(window.location.hash)
+  },
   onReady: function () {
-    const hash = window.location.hash
-    changeTitle(hash)
-    updateNav(hash)
+    changeTitle(window.location.hash)
     passwordFieldChange()
   },
 })
@@ -47,14 +29,22 @@ app.route({
 app.route({
   view: "login",
   load: "login.html",
-  onCreate: function () {},
+  onCreate: function () {
+    showNavFooter(window.location.hash)
+  },
+
   onReady: function () {
-    const hash = window.location.hash
-    changeTitle(hash)
-    updateNav(hash)
+    changeTitle(window.location.hash)
     passwordFieldChange()
   },
 })
+
+import {
+  setNewFact,
+  setCurrentDate,
+  findUsername,
+  checkUserRole,
+} from "../../scripts/dashboardFunctions.js"
 
 app.route({
   view: "dashboard",
@@ -68,22 +58,25 @@ app.route({
     checkUserRole("dash")
   },
   onReady: function () {
-    const hash = window.location.hash
-    changeTitle(hash)
-    updateNav(hash)
+    changeTitle(window.location.hash)
+    navSettings(window.location.hash)
     setNewFact()
-    // add or remove admin fields
   },
 })
+
+import {
+  fetchQuizzes,
+  searchQuiz,
+  clearSearchFilters,
+} from "../../scripts/quizSearchFunctions.js"
 
 app.route({
   view: "quizSearch",
   load: "quizSearch.html",
   onCreate: function () {},
   onReady: function () {
-    const hash = window.location.hash
-    changeTitle(hash)
-    updateNav(hash)
+    changeTitle(window.location.hash)
+    navSettings(window.location.hash)
     fetchQuizzes()
     clearSearchFilters()
     searchQuiz()
@@ -95,24 +88,29 @@ app.route({
   load: "profile.html",
   onCreate: function () {},
   onReady: function () {
-    const hash = window.location.hash
-    changeTitle(hash)
-    updateNav(hash)
+    changeTitle(window.location.hash)
+    navSettings(window.location.hash)
   },
 })
+
+import {
+  fetchQuizHistory,
+  searchQuizHistory,
+} from "../../scripts/quizHistoryFunctions.js"
 
 app.route({
   view: "quizHistory",
   load: "quizHistory.html",
   onCreate: function () {},
   onReady: function () {
-    const hash = window.location.hash
-    changeTitle(hash)
-    updateNav(hash)
+    changeTitle(window.location.hash)
+    navSettings(window.location.hash)
     fetchQuizHistory()
     searchQuizHistory()
   },
 })
+
+import {fetchTopUsers} from "../../scripts/leaderboardFunctions.js"
 
 app.route({
   view: "leaderboard",
@@ -121,20 +119,28 @@ app.route({
     fetchTopUsers()
   },
   onReady: function () {
-    const hash = window.location.hash
-    changeTitle(hash)
-    updateNav(hash)
+    changeTitle(window.location.hash)
+    navSettings(window.location.hash)
+    // fetchTopUsers()
   },
 })
+
+import {
+  generateBarChart,
+  generatePieChart,
+  generateLineChart,
+} from "../../scripts/analyticsFunctions.js"
 
 app.route({
   view: "analytics",
   load: "analytics.html",
   onCreate: function () {},
   onReady: function () {
-    const hash = window.location.hash
-    changeTitle(hash)
-    updateNav(hash)
+    changeTitle(window.location.hash)
+    navSettings(window.location.hash)
+    generatePieChart()
+    generateBarChart()
+    generateLineChart()
   },
 })
 
@@ -143,9 +149,8 @@ app.route({
   load: "quizManagement.html",
   onCreate: function () {},
   onReady: function () {
-    const hash = window.location.hash
-    changeTitle(hash)
-    updateNav(hash)
+    changeTitle(window.location.hash)
+    navSettings(window.location.hash)
   },
 })
 
@@ -154,9 +159,8 @@ app.route({
   load: "userManagement.html",
   onCreate: function () {},
   onReady: function () {
-    const hash = window.location.hash
-    changeTitle(hash)
-    updateNav(hash)
+    changeTitle(window.location.hash)
+    navSettings(window.location.hash)
   },
 })
 
@@ -165,9 +169,8 @@ app.route({
   load: "quiz.html",
   onCreate: function () {},
   onReady: function () {
-    const hash = window.location.hash
-    changeTitle(hash)
-    updateNav(hash)
+    changeTitle(window.location.hash)
+    navSettings(window.location.hash)
   },
 })
 
@@ -176,32 +179,24 @@ app.route({
   load: "quizReview.html",
   onCreate: function () {},
   onReady: function () {
-    const hash = window.location.hash
-    changeTitle(hash)
-    updateNav(hash)
+    changeTitle(window.location.hash)
+    navSettings(window.location.hash)
   },
 })
 
-// Navigation Bars functionality
-// for nav add or remove admin fields
-const headerList = document.getElementById("header-nav-list")
-const hamburgerBtn = document.getElementById("hamburger-menu")
-hamburgerBtn.addEventListener("click", () => {
-  hamburgerBtn.classList.toggle("open")
-  headerList.classList.toggle("show")
-})
-//log out nav btn
 $(".logout-btn").on("click", () => {
   logout()
 })
 
-const updateNav = hash => {
-  changeTitle(hash)
+hamburgerMenu()
+checkUserRole()
+
+const navSettings = hash => {
+  window.scrollTo(0, 0)
   showNavFooter(hash)
   updateListItemColor(hash, "header-nav-list")
   updateListItemColor(hash, "footer-nav-list")
-  window.scrollTo(0, 0) // remove scroll to section animation
+  exitAfterAnchorClick() // for mobile only
 }
-checkUserRole()
-// Run the app
+
 app.run()
