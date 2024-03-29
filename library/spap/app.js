@@ -12,18 +12,25 @@ var app = $.spapp({
   pageNotFound: "error",
 })
 
-import {passwordFieldChange, logout} from "../../scripts/authFunctions.js"
-
 app.route({
   view: "error",
   load: "error_404.html",
   onCreate: function () {
-    showNavFooter(window.location.hash)
+    const hash = window.location.hash
+    showNavFooter(hash)
+    // if not logged in redirect to login page ( will be null because logged out user wont have a role)
+    if (window.localStorage.getItem("role") === null) {
+      $("#return-to-dashboard-error")
+        .text("Go back to login page")
+        .attr("href", "#login")
+    }
   },
   onReady: function () {
     showNavFooter(window.location.hash)
   },
 })
+
+import {passwordFieldChange, logout} from "../../scripts/authFunctions.js"
 
 app.route({
   view: "register",
@@ -155,31 +162,50 @@ app.route({
   },
 })
 
+import {
+  fetchQuizzesManagement,
+  searchQuizManagement,
+  createANewQuiz,
+} from "../../scripts/quizManagementFunctions.js"
 app.route({
   view: "quizManagement",
   load: "quizManagement.html",
-  onCreate: function () {},
+  onCreate: function () {
+    fetchQuizzesManagement()
+    createANewQuiz()
+  },
   onReady: function () {
     changeTitle(window.location.hash)
     navSettings(window.location.hash)
+    searchQuizManagement()
   },
 })
+
+import {fetchUsers, searchUser} from "../../scripts/userManagement.js"
 
 app.route({
   view: "userManagement",
   load: "userManagement.html",
-  onCreate: function () {},
+  onCreate: function () {
+    fetchUsers()
+  },
   onReady: function () {
     changeTitle(window.location.hash)
     navSettings(window.location.hash)
+    searchUser()
   },
 })
+
+import {fetchQuestions, submitQuizBtn} from "../../scripts/quizRender.js"
 
 app.route({
   view: "quiz",
   load: "quiz.html",
-  onCreate: function () {},
+  onCreate: function () {
+    submitQuizBtn()
+  },
   onReady: function () {
+    fetchQuestions(localStorage.getItem("selectedQuizID"))
     changeTitle(window.location.hash)
     navSettings(window.location.hash)
   },

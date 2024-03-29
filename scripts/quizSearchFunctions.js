@@ -1,35 +1,34 @@
 export const fetchQuizzes = (name = "", catg = "none") => {
-  const quizContainer = document.getElementById("quiz-container")
-  fetch("../data/quizBanner.json")
-    .then(response => response.json())
-    .then(data => {
-      quizContainer.innerHTML = ""
-      data.forEach(quiz => {
-        // ONLY name filled in
-        if (
-          quiz.title.toLowerCase().includes(name.toLowerCase()) &&
-          catg == "none" &&
-          name != ""
-        ) {
-          fillHTML(quizContainer, quiz)
-        }
-        // BOTH filled in
-        else if (
-          quiz.title.toLowerCase().includes(name.toLowerCase()) &&
-          quiz.category.toLowerCase() == catg
-        ) {
-          fillHTML(quizContainer, quiz)
-        }
-        // category filled in ONLY
-        else if (name == "" && quiz.category.toLowerCase() == catg) {
-          fillHTML(quizContainer, quiz)
-        }
-        // nothing filled in
-        else if (name == "" && catg == "none") {
-          fillHTML(quizContainer, quiz)
-        }
-      })
+  const quizContainer = document.getElementById("quiz-search-container")
+  $.get("../data/quizBanner.json", (data, status) => {
+    quizContainer.innerHTML = ""
+    data.forEach(quiz => {
+      // ONLY name filled in
+      if (
+        quiz.title.toLowerCase().includes(name.toLowerCase()) &&
+        catg == "none" &&
+        name != ""
+      ) {
+        fillHTML(quizContainer, quiz)
+      }
+      // BOTH filled in
+      else if (
+        quiz.title.toLowerCase().includes(name.toLowerCase()) &&
+        quiz.category.toLowerCase() == catg
+      ) {
+        fillHTML(quizContainer, quiz)
+      }
+      // category filled in ONLY
+      else if (name == "" && quiz.category.toLowerCase() == catg) {
+        fillHTML(quizContainer, quiz)
+      }
+      // nothing filled in
+      else if (name == "" && catg == "none") {
+        fillHTML(quizContainer, quiz)
+      }
     })
+    listenForClick()
+  })
 }
 export const searchQuiz = () => {
   $("#search-form").on("submit", e => {
@@ -75,7 +74,16 @@ const fillHTML = (quizContainer, quiz) => {
         ${quiz.description}
       </p>
     </div>
-    <a href="#quiz?idname">Start quiz</a> 
+    <a href="#quiz" data-quiz-id="${quiz.id}">Start quiz</a> 
   </section>
 `
+}
+const listenForClick = () => {
+  document.querySelectorAll(".quiz-banner a").forEach(link => {
+    link.addEventListener("click", e => {
+      e.preventDefault()
+      localStorage.setItem("selectedQuizID", e.target.attributes[1].value)
+      window.location.href = "#quiz"
+    })
+  })
 }
