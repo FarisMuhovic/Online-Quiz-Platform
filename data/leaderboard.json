@@ -1,7 +1,7 @@
 [
   {
     "ranking": 1,
-    "avatar": "./images/avatars/avatar_1.png",
+    "avatar": "avatar_1.svg",
     "name": "Emily Smith",
     "points": 25,
     "quizzesTaken": 5,
@@ -9,7 +9,7 @@
   },
   {
     "ranking": 2,
-    "avatar": "./images/avatars/avatar_2.png",
+    "avatar": "avatar_2.svg",
     "name": "John Doe",
     "points": 22,
     "quizzesTaken": 4,
@@ -17,7 +17,7 @@
   },
   {
     "ranking": 3,
-    "avatar": "./images/avatars/avatar_3.png",
+    "avatar": "avatar_3.svg",
     "name": "Alice Johnson",
     "points": 20,
     "quizzesTaken": 3,
@@ -25,7 +25,7 @@
   },
   {
     "ranking": 4,
-    "avatar": "./images/avatars/avatar_4.png",
+    "avatar": "avatar_4.svg",
     "name": "Michael Brown",
     "points": 18,
     "quizzesTaken": 3,
@@ -33,7 +33,7 @@
   },
   {
     "ranking": 5,
-    "avatar": "./images/avatars/avatar_5.png",
+    "avatar": "avatar_5.svg",
     "name": "Sophia Wilson",
     "points": 15,
     "quizzesTaken": 2,
@@ -41,7 +41,7 @@
   },
   {
     "ranking": 6,
-    "avatar": "./images/avatars/avatar_6.png",
+    "avatar": "avatar_6.svg",
     "name": "David Garcia",
     "points": 12,
     "quizzesTaken": 2,
@@ -49,7 +49,7 @@
   },
   {
     "ranking": 7,
-    "avatar": "./images/avatars/avatar_7.png",
+    "avatar": "avatar_7.svg",
     "name": "Dave Dude",
     "points": 3,
     "quizzesTaken": 1,
@@ -57,7 +57,7 @@
   },
   {
     "ranking": 8,
-    "avatar": "./images/avatars/avatar_8.png",
+    "avatar": "avatar_8.svg",
     "name": "Emma Davis",
     "points": 2,
     "quizzesTaken": 1,
@@ -65,7 +65,7 @@
   },
   {
     "ranking": 9,
-    "avatar": "./images/avatars/avatar_9.png",
+    "avatar": "avatar_9.svg",
     "name": "Daniel Martinez",
     "points": 1,
     "quizzesTaken": 1,

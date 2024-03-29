@@ -3,6 +3,7 @@
     "id": 1,
     "title": "The Element-ary Challenge",
     "date": "12/03/2024",
+    "category": "Science",
     "timeTaken": 26,
     "questionCount": 20,
     "correctAnswers": 6
@@ -11,6 +12,7 @@
     "id": 2,
     "title": "Number Crunchin' Challenge",
     "date": "05/03/2024",
+    "category": "Math",
     "timeTaken": 36,
     "questionCount": 25,
     "correctAnswers": 24
@@ -19,6 +21,7 @@
     "id": 3,
     "title": "Time Travel Trivia",
     "date": "22/02/2024",
+    "category": "History",
     "timeTaken": 8,
     "questionCount": 15,
     "correctAnswers": 6
@@ -27,6 +30,7 @@
     "id": 4,
     "title": "Literary Legends Quiz",
     "date": "10/04/2024",
+    "category": "Literacy",
     "timeTaken": 15,
     "questionCount": 10,
     "correctAnswers": 8
@@ -35,6 +39,7 @@
     "id": 5,
     "title": "Movie Buff Bonanza",
     "date": "18/04/2024",
+    "category": "Movies",
     "timeTaken": 40,
     "questionCount": 30,
     "correctAnswers": 25
@@ -43,6 +48,7 @@
     "id": 6,
     "title": "Science Fiction Spectacle",
     "date": "03/05/2024",
+    "category": "Science",
     "timeTaken": 20,
     "questionCount": 15,
     "correctAnswers": 12
@@ -51,6 +57,7 @@
     "id": 7,
     "title": "Historical Heroes Quiz",
     "date": "16/05/2024",
+    "category": "History",
     "timeTaken": 25,
     "questionCount": 20,
     "correctAnswers": 18
