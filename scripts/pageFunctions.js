@@ -40,9 +40,32 @@ export const changeTitle = hash => {
       break
   }
 }
-
+export const hamburgerMenu = () => {
+  const headerList = document.getElementById("header-nav-list")
+  const hamburgerBtn = document.getElementById("hamburger-menu")
+  hamburgerBtn.addEventListener("click", () => {
+    hamburgerBtn.classList.toggle("open")
+    headerList.classList.toggle("show")
+  })
+}
+export const exitAfterAnchorClick = () => {
+  const headerlistAnchors = document.querySelectorAll("#header-nav-list li a")
+  const headerList = document.getElementById("header-nav-list")
+  const hamburgerBtn = document.getElementById("hamburger-menu")
+  headerlistAnchors.forEach(anchor => {
+    anchor.addEventListener("click", () => {
+      hamburgerBtn.classList.toggle("open")
+      headerList.classList.toggle("show")
+    })
+  })
+}
 export const showNavFooter = hash => {
-  if (hash === "#login" || hash === "#register" || hash === "#dashboard") {
+  if (
+    hash === "#login" ||
+    hash === "#register" ||
+    hash === "#dashboard" ||
+    hash === "#error"
+  ) {
     $("footer").css("display", "none")
     $("header").css("display", "none")
   } else {
@@ -52,6 +75,8 @@ export const showNavFooter = hash => {
 }
 
 export const updateListItemColor = (hash, elementID) => {
+  const headerList = document.getElementById("header-nav-list")
+  const hamburgerBtn = document.getElementById("hamburger-menu")
   $(`#${elementID}`)
     .find("a")
     .each((index, link) => {
@@ -64,9 +89,4 @@ export const updateListItemColor = (hash, elementID) => {
         }
       }
     })
-}
-
-export const logout = () => {
-  console.log("logging out the user")
-  window.location.href = "index.html#login"
 }
