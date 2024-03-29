@@ -12,3 +12,8 @@ export const passwordFieldChange = () => {
     }
   })
 }
+
+export const logout = () => {
+  console.log("logging out the user")
+  window.location.href = "index.html#login"
+}
