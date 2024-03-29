@@ -1,184 +1,69 @@
 .profile-page {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  justify-content: flex-start;
   width: fit-content;
   margin: 2rem auto;
+  grid-template-columns: 1fr 1.5fr 1.5fr;
+  gap: 1rem;
+  background-color: var(--bg-color-accent);
 }
 .profile-page section {
-  background-color: white;
   padding: 1rem;
-  box-shadow: var(--uni-box-shadow);
-}
-.personal-info {
   display: flex;
+  align-items: center;
   flex-direction: column;
-  justify-content: space-between;
-  grid-column: 1/-1;
-}
-.personal-info p {
-  margin-bottom: 0.5rem;
-}
-.avatar {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-.profile-page h2 {
-  text-align: center;
-  border-bottom: 2px solid rgba(128, 128, 128, 0.548);
-  padding: 0.25rem 0.25rem 0.5rem 0.25rem;
-  font-size: 1.85rem;
-}
-.profile-page button {
-  width: 100%;
-  min-height: 50px;
-  background-color: var(--primary-color);
-  border: none;
-  padding: 1rem;
-}
-.profile-page button:hover {
-  background-color: #01015c;
-  color: var(--bg-color-accent);
+  gap: 1rem;
 }
 .avatar img {
-  height: 60%;
-  width: 60%;
-  margin: auto;
+  width: 125px;
 }
-.achievements {
-  display: flex;
-  justify-content: flex-start;
-  gap: 1rem;
+.avatar button {
+  width: 100%;
+}
+.profile-page form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
-  overflow: scroll;
-  max-height: 650px;
+  padding: 1rem;
+  width: 100%;
+  max-width: 450px;
+  gap: 10px;
 }
-.achievements h2 {
-  font-size: 1.85rem;
+.profile-page form button {
+  grid-column: 1/-1;
+  width: 100%;
+}
+.profile-page form label:nth-child(n + 3) {
+  grid-column: 1/-1;
+}
+.profile-page form label,
+.profile-page form label input {
+  width: 100%;
+}
+
+.profile-page form label input {
+  width: 100%;
+  height: 35px;
+  padding: 5px 15px;
 }
 .achievement {
-  display: grid;
-  grid-template-columns: 50px 1fr;
-  grid-template-rows: 40px 1fr;
-  place-items: center;
-  padding: 0.5rem;
-  column-gap: 0.5rem;
-  text-align: center;
-  width: fit-content;
-  min-width: 100%;
-  box-shadow: var(--uni-box-shadow);
-}
-.achievement span {
-  font-size: 2rem;
-  grid-column: 1/2;
-  grid-row: 1/-1;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.modal-for-avatar {
-  background-color: red;
-}
-#modal-for-avatar,
-#modal-for-info {
-  position: absolute !important;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 99;
-  background-color: var(--bg-color-accent);
-  padding: 2rem;
-  border: 3px solid var(--primary-color);
-  max-width: 500px;
-  width: 100%;
-}
-.modal-header-def,
-.modal-footer-def {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.modal-header-def,
-.modal-body-def {
-  border-bottom: 1px solid black;
-  margin: 1rem 0;
-}
-/* #modal-for-avatar h3 {
-  padding: 0;
-  margin: 0;
-} */
-.close {
-  background-color: transparent;
-  border: none;
-  font-size: 2rem;
-}
-.modal-body-def {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.5rem;
-  padding: 1rem;
-}
-.modal-body-def img {
-  width: 100%;
-  height: 100%;
-}
-.modal-body-def img:hover {
-  scale: 1.1;
-  cursor: pointer;
-}
-.modal-form {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
-}
-.modal-form input {
-  padding: 0.5rem;
-}
-.selected-avatar {
-  border: 3px solid var(--primary-color);
+  flex-direction: column;
 }
 /*  Large devices (desktops, less than 1200px) */
 @media (max-width: 1199.98px) {
-  .profile-page {
-    margin: 2rem 3rem;
-  }
 }
-
 /* Medium devices (tablets, less than 992px) */
 @media (max-width: 991.98px) {
-  .profile-page {
-    width: 95%;
-    margin: 1rem;
-  }
-  .avatar {
-    grid-column: 1/-1;
-  }
-  .achievements {
-    grid-column: 1/-1;
-  }
 }
-
 /*  Small devices (landscape phones, less than 768px) */
 @media (max-width: 767.98px) {
 }
 
 /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) {
-  .profile-page {
-    grid-template-columns: 1fr;
-  }
-  #modal-for-avatar,
-  #modal-for-info {
-    top: 15%;
-    transform: translate(-50%, -0%);
-  }
-  #info-form {
-    display: flex;
-    flex-direction: column;
-  }
 }

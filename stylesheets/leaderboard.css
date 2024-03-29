@@ -74,7 +74,7 @@
   justify-content: center;
   gap: 1rem;
   padding: 0.5rem;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 .user-container > img {
   height: 75px;
