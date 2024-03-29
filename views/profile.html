@@ -1,40 +1,60 @@
 <main class="profile-page">
-  <section class="personal-info" id="personal-info">
-    <h1>Welcome back, Faris! 👋</h1>
-    <p>Joined: 24/9/2023</p>
-    <p>Age: Not set</p>
-    <h1>Profile Details</h1>
-    <p>Full Name: Faris Muhovic</p>
-    <p>Date of Birth: Not set</p>
-    <p>Country: Not set</p>
-    <button id="change-info-btn">Change information</button>
-  </section>
   <section class="avatar">
-    <h1>Your avatar</h1>
-    <img src="./images/avatars/avatar_2.png" alt="avatar" loading="lazy" />
+    <h1>Hello, Faris! 👋</h1>
+    <img src="./images/avatars/avatar_4.svg" alt="avatar" loading="lazy" />
     <button id="change-avatar-btn">Change avatar</button>
+  </section>
+  <section class="personal-info">
+    <h1>Personal information</h1>
+    <form>
+      <label>
+        <span>First name</span>
+        <input type="text" name="firstname" id="firstname" />
+      </label>
+      <label>
+        <span>Last name</span>
+        <input type="text" name="lastname" id="lastname" />
+      </label>
+      <label>
+        <span>Email</span>
+        <input type="email" name="email" id="email" />
+      </label>
+      <label>
+        <span>Age</span>
+        <input type="number" name="age" id="age" />
+      </label>
+      <label>
+        <span>Date of birth</span>
+        <input type="date" name="dateofbirth" id="dateofbirth" />
+      </label>
+      <label>
+        <span>Country</span>
+        <input type="text" name="country" id="country" />
+      </label>
+      <button id="change-info-btn" type="button">Change information</button>
+    </form>
   </section>
   <section class="achievements" id="achivements-container">
     <h1>Achievements</h1>
     <div class="achievement">
-      <span class="material-symbols-outlined"> event_available </span>
       <h4>Quiz Master</h4>
       <p>Congratulations! You've completed 50 quizzes.</p>
     </div>
     <div class="achievement">
-      <span class="material-symbols-outlined"> school </span>
       <h4>Knowledge Explorer</h4>
       <p>Well done! You've explored quizzes in 5 different categories.</p>
     </div>
     <div class="achievement">
-      <span class="material-symbols-outlined"> bolt </span>
       <h4>Speed Demon</h4>
       <p>Impressive! You've completed a quiz in under 1 minute.</p>
     </div>
     <div class="achievement">
-      <span class="material-symbols-outlined"> lightbulb </span>
       <h4>Dedicated Learner</h4>
       <p>Keep it up! You've spent over 10 hours learning with quizzes.</p>
+    </div>
+    <div class="achievement">
+      <h4>Quiz Master</h4>
+      <p>Congratulations! You've completed 50 quizzes.</p>
     </div>
   </section>
 </main>
