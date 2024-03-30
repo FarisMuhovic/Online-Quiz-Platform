@@ -30,6 +30,7 @@
         min="5"
         max="50"
         placeholder="Quiz title"
+        id="form-title"
       />
       <textarea
         name="description"
@@ -40,6 +41,7 @@
         maxlength="100"
         placeholder="Description of the quiz"
         required
+        id="form-desc-modal"
       ></textarea>
       <input
         type="number"
@@ -47,6 +49,7 @@
         max="90"
         name="quizLength"
         required
+        id="quiz-length-modal-form"
         placeholder="Type in the length of quiz (minutes)"
       />
       <!-- Bootstrap 5 select component -->
@@ -54,6 +57,7 @@
         class="selectpicker form-control border rounded-0 border-bottom border-dark border-2 px-2 py-2 my-3"
         name="category"
         required
+        id="select-category"
       >
         <option value="" selected>Category</option>
         <option value="science">Science</option>

@@ -53,9 +53,7 @@ export const createANewQuiz = () => {
     $("#modal").css("display", "none")
     // on click empty form values ?
   })
-  var questioncount = 0
   $("#add-question-btn").on("click", () => {
-    questioncount++
     $("#questions-container").append(`        
     <div class="question">
       <div class="question-header">
@@ -74,7 +72,7 @@ export const createANewQuiz = () => {
           max="5"
           name="quizAnswersCount"
           id="quizAnswersCount"
-          class="quizAnswersCount${String(questioncount)}"
+          class="quizAnswersCount"
           required
           placeholder="Number of answers"
         />
@@ -98,66 +96,78 @@ export const createANewQuiz = () => {
       </div>
     </div>`)
 
-    $(`.quizAnswersCount${questioncount}`).on("input", function (e) {
-      if (e.target.value <= 5 && e.target.value > 0) {
-        $(this)[0].parentNode.parentNode.children[1].innerHTML = ""
-        for (let i = 0; i < e.target.value; i++) {
-          $(
-            this
-          )[0].parentNode.parentNode.children[1].innerHTML += `<div class="question-answer">
-            <input type="text" name="questionAnswer${
-              i + 1
-            }" id="" placeholder="Answer" required />
-            <label>
-              <input type="checkbox" name="correctQuestionAnswer${
-                i + 1
-              }" id="" />
-              <span>Correct Answer</span>
-            </label>
-          </div>`
+    const questionsDivs = document.querySelectorAll(".question")
+    questionsDivs.forEach(question => {
+      const answersCountInput = question.querySelector("#quizAnswersCount")
+      answersCountInput.addEventListener("input", e => {
+        if (e.target.value <= 5 && e.target.value > 0) {
+          const questionBody = question.querySelector(".question-body")
+          questionBody.innerHTML = ""
+          for (let i = 0; i < e.target.value; i++) {
+            questionBody.innerHTML += `<div class="question-answer">
+              <input type="text" name="questionAnswer"
+               placeholder="Answer" required />
+              <label>
+                <input type="checkbox" name="correctQuestionAnswer"/>
+                <span>Correct Answer</span>
+              </label>
+            </div>`
+          }
         }
-      }
+      })
     })
+
     $(".delete-qstn-btn").one("click", function () {
       $(this)[0].parentNode.parentNode.remove()
-      questioncount--
     })
   })
   submitFormQuiz()
 }
 const submitFormQuiz = () => {
   const modalForm = document.getElementById("create-quiz-form-head")
-  const formObject = {}
   modalForm.addEventListener("submit", e => {
-    e.preventDefault()
-    let modalformelements = modalForm.children
-    for (let i = 0; i < modalformelements.length; i++) {
-      if (modalformelements[i].name) {
-        formObject[modalformelements[i].name] = modalformelements[i].value
-      }
+    const quizCreatedData = {
+      title: null,
+      description: null,
+      quizLength: null,
+      category: null,
+      questions: [],
     }
-    let questioncount = 0
-    formObject["questions"] = []
-    document.querySelectorAll(".question").forEach(question => {
-      const questionData = {}
-      questioncount++
+    e.preventDefault()
+    quizCreatedData.title = modalForm.querySelector("#form-title").value
+    quizCreatedData.quizLength = modalForm.querySelector(
+      "#quiz-length-modal-form"
+    ).value
+    quizCreatedData.description =
+      modalForm.querySelector("#form-desc-modal").value
+    quizCreatedData.category = modalForm.querySelector("#select-category").value
 
-      const inputs = question.querySelectorAll("input")
-      const selectboxes = question.querySelectorAll("select")
-      inputs.forEach(input => {
-        if (input.name.includes("correctQuestionAnswer")) {
-          questionData[input.name] = input.checked
-        } else {
-          questionData[input.name] = input.value
+    let questionCounter = 0
+    const questionsDivs = document.querySelectorAll(".question")
+    questionsDivs.forEach(qstn => {
+      const questionData = {
+        questionName: null,
+        typeOfQuestion: null,
+        fields: [],
+      }
+      questionCounter++
+      questionData.questionName = qstn.querySelector("#questionName").value
+      questionData.typeOfQuestion = qstn.querySelector("#typeOfQuestion").value
+      const inputsAnswers = qstn.querySelectorAll(".question-answer > input")
+      const isCorrectFields = qstn.querySelectorAll(
+        ".question-answer > label input"
+      )
+      for (let i = 0; i < inputsAnswers.length; i++) {
+        const fieldData = {
+          text: null,
+          isCorrect: null,
         }
-      })
-      selectboxes.forEach(select => {
-        questionData[select.name] = select.value
-      })
-      // formObject[`question${questioncount}`] = questionData
-      formObject["questions"].push(questionData)
+        fieldData.text = inputsAnswers[i].value
+        fieldData.isCorrect = isCorrectFields[i].checked
+        questionData.fields.push(fieldData)
+      }
+      quizCreatedData.questions.push(questionData)
     })
-    console.log(formObject)
     if (questioncount == 0) {
       // send error modal neeed to enter questions
     } else if ("fail") {
@@ -165,7 +175,9 @@ const submitFormQuiz = () => {
     } else {
       $("#modal").css("display", "none")
       // sucess modal
+      // post request
     }
+    console.log(quizCreatedData)
   })
 }
 const emptyForm = () => {

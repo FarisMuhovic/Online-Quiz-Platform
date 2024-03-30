@@ -37,27 +37,28 @@ export const destroyQuiz = () => {
   clearInterval(intervalId)
 }
 const submitQuiz = () => {
-  const userAnswers = []
+  const answers = []
   const questions = document.querySelectorAll(
     "#questions-container-form .question"
   )
 
   questions.forEach(question => {
     const questionTitle = question.querySelector(".question-title").textContent
-    const inputs = question.querySelectorAll("input")
-
-    let answered = false // Flag to track if any input is checked in the question
-
-    inputs.forEach(input => {
-      if (input.checked) {
-        userAnswers.push({questionName: questionTitle, answer: input.value})
-        answered = true // Set the flag to true if any input is checked
-      }
-    })
-
-    if (!answered) {
-      userAnswers.push({questionName: questionTitle, answer: "not answered"})
+    const answer = {
+      questionName: questionTitle,
+      userAnswer: [],
+      isUserCorrect: null,
+      fields: [],
     }
+
+    const inputs = question.querySelectorAll("input")
+    inputs.forEach(inp => {
+      if (inp.checked) {
+        answer.userAnswer.push(inp.value)
+      }
+      answer.fields.push({text: inp.value, correct: null})
+    })
+    answers.push(answer)
   })
 
   const formInputs = document.querySelectorAll(
@@ -68,7 +69,7 @@ const submitQuiz = () => {
   })
   // remove timer
   if (intervalId) clearInterval(intervalId)
-  gradeAnswers(userAnswers)
+  gradeAnswers(answers)
 }
 
 const renderQuestions = questions => {
@@ -107,31 +108,30 @@ const setQuizIntro = (title, category) => {
 }
 const setChoicesMCQ = question => {
   let questionsOptions = ""
-  for (let i = 0; i < question.quizAnswersCount; i++) {
+  question.fields.forEach(field => {
     questionsOptions += `
     <label>
     <input
       type="checkbox"
-      name="${question.questionName}"
-      value="${question["questionAnswer" + (i + 1)]}"
+      name="${field.title}"
+      value="${field.title}"
     />
-    ${question["questionAnswer" + (i + 1)]}</label>
+    ${field.title}</label>
     `
-  }
+  })
+
   return questionsOptions
 }
 const setChoices = question => {
   let questionsOptions = ""
-  for (let i = 0; i < question.quizAnswersCount; i++) {
+  question.fields.forEach(field => {
     questionsOptions += `
-      <label>
-        <input type="radio" name="${question.questionName}" value="${
-      question["questionAnswer" + (i + 1)]
-    }">
-        ${question["questionAnswer" + (i + 1)]}
-      </label>
-    `
-  }
+    <label>
+      <input type="radio" name="${question.questionName}" value="${field.title}">
+      ${field.title}
+    </label>
+  `
+  })
   return questionsOptions
 }
 
@@ -160,62 +160,62 @@ const setTimeLeft = time => {
     }
   }, 1000)
 }
-const gradeAnswers = answers => {
-  let correctQuestions = 0 // This needs to be let instead of const to update its value
-  const quizID = localStorage.getItem("selectedQuizID")
-  let time = $("#quiz-time-left")[0].innerText.split(":")
-  let timeLeft = Number(time[1]) * 60 + Number(time[2])
-  const history = {
-    id: quizID,
+const gradeAnswers = userQuizAnswers => {
+  let correct = 0
+
+  const takenQuiz = {
+    id: localStorage.getItem("selectedQuizID"),
     title: null,
     date: new Date().toString(),
     category: null,
     timeTaken: null,
-    questionCount: answers.length,
-    correctAnswers: 0,
-    answers: answers,
+    timeTakenFormat: null,
+    questionCount: userQuizAnswers.length,
+    correctAnswers: null,
+    answers: null,
   }
 
+  let time = $("#quiz-time-left")[0].innerText.split(":")
+  let timeLeft = Number(time[1]) * 60 + Number(time[2])
+
   $.get("../data/quizexample.json", (data, status) => {
-    history.title = data.title
-    history.category = data.category
+    takenQuiz.title = data.title
+    takenQuiz.category = data.category
     let timeTaken = data.quizLength * 60 - timeLeft // in seconds
-    history.timeTaken =
-      timeTaken < 60
-        ? "less than a minute"
-        : Math.round(timeTaken / 60) + " minutes"
+    takenQuiz.timeTaken = timeTaken
+    takenQuiz.timeTakenFormat = timeTaken < 60 ? "seconds" : "minutes"
 
-    answers.forEach((userAnswer, index) => {
-      const quizQuestion = data.questions[index]
-      let answerCorrect = false
-      for (let i = 1; i <= quizQuestion.quizAnswersCount; i++) {
-        const answerKey = `questionAnswer${i}`
-        const correctnessKey = `correctQuestionAnswer${i}`
-        if (
-          userAnswer.answer === quizQuestion[answerKey] &&
-          quizQuestion[correctnessKey]
-        ) {
-          answerCorrect = true
-          break
-        }
-      }
+    const questionsSolved = data.questions
 
-      if (answerCorrect) {
-        correctQuestions++
-        userAnswer.correct = true
-      } else {
-        userAnswer.correct = false
+    for (let i = 0; i < questionsSolved.length; i++) {
+      userQuizAnswers[i].fields = questionsSolved[i].fields
+    }
+    userQuizAnswers.forEach(question => {
+      const userAnswer = question.userAnswer
+      question.isUserCorrect = null
+      const questionFields = question.fields
+      questionFields.forEach(field => {
+        userAnswer.forEach(usranswr => {
+          if (usranswr == field.title && field.correct) {
+            question.isUserCorrect = true
+            correct++
+          }
+        })
+      })
+      if (question.isUserCorrect == null) {
+        question.isUserCorrect = false
       }
     })
-
-    history.correctAnswers = correctQuestions
-
-    $.post("", history, function (response) {
-      console.log(response)
-    })
-    $("a").off("click", showAlert)
-    showEndText(history)
+    takenQuiz.answers = userQuizAnswers
+    takenQuiz.correctAnswers = correct
   })
+
+  console.log(takenQuiz)
+  $.post("", takenQuiz, function (response) {
+    console.log(response)
+  })
+  $("a").off("click", showAlert)
+  showEndText(history)
 }
 const showEndText = history => {
   let timer = 5

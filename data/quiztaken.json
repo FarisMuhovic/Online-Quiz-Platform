@@ -9,7 +9,7 @@
   "answers": [
     {
       "questionName": "What is H2O",
-      "userAnswer": "Water",
+      "userAnswer": ["Water"],
       "isUserCorrect": true,
       "fields": [
         {"text": "Water", "correct": true},
@@ -19,7 +19,7 @@
     },
     {
       "questionName": "What is the chemical symbol for gold?",
-      "userAnswer": "Ag",
+      "userAnswer": ["Ag"],
       "isUserCorrect": false,
       "fields": [
         {"text": "Au", "correct": true},
@@ -30,7 +30,7 @@
     },
     {
       "questionName": "What is the chemical formula for table salt?",
-      "userAnswer": "NaCl",
+      "userAnswer": ["NaCl"],
       "isUserCorrect": true,
       "fields": [
         {"text": "NaCL", "correct": true},
@@ -39,7 +39,7 @@
     },
     {
       "questionName": "Which element is a noble gas?",
-      "userAnswer": "Helium",
+      "userAnswer": ["Helium"],
       "isUserCorrect": true,
       "fields": [
         {"text": "Helium", "correct": true},
@@ -50,7 +50,7 @@
     },
     {
       "questionName": "What is the chemical formula for methane?",
-      "userAnswer": "CO2",
+      "userAnswer": ["CO2"],
       "isUserCorrect": false,
       "fields": [
         {"text": "CH4", "correct": true},
@@ -61,7 +61,7 @@
     },
     {
       "questionName": "Which gas is essential for respiration?",
-      "userAnswer": "Carbon dioxide",
+      "userAnswer": ["Carbon dioxide"],
       "isUserCorrect": false,
       "fields": [
         {"text": "Oxygen", "correct": true},
@@ -72,7 +72,7 @@
     },
     {
       "questionName": "What is the chemical symbol for sodium?",
-      "userAnswer": "",
+      "userAnswer": [],
       "isUserCorrect": false,
       "fields": [
         {"text": "Na", "correct": true},
@@ -84,7 +84,7 @@
     },
     {
       "questionName": "Which elements are gases at room temperature?",
-      "userAnswer": "Nitrogen",
+      "userAnswer": ["Nitrogen"],
       "isUserCorrect": false,
       "fields": [
         {"text": "Oxygen", "correct": true},
@@ -95,7 +95,7 @@
     },
     {
       "questionName": "What is the chemical formula for water?",
-      "userAnswer": "NaCl",
+      "userAnswer": ["NaCl"],
       "isUserCorrect": false,
       "fields": [
         {"text": "H2O", "correct": true},

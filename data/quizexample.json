@@ -6,123 +6,98 @@
   "questions": [
     {
       "questionName": "What is H2O",
-      "quizAnswersCount": "3",
-      "questionAnswer1": "Water",
-      "correctQuestionAnswer1": true,
-      "questionAnswer2": "Carbon",
-      "correctQuestionAnswer2": false,
-      "questionAnswer3": "Nitrogen",
-      "correctQuestionAnswer3": false,
-      "typeOfQuestion": "checkbox"
+      "typeOfQuestion": "checkbox",
+      "fields": [
+        {"title": "Water", "correct": true},
+        {"title": "Carbon", "correct": false},
+        {"title": "Nitrogen", "correct": false}
+      ]
     },
     {
       "questionName": "What is the chemical symbol for gold?",
-      "quizAnswersCount": "4",
-      "questionAnswer1": "Au",
-      "correctQuestionAnswer1": true,
-      "questionAnswer2": "Ag",
-      "correctQuestionAnswer2": false,
-      "questionAnswer3": "Fe",
-      "correctQuestionAnswer3": false,
-      "questionAnswer4": "Cu",
-      "correctQuestionAnswer4": false,
-      "typeOfQuestion": "checkbox"
+      "typeOfQuestion": "checkbox",
+      "fields": [
+        {"title": "Au", "correct": true},
+        {"title": "Ag", "correct": false},
+        {"title": "Fe", "correct": false},
+        {"title": "Cu", "correct": false}
+      ]
     },
     {
       "questionName": "What is the chemical formula for table salt?",
-      "quizAnswersCount": "2",
-      "questionAnswer1": "NaCl",
-      "correctQuestionAnswer1": true,
-      "questionAnswer2": "HCl",
-      "correctQuestionAnswer2": false,
-      "typeOfQuestion": "checkbox"
+      "typeOfQuestion": "checkbox",
+      "fields": [
+        {"title": "NaCl", "correct": true},
+        {"title": "HCl", "correct": false}
+      ]
     },
     {
       "questionName": "Which element is a noble gas?",
-      "quizAnswersCount": "4",
-      "questionAnswer1": "Helium",
-      "correctQuestionAnswer1": true,
-      "questionAnswer2": "Neon",
-      "correctQuestionAnswer2": false,
-      "questionAnswer3": "Argon",
-      "correctQuestionAnswer3": false,
-      "questionAnswer4": "Sodium",
-      "correctQuestionAnswer4": false,
-      "typeOfQuestion": "checkbox"
+      "typeOfQuestion": "checkbox",
+      "fields": [
+        {"title": "Helium", "correct": true},
+        {"title": "Neon", "correct": false},
+        {"title": "Argon", "correct": false},
+        {"title": "Sodium", "correct": false}
+      ]
     },
     {
       "questionName": "What is the chemical formula for methane?",
-      "quizAnswersCount": "2",
-      "questionAnswer1": "CH4",
-      "correctQuestionAnswer1": true,
-      "questionAnswer2": "CO2",
-      "correctQuestionAnswer2": false,
-      "typeOfQuestion": "checkbox"
+      "typeOfQuestion": "checkbox",
+      "fields": [
+        {"title": "CH4", "correct": true},
+        {"title": "CO2", "correct": false}
+      ]
     },
     {
       "questionName": "Which gas is essential for respiration?",
-      "quizAnswersCount": "4",
-      "questionAnswer1": "Oxygen",
-      "correctQuestionAnswer1": true,
-      "questionAnswer2": "Carbon dioxide",
-      "correctQuestionAnswer2": false,
-      "questionAnswer3": "Nitrogen",
-      "correctQuestionAnswer3": false,
-      "questionAnswer4": "Hydrogen",
-      "correctQuestionAnswer4": false,
-      "typeOfQuestion": "checkbox"
+      "typeOfQuestion": "checkbox",
+      "fields": [
+        {"title": "Oxygen", "correct": true},
+        {"title": "Carbon dioxide", "correct": false},
+        {"title": "Nitrogen", "correct": false},
+        {"title": "Hydrogen", "correct": false}
+      ]
     },
     {
       "questionName": "What is the chemical symbol for sodium?",
-      "quizAnswersCount": "5",
-      "questionAnswer1": "Na",
-      "correctQuestionAnswer1": true,
-      "questionAnswer2": "Ca",
-      "correctQuestionAnswer2": false,
-      "questionAnswer3": "K",
-      "correctQuestionAnswer3": false,
-      "questionAnswer4": "Fe",
-      "correctQuestionAnswer4": false,
-      "questionAnswer5": "Mg",
-      "correctQuestionAnswer5": false,
-      "typeOfQuestion": "checkbox"
+      "typeOfQuestion": "checkbox",
+      "fields": [
+        {"title": "Na", "correct": true},
+        {"title": "Ca", "correct": false},
+        {"title": "K", "correct": false},
+        {"title": "Fe", "correct": false},
+        {"title": "Mg", "correct": false}
+      ]
     },
     {
       "questionName": "Which elements are gases at room temperature?",
-      "quizAnswersCount": "4",
-      "questionAnswer1": "Oxygen",
-      "correctQuestionAnswer1": true,
-      "questionAnswer2": "Nitrogen",
-      "correctQuestionAnswer2": true,
-      "questionAnswer3": "Carbon",
-      "correctQuestionAnswer3": false,
-      "questionAnswer4": "Helium",
-      "correctQuestionAnswer4": true,
-      "typeOfQuestion": "multipleChoice"
+      "typeOfQuestion": "multipleChoice",
+      "fields": [
+        {"title": "Oxygen", "correct": true},
+        {"title": "Nitrogen", "correct": true},
+        {"title": "Carbon", "correct": false},
+        {"title": "Helium", "correct": true}
+      ]
     },
     {
       "questionName": "What is the chemical formula for water?",
-      "quizAnswersCount": "3",
-      "questionAnswer1": "H2O",
-      "correctQuestionAnswer1": true,
-      "questionAnswer2": "CO2",
-      "correctQuestionAnswer2": false,
-      "questionAnswer3": "NaCl",
-      "correctQuestionAnswer3": false,
-      "typeOfQuestion": "checkbox"
+      "typeOfQuestion": "checkbox",
+      "fields": [
+        {"title": "H2O", "correct": true},
+        {"title": "CO2", "correct": false},
+        {"title": "NaCl", "correct": false}
+      ]
     },
     {
       "questionName": "Which of the following are halogens?",
-      "quizAnswersCount": "4",
-      "questionAnswer1": "Fluorine",
-      "correctQuestionAnswer1": true,
-      "questionAnswer2": "Chlorine",
-      "correctQuestionAnswer2": true,
-      "questionAnswer3": "Sodium",
-      "correctQuestionAnswer3": false,
-      "questionAnswer4": "Potassium",
-      "correctQuestionAnswer4": false,
-      "typeOfQuestion": "multipleChoice"
+      "typeOfQuestion": "multipleChoice",
+      "fields": [
+        {"title": "Fluorine", "correct": true},
+        {"title": "Chlorine", "correct": true},
+        {"title": "Sodium", "correct": false},
+        {"title": "Potassium", "correct": false}
+      ]
     }
   ]
 }
