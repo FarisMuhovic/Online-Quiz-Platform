@@ -173,11 +173,11 @@ app.route({
   onCreate: function () {
     fetchQuizzesManagement()
     createANewQuiz()
+    searchQuizManagement()
   },
   onReady: function () {
     changeTitle(window.location.hash)
     navSettings(window.location.hash)
-    searchQuizManagement()
   },
 })
 
@@ -196,18 +196,29 @@ app.route({
   },
 })
 
-import {fetchQuestions, submitQuizBtn} from "../../scripts/quizRender.js"
+import {
+  fetchQuestions,
+  submitQuizBtn,
+  destroyQuiz,
+  showAlert,
+} from "../../scripts/quizRender.js"
 
 app.route({
   view: "quiz",
   load: "quiz.html",
-  onCreate: function () {
-    submitQuizBtn()
-  },
+  onCreate: function () {},
   onReady: function () {
+    submitQuizBtn()
     fetchQuestions(localStorage.getItem("selectedQuizID"))
     changeTitle(window.location.hash)
     navSettings(window.location.hash)
+    // warn user when leaving page
+    $("a").click(showAlert)
+
+    $(window).on("popstate", function (event) {
+      $("a").off("click", showAlert)
+      destroyQuiz()
+    })
   },
 })
 

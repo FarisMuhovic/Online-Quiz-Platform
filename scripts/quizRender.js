@@ -12,7 +12,30 @@ export const submitQuizBtn = () => {
     submitQuiz()
   })
 }
-
+export const showAlert = event => {
+  if (
+    confirm(
+      "Are you sure you want to leave this page? The quiz will not be saved."
+    )
+  ) {
+    $("a").off("click", showAlert)
+    destroyQuiz()
+  } else {
+    event.preventDefault()
+    return false
+  }
+}
+export const destroyQuiz = () => {
+  $(".quiz-page").html(`  <div class="time">
+    <p id="quiz-time-left">Time left: 00:00</p>
+  </div>
+  <section class="heading">
+    <h1 id="quiz-title-current"></h1>
+    <h3 id="quiz-category-current"></h3>
+  </section>
+  <form id="questions-container-form"></form>`)
+  clearInterval(intervalId)
+}
 const submitQuiz = () => {
   const userAnswers = []
   const questions = document.querySelectorAll(
@@ -190,6 +213,7 @@ const gradeAnswers = answers => {
     $.post("", history, function (response) {
       console.log(response)
     })
+    $("a").off("click", showAlert)
     showEndText(history)
   })
 }

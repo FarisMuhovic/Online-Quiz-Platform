@@ -12,9 +12,9 @@ export const fetchUsers = (value = "") => {
   })
 }
 export const searchUser = () => {
-  $("#search-form").on("submit", e => {
+  $("#search-form-user-management").on("submit", e => {
     e.preventDefault()
-    fetchUsers($("#search-bar").val())
+    fetchUsers($("#search-bar-user-management").val())
   })
 }
 

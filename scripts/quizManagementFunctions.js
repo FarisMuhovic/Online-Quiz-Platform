@@ -14,9 +14,9 @@ export const fetchQuizzesManagement = (value = "") => {
   })
 }
 export const searchQuizManagement = () => {
-  $("#search-form").on("submit", e => {
+  $("#search-form-quiz-management").on("submit", e => {
     e.preventDefault()
-    fetchQuizzesManagement($("#search-bar").val())
+    fetchQuizzesManagement($("#search-bar-quiz-management").val())
   })
 }
 
