@@ -19,13 +19,13 @@ export const changeTitle = hash => {
       document.title = "Viewing profile"
       break
     case "#quiz":
-      // document.title = "Doing a quiz" doing a quiz NAME / do not implement
+      document.title = "Doing a quiz"
       break
     case "#quizHistory":
       document.title = "Checking previous quizzes"
       break
     case "#quizReview":
-      // document.title = "Login page" reviewing QUIZ NAME / do not implement
+      document.title = "Reviewing a quiz"
       break
     case "#quizSearch":
       document.title = "Searching for a quiz"

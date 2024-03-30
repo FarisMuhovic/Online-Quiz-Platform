@@ -7,6 +7,7 @@ export const fetchQuizHistory = (value = "") => {
         fillHTMLHistory(quizHistoryContainer, quiz)
       }
     })
+    listenForAClick()
   })
 }
 export const searchQuizHistory = () => {
@@ -37,8 +38,28 @@ const fillHTMLHistory = (quizHistoryContainer, quiz) => {
     scorePercentage < 55 ? "red" : "green"
   }">(${Math.round(scorePercentage)}%)</span></p>
     <div class="links">
-    <a href="#quiz?idname" style="background-color: white">Review quiz</a>
-    <a href="#quiz?idname">Retake quiz</a>
+    <a href="#quizReview" style="background-color: white" class="review-quiz-btn" data-quiz-id="${
+      quiz.id
+    }">Review quiz</a>
+    <a href="#quiz" data-quiz-id="${
+      quiz.id
+    }" class="retake-quiz-btn">Retake quiz</a> 
     </div>
   </section>`
+}
+const listenForAClick = () => {
+  document.querySelectorAll(".retake-quiz-btn").forEach(link => {
+    link.addEventListener("click", e => {
+      e.preventDefault()
+      localStorage.setItem("selectedQuizID", e.target.attributes[1].value)
+      window.location.href = "#quiz"
+    })
+  })
+  document.querySelectorAll(".review-quiz-btn").forEach(link => {
+    link.addEventListener("click", e => {
+      e.preventDefault()
+      localStorage.setItem("selectedQuizID", e.target.attributes[3].value)
+      window.location.href = "#quizReview"
+    })
+  })
 }

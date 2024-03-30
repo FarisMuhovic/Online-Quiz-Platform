@@ -222,11 +222,13 @@ app.route({
   },
 })
 
+import {fetchQuizReview} from "../../scripts/quizReviewFunctions.js"
 app.route({
   view: "quizReview",
   load: "quizReview.html",
   onCreate: function () {},
   onReady: function () {
+    fetchQuizReview()
     changeTitle(window.location.hash)
     navSettings(window.location.hash)
   },
