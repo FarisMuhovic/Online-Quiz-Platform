@@ -72,7 +72,7 @@
     },
     {
       "questionName": "What is the chemical symbol for sodium?",
-      "userAnswer": "Fe",
+      "userAnswer": "",
       "isUserCorrect": false,
       "fields": [
         {"text": "Na", "correct": true},
