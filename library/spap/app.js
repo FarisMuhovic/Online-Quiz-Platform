@@ -30,13 +30,19 @@ app.route({
   },
 })
 
-import {passwordFieldChange, logout} from "../../scripts/authFunctions.js"
+import {
+  passwordFieldChange,
+  logout,
+  registerForm,
+  loginForm,
+} from "../../scripts/authFunctions.js"
 
 app.route({
   view: "register",
   load: "register.html",
   onCreate: function () {
     showNavFooter(window.location.hash)
+    registerForm()
   },
   onReady: function () {
     changeTitle(window.location.hash)
@@ -49,6 +55,7 @@ app.route({
   load: "login.html",
   onCreate: function () {
     showNavFooter(window.location.hash)
+    loginForm()
   },
 
   onReady: function () {

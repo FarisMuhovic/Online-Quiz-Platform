@@ -54,7 +54,7 @@
   background-color: var(--bg-color-accent);
   display: grid;
   align-content: start;
-  gap: 1.5rem 1rem;
+  gap: 2rem 1rem;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto;
   width: 55%;
@@ -71,7 +71,24 @@
   justify-content: center;
   align-items: center;
   position: relative;
+  flex-direction: column;
   height: fit-content;
+}
+.auth-form > label > label {
+  color: red;
+  text-align: start;
+  width: 100%;
+  padding: 3px;
+  font-size: 0.85rem;
+  position: absolute;
+  bottom: -25px;
+}
+.label-for-name {
+  margin-bottom: 15px;
+}
+.label-for-name > label {
+  height: 50px;
+  bottom: -50px !important;
 }
 .auth-form button {
   margin-top: 57px;
@@ -210,5 +227,27 @@
   }
   .forgot-pass-link {
     text-align: start;
+  }
+  .right-side {
+    gap: 1rem;
+  }
+  .auth-form > label > label {
+    position: relative;
+    bottom: auto;
+  }
+  .label-for-name {
+    margin-bottom: 0;
+  }
+  .label-for-name > label {
+    height: 0;
+    bottom: 0 !important;
+  }
+  .auth-form button {
+    margin-top: 57px;
+  }
+}
+@media (max-width: 356.98px) {
+  .right-side {
+    gap: 2.5rem;
   }
 }

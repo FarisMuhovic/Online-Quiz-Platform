@@ -7,7 +7,7 @@
       <a href="#register">Sign up here</a> to get started!
     </p>
   </section>
-  <form action="" class="auth-form right-side" method="post" id="login-form">
+  <form class="auth-form right-side" id="login-form">
     <h2 class="form-heading">Login here</h2>
     <label class="label-for-mail">
       <span class="material-symbols-outlined"> mail </span>
@@ -17,6 +17,8 @@
         id="email"
         placeholder="E-Mail"
         required
+        min="5"
+        max="50"
       />
     </label>
     <label class="label-for-password">
@@ -27,6 +29,8 @@
         id="password"
         placeholder="Password"
         required
+        min="5"
+        max="50"
       />
       <button type="button" id="visibilityButton">
         <span class="material-symbols-outlined" id="visibilityIcon">
