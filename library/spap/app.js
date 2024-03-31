@@ -101,6 +101,11 @@ app.route({
   },
 })
 
+import {
+  fetchAchievements,
+  changeAvatar,
+  changePersonalInfo,
+} from "../../scripts/profileFunctions.js"
 app.route({
   view: "profile",
   load: "profile.html",
@@ -108,6 +113,9 @@ app.route({
   onReady: function () {
     changeTitle(window.location.hash)
     navSettings(window.location.hash)
+    changeAvatar()
+    changePersonalInfo()
+    fetchAchievements()
   },
 })
 
