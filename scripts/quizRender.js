@@ -202,7 +202,6 @@ const gradeAnswers = userQuizAnswers => {
         userAnswer.forEach(usranswr => {
           if (usranswr == field.title && field.correct) {
             question.isUserCorrect = true
-            correct++
           }
         })
       })
@@ -211,6 +210,11 @@ const gradeAnswers = userQuizAnswers => {
       }
     })
     takenQuiz.answers = userQuizAnswers
+    takenQuiz.answers.forEach(answer => {
+      if (answer.isUserCorrect) {
+        correct++
+      }
+    })
     takenQuiz.correctAnswers = correct
     console.log(takenQuiz.correctAnswers)
     $.post("/restapi/submitquiz", takenQuiz, function (response) {

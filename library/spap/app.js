@@ -20,14 +20,14 @@ app.route({
     const hash = window.location.hash
     showNavFooter(hash)
     // if not logged in redirect to login page ( will be null because logged out user wont have a role)
+  },
+  onReady: function () {
     let data = JSON.parse(localStorage.getItem("userInformation"))
     if (!data) {
       $("#return-to-dashboard-error")
         .text("Go back to login page")
         .attr("href", "#login")
     }
-  },
-  onReady: function () {
     showNavFooter(window.location.hash)
   },
 })
@@ -121,10 +121,9 @@ import {
 app.route({
   view: "profile",
   load: "profile.html",
-  onCreate: function () {
-    loadUserInfo()
-  },
+  onCreate: function () {},
   onReady: function () {
+    loadUserInfo()
     changeTitle(window.location.hash)
     navSettings(window.location.hash)
     changeAvatar()
@@ -263,11 +262,11 @@ hamburgerMenu()
 checkUserRole()
 
 const navSettings = hash => {
+  exitAfterAnchorClick()
   window.scrollTo(0, 0)
   showNavFooter(hash)
   updateListItemColor(hash, "header-nav-list")
   updateListItemColor(hash, "footer-nav-list")
-  exitAfterAnchorClick()
   isUserLoggedIn()
 }
 app.run()

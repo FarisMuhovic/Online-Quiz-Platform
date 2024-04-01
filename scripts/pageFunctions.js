@@ -54,8 +54,8 @@ export const exitAfterAnchorClick = () => {
   const hamburgerBtn = document.getElementById("hamburger-menu")
   headerlistAnchors.forEach(anchor => {
     anchor.addEventListener("click", () => {
-      hamburgerBtn.classList.toggle("open")
-      headerList.classList.toggle("show")
+      hamburgerBtn.classList.remove("open")
+      headerList.classList.remove("show")
     })
   })
 }
