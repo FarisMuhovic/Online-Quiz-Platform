@@ -1,5 +1,5 @@
 export const setNewFact = () => {
-  fetch("../data/facts.json")
+  fetch("./data/facts.json")
     .then(response => {
       return response.json()
     })
@@ -45,51 +45,34 @@ export const setCurrentDate = () => {
 const setUsername = name => {
   $("#username-h").text(`Welcome back, ${name} 👋`)
 }
-// ajax
+
 export const findUsername = () => {
   let name = localStorage.getItem("name")
   if (name) {
     setUsername(name)
   } else {
-    fetch("/restapi")
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Error retrieving data")
-        }
-        return response.json()
-      })
-      .then(data => {
-        localStorage.setItem("name", data.name)
-        setUsername(data.name)
-      })
-      .catch(error => {
-        console.error("Error retrieving data:", error)
-      })
+    setUsername("")
   }
 }
 // ajax
 export const checkUserRole = type => {
-  const role = localStorage.getItem("role")
-  if (role == "admin") {
-    type == "dash" ? addAdminSection() : addAdminListItem()
-  } else if (!role) {
-    fetch("/restapi")
-      .then(response => {
-        if (!response.ok) {
-          // removeSections()
-          throw new Error("Error retrieving data")
-        }
-        response.json()
-      })
-      .then(data => {
-        localStorage.setItem("role", data.role)
-        if (data.role == "admin") {
-          type == "dash" ? addAdminSection() : addAdminListItem()
-        }
-      })
-      .catch(error => {
-        console.error("Error retrieving data:", error)
-      })
+  let userInfo = null
+  userInfo = JSON.parse(localStorage.getItem("userInformation"))
+
+  if (userInfo) {
+    if (userInfo.role == "admin") {
+      type == "dash" ? addAdminSection() : addAdminListItem()
+    } else if (!userInfo.role) {
+      $.post("restapi/getRole", userInfo.id)
+        .done(function (response) {
+          userInfo.role = response.data.role
+          localStorage.setItem("userInformation", userInfo)
+          if (data.role == "admin") {
+            type == "dash" ? addAdminSection() : addAdminListItem()
+          }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {})
+    }
   }
 }
 
