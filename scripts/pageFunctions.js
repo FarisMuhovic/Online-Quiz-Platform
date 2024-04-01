@@ -74,13 +74,13 @@ export const showNavFooter = hash => {
   }
 }
 export const isUserLoggedIn = () => {
-  // if (JSON.parse(localStorage.getItem("userInformation"))) {
-  //   // user is logged in
-  // } else {
-  //   // user is not logged in
-  //   window.location.href = "index.html#login"
-  //   localStorage.clear()
-  // }
+  if (JSON.parse(localStorage.getItem("userInformation"))) {
+    // user is logged in
+  } else {
+    // user is not logged in
+    window.location.href = "index.html#login"
+    localStorage.clear()
+  }
 }
 export const updateListItemColor = (hash, elementID) => {
   const headerList = document.getElementById("header-nav-list")
