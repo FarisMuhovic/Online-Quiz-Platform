@@ -2,11 +2,16 @@ export const fetchQuizzesManagement = (value = "") => {
   const quizManagementContainer = document.getElementById(
     "quiz-manage-container"
   )
-  $.get("../data/quizBanner.json", (data, status) => {
+  $.get("./data/quizBanner.json", (data, status) => {
     quizManagementContainer.innerHTML = ""
+    if (data.length == 0) {
+      quizManagementContainer.innerHTML = `<img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" />`
+    }
     data.forEach(quiz => {
       if (quiz.title.toLowerCase().includes(value.toLowerCase())) {
         fillHTMLManagement(quizManagementContainer, quiz)
+      } else {
+        quizManagementContainer.innerHTML = `<img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" />`
       }
     })
     viewInDetail()
@@ -47,11 +52,9 @@ export const createANewQuiz = () => {
   })
   $("#close-btn-head").on("click", () => {
     $("#modal").css("display", "none")
-    // on click empty form values
   })
   $("#close-btn-footer").on("click", () => {
     $("#modal").css("display", "none")
-    // on click empty form values ?
   })
   $("#add-question-btn").on("click", () => {
     $("#questions-container").append(`        
@@ -168,14 +171,17 @@ const submitFormQuiz = () => {
       }
       quizCreatedData.questions.push(questionData)
     })
-    if (questioncount == 0) {
-      // send error modal neeed to enter questions
-    } else if ("fail") {
-      // error modal
+    if (questionCounter == 0) {
+      statusModal("warning", "Please enter more questions")
     } else {
-      $("#modal").css("display", "none")
-      // sucess modal
-      // post request
+      $.post("/restapi/addquiz", quizCreatedData)
+        .done(function (response) {
+          if (response.ok) statusModal("Success", "Quiz created")
+          $("#modal").css("display", "none")
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+          statusModal("error", "Internal server error!")
+        })
     }
     console.log(quizCreatedData)
   })
@@ -209,43 +215,46 @@ const viewInDetail = () => {
         $("#details-modal-quiz").css("display", "none")
       })
       const quizID = e.target.attributes[2].value
-      $.get("../data/quizexample.json", (data, status) => {
+      $.post("/restapi/getQuizDetails", quizID).done(function (response) {})
+      // get request is just demonstration purposes, but logic inside of get request goes into post
+      $.get("./data/quizexample.json", (data, status) => {
         console.log(data)
         const quizDataHtml = `
-            <div>
-              <h2>${data.title}</h2>
+            <div
+              <h4>${data.title}</h4>
               <p>${data.description}</p>
               <p>Quiz Length: ${data.quizLength} minutes</p>
               <p>Category: ${data.category}</p>
             </div>
-            <div>
-              <h3>Questions:</h3>
-              ${data.questions
-                .map(
-                  (question, index) => `
-                <div>
-                  <h4>Question ${index + 1}: ${question.questionName}</h4>
-                  <p>Type of Question: ${question.typeOfQuestion}</p>
-                  <ul>
-                    ${Object.keys(question)
-                      .filter(key => key.startsWith("questionAnswer"))
-                      .map(
-                        answerKey => `
-                      <li>${question[answerKey]}</li>
-                    `
-                      )
-                      .join("")}
-                  </ul>
-                </div>
-              `
-                )
-                .join("")}
+            <div  class="quiz-view-details-modal">
+              <h5>Questions:</h5>
+              ${quizDetailsQuestion(data)}
             </div>
           `
         $("#details-body").html(quizDataHtml)
       })
     })
   })
+}
+const quizDetailsQuestion = data => {
+  let questions = ``
+  data.questions.forEach(question => {
+    questions += `<p>
+    ${question.questionName}
+    </p>
+    <ul>
+      ${answersDetails(question)}
+    </ul>
+    `
+  })
+  return questions
+}
+const answersDetails = question => {
+  let listitems = ``
+  question.fields.forEach(field => {
+    listitems += `<li>${field.title}</li>`
+  })
+  return listitems
 }
 const removeQuiz = data => {
   const sureModal = document.getElementById("sure-modal")
@@ -264,10 +273,16 @@ const removeQuiz = data => {
           if (quiz.id == quizID) {
             document.querySelectorAll(".quiz").forEach(quizDiv => {
               if (quizDiv.attributes[1].value == quizID) {
-                quizDiv.remove()
                 sureModal.classList.remove("trigger")
-                // make a post request to update that users role
-                // status modals
+
+                $.post("restapi/quiz/remove", quizID)
+                  .done(function (response) {
+                    quizDiv.remove()
+                    statusModal("success", "Quiz successfuly removed")
+                  })
+                  .fail(function (jqXHR, textStatus, errorThrown) {
+                    statusModal("error", "Internal server error!")
+                  })
               }
             })
           }
@@ -276,4 +291,51 @@ const removeQuiz = data => {
       })
     })
   })
+}
+
+const statusModal = (type, message) => {
+  let modal
+  if (type == "error") {
+    modal = `
+    <div class="status-modal error">
+      <span class="material-symbols-outlined">error</span>
+      <p><b>Error</b>: ${message}</p>
+      <button class="exit-status-modal">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    `
+  } else if (type == "success") {
+    modal = `
+    <div class="status-modal success">
+      <span class="material-symbols-outlined">check</span>
+      <p><b>Success</b>: ${message}</p>
+      <button class="exit-status-modal">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    `
+  } else if (type == "warning") {
+    modal = `
+    <div class="status-modal warning">
+      <span class="material-symbols-outlined">warning</span>
+      <p><b>Warning</b>: ${message}</p>
+      <button class="exit-status-modal">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    `
+  }
+  $("#quizManagement").append(modal)
+  const exitmodalbtns = document.querySelectorAll(".exit-status-modal")
+  exitmodalbtns.forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.target.parentElement.parentElement.remove()
+    })
+  })
+  setTimeout(() => {
+    exitmodalbtns.forEach(btn => {
+      btn.parentNode.remove()
+    })
+  }, 4000)
 }

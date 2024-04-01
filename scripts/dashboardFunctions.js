@@ -1,13 +1,9 @@
 export const setNewFact = () => {
-  fetch("./data/facts.json")
-    .then(response => {
-      return response.json()
-    })
-    .then(data => {
-      const factsNumber = Number(data.factCount)
-      const randomNumber = Math.round(Math.random() * factsNumber)
-      $("#fun-fact-p").text(data.facts[randomNumber])
-    })
+  $.get("./data/facts.json", (data, status) => {
+    const factsNumber = Number(data.factCount)
+    const randomNumber = Math.round(Math.random() * factsNumber)
+    $("#fun-fact-p").text(data.facts[randomNumber])
+  })
 }
 
 export const setCurrentDate = () => {
@@ -47,14 +43,16 @@ const setUsername = name => {
 }
 
 export const findUsername = () => {
-  let name = localStorage.getItem("name")
-  if (name) {
+  let userInfo = null
+  userInfo = JSON.parse(localStorage.getItem("userInformation"))
+  if (userInfo) {
+    let name = `${userInfo.firstName} ${userInfo.lastName}`
     setUsername(name)
   } else {
     setUsername("")
   }
 }
-// ajax
+
 export const checkUserRole = type => {
   let userInfo = null
   userInfo = JSON.parse(localStorage.getItem("userInformation"))
@@ -63,15 +61,13 @@ export const checkUserRole = type => {
     if (userInfo.role == "admin") {
       type == "dash" ? addAdminSection() : addAdminListItem()
     } else if (!userInfo.role) {
-      $.post("restapi/getRole", userInfo.id)
-        .done(function (response) {
-          userInfo.role = response.data.role
-          localStorage.setItem("userInformation", userInfo)
-          if (data.role == "admin") {
-            type == "dash" ? addAdminSection() : addAdminListItem()
-          }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {})
+      $.get("restapi/getRole/userID", (data, status) => {
+        userInfo.role = data.role
+        localStorage.setItem("userInformation", userInfo)
+        if (data.role == "admin") {
+          type == "dash" ? addAdminSection() : addAdminListItem()
+        }
+      })
     }
   }
 }

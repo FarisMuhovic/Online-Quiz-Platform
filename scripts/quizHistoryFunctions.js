@@ -1,13 +1,22 @@
 export const fetchQuizHistory = (value = "") => {
   const quizHistoryContainer = document.getElementById("quiz-history-container")
-  $.get("../data/quizHistory.json", (data, status) => {
+  let userID = null
+  if (localStorage.getItem("userInformation"))
+    userID = localStorage.getItem("userInformation").id
+
+  // fetch by userid
+  $.get("./data/quizHistory.json", (data, status) => {
     quizHistoryContainer.innerHTML = ""
-    data.forEach(quiz => {
-      if (quiz.title.toLowerCase().includes(value.toLowerCase())) {
-        fillHTMLHistory(quizHistoryContainer, quiz)
-      }
-    })
-    listenForAClick()
+    if (data.length === 0) {
+      quizHistoryContainer.innerHTML = `<img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" />`
+    } else {
+      data.forEach(function (quiz) {
+        if (quiz.title.toLowerCase().includes(value.toLowerCase())) {
+          fillHTMLHistory(quizHistoryContainer, quiz)
+        }
+      })
+      listenForAClick()
+    }
   })
 }
 export const searchQuizHistory = () => {

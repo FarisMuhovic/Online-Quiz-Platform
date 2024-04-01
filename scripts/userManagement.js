@@ -1,10 +1,15 @@
 export const fetchUsers = (value = "") => {
   const userContainer = document.getElementById("user-container")
-  $.get("../data/otherusers.json", (data, status) => {
+  $.get("./data/otherusers.json", (data, status) => {
     userContainer.innerHTML = ""
+    if (data.length == 0) {
+      userContainer.innerHTML = `<img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" />`
+    }
     data.forEach(user => {
       if (user.name.toLowerCase().includes(value.toLowerCase())) {
         fillHTMLwithUsers(userContainer, user)
+      } else {
+        userContainer.innerHTML = `<img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" />`
       }
     })
     setRole(data)
@@ -45,7 +50,6 @@ const setRole = data => {
   document.querySelectorAll(".change-role").forEach(btn => {
     btn.addEventListener("click", e => {
       userID = e.target.getAttribute("data-id")
-
       sureModal.classList.remove("trigger")
       setTimeout(() => {
         sureModal.classList.add("trigger")
@@ -69,13 +73,20 @@ const setRole = data => {
               document.querySelectorAll(".user").forEach(userDiv => {
                 if (userDiv.attributes[1].value == userID) {
                   userDiv.children[0].children[2].innerText = `Type: ${user.role}`
-                  // make a post request to change the userID role
-                  // status modals
+
+                  $.post("restapi/user/setrole", userID)
+                    .done(function (response) {
+                      if (response.ok)
+                        statusModal("Success", "User role changed")
+                      sureModal.classList.remove("trigger")
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                      statusModal("error", "Internal server error!")
+                    })
                 }
               })
             }
           })
-          sureModal.classList.remove("trigger")
         })
       }
     })
@@ -103,13 +114,18 @@ const removeUser = data => {
             console.log(userID)
             data.forEach(user => {
               if (user.id == userID) {
-                console.log(user)
                 document.querySelectorAll(".user").forEach(userDiv => {
                   if (userDiv.attributes[1].value == userID) {
-                    userDiv.remove()
-                    sureModal.classList.remove("trigger")
-                    // make a post request to update that users role
-                    // status modals
+                    $.post("restapi/user/setrole", userID)
+                      .done(function (response) {
+                        if (response.ok) userDiv.remove()
+                        sureModal.classList.remove("trigger")
+                        statusModal("Success", "User role changed")
+                        sureModal.classList.remove("trigger")
+                      })
+                      .fail(function (jqXHR, textStatus, errorThrown) {
+                        statusModal("error", "Internal server error!")
+                      })
                   }
                 })
               }
@@ -119,4 +135,51 @@ const removeUser = data => {
       }
     })
   })
+}
+
+const statusModal = (type, message) => {
+  let modal
+  if (type == "error") {
+    modal = `
+    <div class="status-modal error">
+      <span class="material-symbols-outlined">error</span>
+      <p><b>Error</b>: ${message}</p>
+      <button class="exit-status-modal">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    `
+  } else if (type == "success") {
+    modal = `
+    <div class="status-modal success">
+      <span class="material-symbols-outlined">check</span>
+      <p><b>Success</b>: ${message}</p>
+      <button class="exit-status-modal">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    `
+  } else if (type == "warning") {
+    modal = `
+    <div class="status-modal warning">
+      <span class="material-symbols-outlined">warning</span>
+      <p><b>Warning</b>: ${message}</p>
+      <button class="exit-status-modal">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    `
+  }
+  $("#userManagement").append(modal)
+  const exitmodalbtns = document.querySelectorAll(".exit-status-modal")
+  exitmodalbtns.forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.target.parentElement.parentElement.remove()
+    })
+  })
+  setTimeout(() => {
+    exitmodalbtns.forEach(btn => {
+      btn.parentNode.remove()
+    })
+  }, 4000)
 }

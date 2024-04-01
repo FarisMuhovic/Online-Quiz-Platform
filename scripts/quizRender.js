@@ -1,9 +1,13 @@
 export const fetchQuestions = quizID => {
   console.log(quizID) // in database fetch by quizID
-  $.get("../data/quizexample.json", (data, status) => {
-    setQuizIntro(data.title, data.category)
-    setTimeLeft(data.quizLength)
-    renderQuestions(data.questions)
+  $.get("./data/quizexample.json", (data, status) => {
+    if (status == "success") {
+      setQuizIntro(data.title, data.category)
+      setTimeLeft(data.quizLength)
+      renderQuestions(data.questions)
+    } else {
+      statusModal("error", "Failed to load quiz")
+    }
   })
 }
 export const submitQuizBtn = () => {
@@ -178,7 +182,7 @@ const gradeAnswers = userQuizAnswers => {
   let time = $("#quiz-time-left")[0].innerText.split(":")
   let timeLeft = Number(time[1]) * 60 + Number(time[2])
 
-  $.get("../data/quizexample.json", (data, status) => {
+  $.get("./data/quizexample.json", (data, status) => {
     takenQuiz.title = data.title
     takenQuiz.category = data.category
     let timeTaken = data.quizLength * 60 - timeLeft // in seconds
@@ -208,30 +212,36 @@ const gradeAnswers = userQuizAnswers => {
     })
     takenQuiz.answers = userQuizAnswers
     takenQuiz.correctAnswers = correct
+    console.log(takenQuiz.correctAnswers)
+    $.post("/restapi/submitquiz", takenQuiz, function (response) {
+      console.log(response)
+      // $("a").off("click", showAlert)
+      // showEndText(takenQuiz)
+      // console.log(takenQuiz)
+    })
+    $("a").off("click", showAlert)
+    showEndText(takenQuiz)
+    console.log(takenQuiz)
   })
-
-  console.log(takenQuiz)
-  $.post("", takenQuiz, function (response) {
-    console.log(response)
-  })
-  $("a").off("click", showAlert)
-  showEndText(history)
 }
-const showEndText = history => {
+const showEndText = quizHistory => {
+  console.log(quizHistory)
+  console.log(quizHistory.correctAnswers)
+
   let timer = 5
   $("#questions-container-form").html(`<div class="result-text">
     <h3>Quiz finished</h3>
     <p>Time taken: ${
-      typeof history.timeTaken !== "string"
-        ? history.timeTaken + " minutes"
-        : history.timeTaken
+      quizHistory.timeTakenFormat === "minutes"
+        ? quizHistory.timeTaken + " minutes"
+        : quizHistory.timeTaken + " seconds"
     }</p>
     <p style="color: ${
-      (history.correctAnswers / history.questionCount) * 100 < 55
+      (quizHistory.correctAnswers / quizHistory.questionCount) * 100 < 55
         ? "red"
         : "green"
-    }">Score: ${history.correctAnswers}/${history.questionCount}(${
-    (history.correctAnswers / history.questionCount) * 100
+    }">Score: ${quizHistory.correctAnswers}/${quizHistory.questionCount}(${
+    (quizHistory.correctAnswers / quizHistory.questionCount) * 100
   }%)</p>
   <p id="redirect-text">Redirecting to dashboard in ${timer}...</p>
   </div>`)
@@ -246,4 +256,42 @@ const showEndText = history => {
       window.location.hash = "#dashboard"
     }
   }, 5000)
+}
+
+const statusModal = (type, message) => {
+  let modal
+  if (type == "error") {
+    modal = `
+    <div class="status-modal error">
+      <span class="material-symbols-outlined">error</span>
+      <p><b>Error</b>: ${message}</p>
+      <button class="exit-status-modal">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    `
+  } else if (type == "success") {
+    modal = `
+    <div class="status-modal success">
+      <span class="material-symbols-outlined">check</span>
+      <p><b>Success</b>: ${message}</p>
+      <button class="exit-status-modal">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    `
+  }
+  $("#quiz").append(modal)
+
+  const exitmodalbtns = document.querySelectorAll(".exit-status-modal")
+  exitmodalbtns.forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.target.parentElement.parentElement.remove()
+    })
+  })
+  setTimeout(() => {
+    exitmodalbtns.forEach(btn => {
+      btn.parentNode.remove()
+    })
+  }, 4000)
 }

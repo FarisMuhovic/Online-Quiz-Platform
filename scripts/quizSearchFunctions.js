@@ -1,7 +1,10 @@
 export const fetchQuizzes = (name = "", catg = "none") => {
   const quizContainer = document.getElementById("quiz-search-container")
-  $.get("../data/quizBanner.json", (data, status) => {
+  $.get("./data/quizBanner.json", (data, status) => {
     quizContainer.innerHTML = ""
+    if (data.length == 0) {
+      quizContainer.innerHTML = `<img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" />`
+    }
     data.forEach(quiz => {
       // ONLY name filled in
       if (
@@ -53,7 +56,7 @@ const fillHTML = (quizContainer, quiz) => {
   quizContainer.innerHTML += `
   <section class="quiz-banner">
     <img
-      src="../images/quiz-type-banners/${quiz.imgSrc}"
+      src="./images/quiz-type-banners/${quiz.imgSrc}"
       alt="${quiz.alt}"
       loading="lazy"
     />

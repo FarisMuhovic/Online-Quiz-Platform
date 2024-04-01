@@ -19,6 +19,15 @@
   --font-heading-size: 1.8rem;
   --font-heading-small-size: 1.5rem;
   --font-p-size: 1rem;
+  /* status colors */
+  --error-color: #f65656;
+  --error-pastel-color: #ecc8c5;
+  --success-color: #4cb050;
+  --success-pastel: #def2d6;
+  --warning: #967233;
+  --warning-color-pastel: #f8f3d6;
+  --info-color: #4480ae;
+  --info-color-pastel: #cde8f5;
 }
 body {
   background-color: var(--bg-color-primary) !important;
@@ -235,7 +244,90 @@ footer p {
   width: 100%;
   height: 40px;
 }
+.status-modal {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  padding: 0.5rem 1rem;
+  gap: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 999;
+  animation: appear 0.5s;
+}
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.status-modal button {
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+.status-modal button > span {
+  color: rgb(87, 87, 87);
+}
+.status-modal > span {
+  font-size: 2rem;
+}
+.status-modal.error {
+  background-color: var(--error-pastel-color);
+  border: 1px solid var(--error-color);
+}
+.status-modal.error > span,
+.status-modal.error p {
+  color: var(--error-color) !important;
+}
+.status-modal.success {
+  background-color: var(--success-color);
+  border: 1px solid var(--success-color);
+}
+.status-modal.warning {
+  background-color: var(--warning-color-pastel);
+  border: 1px solid var(--warning);
+}
+.status-modal.warning > span,
+.status-modal.warning p {
+  color: var(--warning) !important;
+}
+.status-modal.info {
+  background-color: var(--info-color-pastel);
+  border: 1px solid var(--info-color);
+}
+.status-modal.info > span,
+.status-modal.info p {
+  color: var(--info-color) !important;
+}
+.loader {
+  width: 34px;
+  height: 34px;
+  border: 5px solid #fff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: none;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
 
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.empty-banner {
+  margin: 1rem auto;
+  grid-column: 1/-1;
+}
 /* Medium devices (tablets, less than 992px) */
 @media (max-width: 991.98px) {
   #heading-of-page {
@@ -277,5 +369,12 @@ footer p {
     display: flex;
     padding: 0.75rem 0.5rem;
     border-bottom: 2px solid black;
+  }
+}
+@media (max-width: 575.98px) {
+  .status-modal {
+    left: 50%;
+    width: 100%;
+    transform: translateX(-50%);
   }
 }

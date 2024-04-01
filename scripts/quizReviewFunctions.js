@@ -1,7 +1,8 @@
 export const fetchQuizReview = () => {
   const quizReviewContainer = document.getElementById("quiz-review-container")
   quizReviewContainer.innerHTML = ""
-  $.get("../data/quiztaken.json", (data, status) => {
+  // fetch quiz by selected quiz in localstorage
+  $.get("./data/quiztaken.json", (data, status) => {
     quizReviewContainer.innerHTML = `
     <section class="heading">
       <h1>${data.title}</h1>

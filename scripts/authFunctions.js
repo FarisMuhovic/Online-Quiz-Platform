@@ -72,6 +72,8 @@ export const registerForm = () => {
 }
 const handleRegisterForm = (form, event) => {
   event.preventDefault()
+  document.querySelector(".loader").style.display = "inline-block"
+  document.querySelector(".form-submit-btn").disabled = true
   const data = {}
   const inputFields = $(form).find("input")
   for (let i = 0; i < inputFields.length; i++) {
@@ -79,11 +81,118 @@ const handleRegisterForm = (form, event) => {
   }
   const selectbox = document.getElementById("userType")
   data[selectbox.name] = selectbox.value
+
+  $.post("restapi/auth/register", data)
+    .done(function (response) {
+      // handle different error based on if email taken or server error
+      // error variable just for demonstration purposes
+      let error = "email"
+      if (error == "email") {
+        statusModal("register", "error", "Email already exists")
+      } else {
+        statusModal("register", "success", "Account successfully created!")
+        const localStorageInfo = {
+          email: data.email,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          userType: data.userType,
+          // role: "response.data.role",
+          // avatar: "response.data.avatar",
+          // id: "responseid"
+          role: "user",
+          avatar: "avatar_1", // default avatar
+          id: "1",
+        }
+
+        localStorage.setItem(
+          "userInformation",
+          JSON.stringify(localStorageInfo)
+        )
+
+        // redirect user to dashboard
+        window.location.href = "index.html#dashboard"
+      }
+      document.querySelector(".loader").style.display = "none"
+      setTimeout(() => {
+        document.querySelector(".form-submit-btn").disabled = false
+      }, 2000)
+    })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+      statusModal("register", "error", "Internal server error")
+      document.querySelector(".loader").style.display = "none"
+      setTimeout(() => {
+        document.querySelector(".form-submit-btn").disabled = false
+      }, 2000)
+    })
+}
+const statusModal = (page, type, message) => {
+  let modal
+  if (type == "error") {
+    modal = `
+    <div class="status-modal error">
+      <span class="material-symbols-outlined">error</span>
+      <p><b>Error</b>: ${message}</p>
+      <button class="exit-status-modal">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    `
+  } else if (type == "success") {
+    modal = `
+    <div class="status-modal success">
+      <span class="material-symbols-outlined">check</span>
+      <p><b>Success</b>: ${message}</p>
+      <button class="exit-status-modal">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    `
+  } else if (type == "warning") {
+    modal = `
+    <div class="status-modal warning">
+      <span class="material-symbols-outlined">warning</span>
+      <p><b>Warning</b>: ${message}</p>
+      <button class="exit-status-modal">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    `
+  } else if (type == "info") {
+    modal = `
+    <div class="status-modal info">
+      <span class="material-symbols-outlined">info</span>
+      <p><b>Info</b>: ${message}</p>
+      <button class="exit-status-modal">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    `
+  }
+  if (page == "register") {
+    $("#register").append(modal)
+  } else if (page == "login") {
+    $("#login").append(modal)
+  } else if (page == "dashboard") {
+    $("#dashboard").append(modal)
+  }
+  const exitmodalbtns = document.querySelectorAll(".exit-status-modal")
+  exitmodalbtns.forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.target.parentElement.parentElement.remove()
+    })
+  })
+  setTimeout(() => {
+    exitmodalbtns.forEach(btn => {
+      btn.parentNode.remove()
+    })
+  }, 4000)
 }
 export const loginForm = () => {
   $("#login-form").on("submit", e => {
     const data = {}
     e.preventDefault()
+    document.querySelector(".loader").style.display = "inline-block"
+    document.querySelector(".form-submit-btn").disabled = true
     const inputs = document.querySelectorAll("#login-form input")
     inputs.forEach(inpt => {
       if (inpt.type != "checkbox") {
@@ -92,11 +201,68 @@ export const loginForm = () => {
         data[inpt.name] = inpt.checked
       }
     })
-    console.log(data)
+    $.post("restapi/auth/login", data)
+      .done(function (response) {
+        // handle different error based on if wrong creds or server error
+        // error variable just for demonstration purposes
+        let error = "wrongcreds"
+        if (error == "wrongcreds") {
+          statusModal("login", "error", "Wrong credentials")
+        } else {
+          statusModal("login", "success", "Log in successful!")
+
+          // receive user info
+          const localStorageInfo = {
+            email: data.email,
+            // firstName: "response.data.firstName",
+            // lastName: "response.data.lastName",
+            // userType: "response.data.userType",
+            // role: "response.data.role",
+            // avatar: "response.data.avatar",
+            // id: response.data.id,
+            firstName: "Faris",
+            lastName: "Muhovic",
+            userType: "student",
+            role: "admin",
+            avatar: "avatar_5",
+            id: "1",
+          }
+
+          localStorage.setItem(
+            "userInformation",
+            JSON.stringify(localStorageInfo)
+          )
+
+          // redirect user to dashboard
+          window.location.href = "index.html#dashboard"
+        }
+        document.querySelector(".loader").style.display = "none"
+        setTimeout(() => {
+          document.querySelector(".form-submit-btn").disabled = false
+        }, 2000)
+      })
+      .fail(function (jqXHR, textStatus, errorThrown) {
+        statusModal("login", "error", "Internal server error")
+        document.querySelector(".loader").style.display = "none"
+        setTimeout(() => {
+          document.querySelector(".form-submit-btn").disabled = false
+        }, 2000)
+      })
   })
 }
 
 export const logout = () => {
-  console.log("logging out the user")
-  window.location.href = "index.html#login"
+  $.post("restapi/auth/logout", localStorage.getItem("userInformation"))
+    .done(function (response) {
+      window.location.href = "index.html#login"
+      localStorage.clear()
+    })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+      // failed to destroy session
+      statusModal(
+        "dashboard",
+        "error",
+        "Failed to log out, Internal server error!"
+      )
+    })
 }

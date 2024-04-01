@@ -52,7 +52,7 @@
   border: var(--border-main);
 }
 .log-out span {
-  font-size: 15rem;
+  font-size: 10rem;
   color: var(--primary-color);
 }
 #logout-dash {

@@ -4,6 +4,7 @@ import {
   exitAfterAnchorClick,
   showNavFooter,
   updateListItemColor,
+  isUserLoggedIn,
 } from "../../scripts/pageFunctions.js"
 
 var app = $.spapp({
@@ -19,7 +20,8 @@ app.route({
     const hash = window.location.hash
     showNavFooter(hash)
     // if not logged in redirect to login page ( will be null because logged out user wont have a role)
-    if (window.localStorage.getItem("role") === null) {
+    let data = JSON.parse(localStorage.getItem("userInformation"))
+    if (!data) {
       $("#return-to-dashboard-error")
         .text("Go back to login page")
         .attr("href", "#login")
@@ -56,6 +58,7 @@ app.route({
   onCreate: function () {
     showNavFooter(window.location.hash)
     loginForm()
+    isUserLoggedIn()
   },
 
   onReady: function () {
@@ -81,6 +84,7 @@ app.route({
       logout()
     })
     checkUserRole("dash")
+    isUserLoggedIn()
   },
   onReady: function () {
     changeTitle(window.location.hash)
@@ -112,11 +116,14 @@ import {
   fetchAchievements,
   changeAvatar,
   changePersonalInfo,
+  loadUserInfo,
 } from "../../scripts/profileFunctions.js"
 app.route({
   view: "profile",
   load: "profile.html",
-  onCreate: function () {},
+  onCreate: function () {
+    loadUserInfo()
+  },
   onReady: function () {
     changeTitle(window.location.hash)
     navSettings(window.location.hash)
@@ -154,7 +161,6 @@ app.route({
   onReady: function () {
     changeTitle(window.location.hash)
     navSettings(window.location.hash)
-    // fetchTopUsers()
   },
 })
 
@@ -261,6 +267,7 @@ const navSettings = hash => {
   showNavFooter(hash)
   updateListItemColor(hash, "header-nav-list")
   updateListItemColor(hash, "footer-nav-list")
-  exitAfterAnchorClick() // for mobile only
+  exitAfterAnchorClick()
+  isUserLoggedIn()
 }
 app.run()
