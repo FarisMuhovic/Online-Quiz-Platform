@@ -74,7 +74,7 @@ export const showNavFooter = hash => {
   }
 }
 export const isUserLoggedIn = () => {
-  if (JSON.parse(localStorage.getItem("userInformation"))) {
+  if (localStorage.getItem("userInformation")) {
     // user is logged in
   } else {
     // user is not logged in
