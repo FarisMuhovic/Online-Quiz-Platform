@@ -68,52 +68,12 @@ export const loadUserInfo = () => {
       <button id="change-avatar-btn">Change avatar</button>
       `
     )
-    $(".personal-info").html(
-      `
-      <h1>Personal information</h1>
-      <form id="details-form">
-        <label>
-          <span>First name</span>
-          <input type="text" name="firstname" id="firstname" disabled required value=${userInfo.firstName} />
-        </label>
-        <label>
-          <span>Last name</span>
-          <input type="text" name="lastname" id="lastname" disabled required /
-          value=${userInfo.lastName}
-          >
-        </label>
-        <label>
-          <span>Email</span>
-          <input type="email" name="email" id="email" disabled required 
-          value=${userInfo.email}
-          />
-        </label>
-        <label>
-          <span>Age</span>
-          <input type="number" name="age" id="age" disabled required />
-        </label>
-        <label>
-          <span>Date of birth</span>
-          <input
-            type="date"
-            name="dateofbirth"
-            id="dateofbirth"
-            disabled
-            required
-          />
-        </label>
-        <label>
-          <span>Country</span>
-          <input type="text" name="country" id="country" disabled required />
-        </label>
-        <div class="btns-wrapper">
-          <button id="change-info-btn" type="button">Change information</button>
-          <button type="submit" id="save-changes-btn">Save changes</button>
-        </div>
-      </form>
-      `
-    )
-    changePersonalInfo()
+    $("#firstname").val(userInfo.firstName)
+    $("#lastname").val(userInfo.lastName)
+    $("#email").val(userInfo.email)
+    $("#age").val(userInfo.age)
+    $("#dateofbirth").val(userInfo.dateOfBirth)
+    $("#country").val(userInfo.country)
   } else {
     $(".avatar").html(
       `
@@ -140,12 +100,22 @@ export const changePersonalInfo = () => {
       formInputs.forEach(input => (input.disabled = false))
       $("#details-form").on("submit", e => {
         e.preventDefault()
-        $("#save-changes-btn").on("click", () => {
-          formInputs.forEach(input => (input.disabled = true))
-          // populate user info
-          $("#save-changes-btn").css("display", "none")
-          $("#change-info-btn").text("Change information")
-        })
+        const data = {}
+        formInputs.forEach(input => (data[input.name] = input.value))
+        $.post("restapi/profile/changedetails", data)
+          .done(function (response) {
+            if (response.ok) {
+              formInputs.forEach(input => (input.disabled = true))
+              userDiv.remove()
+              statusModal("Success", "Details changed")
+            }
+          })
+          .fail(function (jqXHR, textStatus, errorThrown) {
+            statusModal("error", "Internal server error!")
+          })
+        $("#save-changes-btn").css("display", "none")
+        $("#change-info-btn").text("Change information")
+        console.log(data)
       })
     } else {
       $("#save-changes-btn").css("display", "none")

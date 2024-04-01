@@ -14,19 +14,51 @@
     <form id="details-form">
       <label>
         <span>First name</span>
-        <input type="text" name="firstname" id="firstname" disabled required />
+        <input
+          type="text"
+          name="firstname"
+          id="firstname"
+          disabled
+          required
+          minlength="2"
+          maxlength="25"
+        />
       </label>
       <label>
         <span>Last name</span>
-        <input type="text" name="lastname" id="lastname" disabled required />
+        <input
+          type="text"
+          name="lastname"
+          id="lastname"
+          disabled
+          required
+          minlength="2"
+          maxlength="25"
+        />
       </label>
       <label>
         <span>Email</span>
-        <input type="email" name="email" id="email" disabled required />
+        <input
+          type="email"
+          name="email"
+          id="email"
+          disabled
+          required
+          minlength="5"
+          maxlength="25"
+        />
       </label>
       <label>
         <span>Age</span>
-        <input type="number" name="age" id="age" disabled required />
+        <input
+          type="number"
+          name="age"
+          id="age"
+          disabled
+          required
+          min="5"
+          max="99"
+        />
       </label>
       <label>
         <span>Date of birth</span>
@@ -40,7 +72,15 @@
       </label>
       <label>
         <span>Country</span>
-        <input type="text" name="country" id="country" disabled required />
+        <input
+          type="text"
+          name="country"
+          id="country"
+          disabled
+          required
+          minlength="2"
+          maxlength="50"
+        />
       </label>
       <div class="btns-wrapper">
         <button id="change-info-btn" type="button">Change information</button>
