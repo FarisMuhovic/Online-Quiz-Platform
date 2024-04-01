@@ -65,23 +65,24 @@ const setRole = data => {
           console.log(userID)
           data.forEach(user => {
             if (user.id == userID) {
-              if (user.role == "user") {
-                user.role = "admin"
-              } else {
-                user.role = "user"
-              }
               document.querySelectorAll(".user").forEach(userDiv => {
                 if (userDiv.attributes[1].value == userID) {
-                  userDiv.children[0].children[2].innerText = `Type: ${user.role}`
-
                   $.post("restapi/user/setrole", userID)
                     .done(function (response) {
+                      if (user.role == "user") {
+                        user.role = "admin"
+                      } else {
+                        user.role = "user"
+                      }
+                      userDiv.children[0].children[2].innerText = `Type: ${user.role}`
                       if (response.ok)
                         statusModal("Success", "User role changed")
-                      sureModal.classList.remove("trigger")
                     })
                     .fail(function (jqXHR, textStatus, errorThrown) {
                       statusModal("error", "Internal server error!")
+                    })
+                    .always(function () {
+                      sureModal.classList.remove("trigger")
                     })
                 }
               })
@@ -116,15 +117,18 @@ const removeUser = data => {
               if (user.id == userID) {
                 document.querySelectorAll(".user").forEach(userDiv => {
                   if (userDiv.attributes[1].value == userID) {
-                    $.post("restapi/user/setrole", userID)
+                    $.post("restapi/user/removeUser", userID)
                       .done(function (response) {
-                        if (response.ok) userDiv.remove()
-                        sureModal.classList.remove("trigger")
-                        statusModal("Success", "User role changed")
-                        sureModal.classList.remove("trigger")
+                        if (response.ok) {
+                          userDiv.remove()
+                          statusModal("Success", "User role changed")
+                        }
                       })
                       .fail(function (jqXHR, textStatus, errorThrown) {
                         statusModal("error", "Internal server error!")
+                      })
+                      .always(function () {
+                        sureModal.classList.remove("trigger")
                       })
                   }
                 })

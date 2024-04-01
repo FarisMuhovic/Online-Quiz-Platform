@@ -245,7 +245,7 @@ footer p {
   height: 40px;
 }
 .status-modal {
-  position: absolute;
+  position: fixed;
   right: 15px;
   top: 15px;
   padding: 0.5rem 1rem;
