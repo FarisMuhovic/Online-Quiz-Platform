@@ -1,0 +1,38 @@
+<div class="quiz-search-page">
+  <div class="form-wrapper">
+    <form id="search-form">
+      <input
+        type="search"
+        name="searchQuery"
+        id="search-bar"
+        placeholder="Search for an quiz name."
+      />
+      <button type="submit" class="form-submit-btn">Search</button>
+    </form>
+    <form action="" method="post" id="category-form">
+      <label class="label-for-select">
+        <!-- Bootstrap 5 select component -->
+        <select
+          class="selectpicker form-control border rounded-0 border-bottom border-dark border-2 px-2 py-2"
+          name="category"
+          id="category"
+          required
+        >
+          <option value="none" selected>Category</option>
+          <option value="science">Science</option>
+          <option value="math">Mathematics</option>
+          <option value="history">History</option>
+          <option value="literature">Literature</option>
+          <option value="geography">Geography</option>
+          <option value="languages">Languages</option>
+          <option value="sports">Sports</option>
+          <option value="music">Music</option>
+          <option value="movies">Movies</option>
+        </select>
+      </label>
+      <button type="button" id="clear-filters-btn">Clear filters</button>
+    </form>
+  </div>
+  <h1 id="heading-of-page">Currently available quizzes</h1>
+  <section class="quizzes-container" id="quiz-search-container"></section>
+</div>

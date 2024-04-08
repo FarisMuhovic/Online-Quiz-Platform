@@ -1,0 +1,19 @@
+{
+  "email": "faris.fare123456@gmail.com",
+  "password": "fare123",
+  "user_category": "student",
+  "name": "Faris Muhovic",
+  "role": "admin",
+  "quizzesTaken": "4",
+  "quiz_history": [{}, {}, {}],
+  "points": "1",
+  "favoriteCategory": "math",
+  "achivements": "[]",
+  "avatar": "./images/avatars/avatar_4.svg",
+  "join_date": "24/07/2015",
+  "date_of_birth": "24/07/2004",
+  "country": "Bosnia and Herzegovina",
+  "session": "yes",
+  "id": "d3",
+  "ranking": 47
+}

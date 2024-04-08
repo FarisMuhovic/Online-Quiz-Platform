@@ -1,0 +1,118 @@
+<main class="profile-page">
+  <section class="avatar">
+    <h1 id="greeting-h1">Hello, Faris! 👋</h1>
+    <img
+      src="./images/avatars/avatar_1.svg"
+      alt="avatar"
+      loading="lazy"
+      id="user-avatar"
+    />
+    <button id="change-avatar-btn">Change avatar</button>
+  </section>
+  <section class="personal-info">
+    <h1>Personal information</h1>
+    <form id="details-form">
+      <label>
+        <span>First name</span>
+        <input
+          type="text"
+          name="firstname"
+          id="firstname"
+          disabled
+          required
+          minlength="2"
+          maxlength="25"
+        />
+      </label>
+      <label>
+        <span>Last name</span>
+        <input
+          type="text"
+          name="lastname"
+          id="lastname"
+          disabled
+          required
+          minlength="2"
+          maxlength="25"
+        />
+      </label>
+      <label>
+        <span>Email</span>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          disabled
+          required
+          minlength="5"
+          maxlength="25"
+        />
+      </label>
+      <label>
+        <span>Age</span>
+        <input
+          type="number"
+          name="age"
+          id="age"
+          disabled
+          required
+          min="5"
+          max="99"
+        />
+      </label>
+      <label>
+        <span>Date of birth</span>
+        <input
+          type="date"
+          name="dateofbirth"
+          id="dateofbirth"
+          disabled
+          required
+        />
+      </label>
+      <label>
+        <span>Country</span>
+        <input
+          type="text"
+          name="country"
+          id="country"
+          disabled
+          required
+          minlength="2"
+          maxlength="50"
+        />
+      </label>
+      <div class="btns-wrapper">
+        <button id="change-info-btn" type="button">Change information</button>
+        <button type="submit" id="save-changes-btn">Save changes</button>
+      </div>
+    </form>
+  </section>
+  <section class="achievements" id="achivements-container">
+    <h1>Achievements</h1>
+  </section>
+</main>
+
+<div id="modal-for-avatar">
+  <div class="modal-header-def">
+    <h3 class="modal-title-def">Select an avatar</h3>
+    <button type="button" class="close" id="close-btn-top">
+      <span>&times;</span>
+    </button>
+  </div>
+  <div class="modal-body-def">
+    <img src="./images/avatars/avatar_1.svg" alt="avatar_1" loading="lazy" />
+    <img src="./images/avatars/avatar_2.svg" alt="avatar_2" loading="lazy" />
+    <img src="./images/avatars/avatar_3.svg" alt="avatar_3" loading="lazy" />
+    <img src="./images/avatars/avatar_4.svg" alt="avatar_4" loading="lazy" />
+    <img src="./images/avatars/avatar_5.svg" alt="avatar_5" loading="lazy" />
+    <img src="./images/avatars/avatar_6.svg" alt="avatar_6" loading="lazy" />
+    <img src="./images/avatars/avatar_7.svg" alt="avatar_7" loading="lazy" />
+    <img src="./images/avatars/avatar_8.svg" alt="avatar_8" loading="lazy" />
+    <img src="./images/avatars/avatar_9.svg" alt="avatar_9" loading="lazy" />
+  </div>
+  <div class="modal-footer-def">
+    <button id="save-changes-for-avatar-change-btn">Save changes</button>
+    <button type="button" id="close-btn-footer">Close</button>
+  </div>
+</div>

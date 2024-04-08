@@ -1,0 +1,74 @@
+<div class="register-page">
+  <section class="left-side">
+    <h1>Welcome to the Quiz Application!</h1>
+    <p>
+      Join the fun and challenge yourself with our diverse range of quizzes.
+    </p>
+    <p id="redirect">
+      Already have an account? <a href="#login">Log in here</a> to continue your
+      quiz journey.
+    </p>
+  </section>
+  <form class="auth-form right-side" id="register-form">
+    <h2 class="form-heading">Register here</h2>
+    <label class="label-for-name">
+      <span class="material-symbols-outlined"> person </span>
+      <input
+        type="text"
+        name="firstName"
+        id="firstName"
+        placeholder="First name"
+      />
+    </label>
+    <label class="label-for-name">
+      <span class="material-symbols-outlined"> person </span>
+      <input
+        type="text"
+        name="lastName"
+        id="lastName"
+        placeholder="Last name"
+      />
+    </label>
+    <label class="label-for-mail">
+      <span class="material-symbols-outlined"> mail </span>
+      <input type="email" name="email" id="email" placeholder="E-Mail" />
+    </label>
+    <label class="label-for-password">
+      <span class="material-symbols-outlined"> lock </span>
+      <input
+        type="password"
+        name="password"
+        id="password"
+        placeholder="Password"
+      />
+      <button type="button" id="visibilityButton">
+        <span class="material-symbols-outlined" id="visibilityIcon">
+          visibility_off
+        </span>
+      </button>
+    </label>
+    <label class="label-for-select">
+      <p>What describes you best?</p>
+      <!-- Bootstrap 5 select component -->
+      <select
+        class="selectpicker form-control border rounded-0 border-bottom border-dark border-2 px-2 py-2"
+        name="userType"
+        id="userType"
+      >
+        <option value="" selected>Category</option>
+        <option value="student">Student</option>
+        <option value="highSchooler">High Schooler</option>
+        <option value="educator">Educator</option>
+        <option value="enthusiast">Quiz Enthusiast</option>
+      </select>
+    </label>
+    <button type="submit" class="form-submit-btn">
+      <span>Register</span>
+      <span class="loader"></span>
+    </button>
+    <p class="mobile-p">
+      Already have an account? <a href="#login">Log in here</a> to continue your
+      quiz journey.
+    </p>
+  </form>
+</div>

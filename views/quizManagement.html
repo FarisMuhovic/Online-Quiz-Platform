@@ -1,0 +1,104 @@
+<div class="quiz-management">
+  <form id="search-form-quiz-management">
+    <input
+      type="search"
+      name="searchQuery"
+      id="search-bar-quiz-management"
+      placeholder="Search for an quiz name."
+    />
+    <button type="submit" class="form-submit-btn">Search</button>
+    <button type="button" id="new-quiz-btn">Create a new quiz</button>
+  </form>
+  <h1 id="heading-of-page">Current quizzes</h1>
+  <section id="quiz-manage-container"></section>
+</div>
+
+<!-- Modals  -->
+<div id="modal">
+  <div class="modal-header-def">
+    <h3 class="modal-title-def">Create a quiz</h3>
+    <button type="button" class="close" id="close-btn-head">
+      <span>&times;</span>
+    </button>
+  </div>
+  <div class="modal-body-def">
+    <form id="create-quiz-form-head">
+      <input
+        type="text"
+        name="title"
+        required
+        min="5"
+        max="50"
+        placeholder="Quiz title"
+        id="form-title"
+      />
+      <textarea
+        name="description"
+        cols="30"
+        rows="3"
+        name="description"
+        minlength="10"
+        maxlength="100"
+        placeholder="Description of the quiz"
+        required
+        id="form-desc-modal"
+      ></textarea>
+      <input
+        type="number"
+        min="5"
+        max="90"
+        name="quizLength"
+        required
+        id="quiz-length-modal-form"
+        placeholder="Type in the length of quiz (minutes)"
+      />
+      <!-- Bootstrap 5 select component -->
+      <select
+        class="selectpicker form-control border rounded-0 border-bottom border-dark border-2 px-2 py-2 my-3"
+        name="category"
+        required
+        id="select-category"
+      >
+        <option value="" selected>Category</option>
+        <option value="science">Science</option>
+        <option value="math">Mathematics</option>
+        <option value="history">History</option>
+        <option value="literature">Literature</option>
+        <option value="geography">Geography</option>
+        <option value="languages">Languages</option>
+        <option value="sports">Sports</option>
+        <option value="music">Music</option>
+        <option value="movies">Movies</option>
+      </select>
+      <button type="button" id="add-question-btn">Add question</button>
+      <div class="questions-container" id="questions-container"></div>
+      <div class="modal-footer-def">
+        <button type="submit">Save changes</button>
+        <button type="button" id="close-btn-footer">Close</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="sure-modal" id="sure-modal">
+  <h5>Are you sure?</h5>
+  <div class="btn-container">
+    <button id="confirm-btn">Yes</button>
+    <button
+      style="background-color: white; border: 2px solid black"
+      id="cancel-btn"
+    >
+      No
+    </button>
+  </div>
+</div>
+
+<div class="view-modal-details" id="details-modal-quiz">
+  <div class="modal-header-def">
+    <h3 class="modal-title-def" id="details-body">Quiz Details</h3>
+  </div>
+  <div class="modal-body-def"></div>
+  <div class="modal-footer-def">
+    <button type="button" id="close-btn-footer-2">Close</button>
+  </div>
+</div>

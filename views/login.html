@@ -1,0 +1,55 @@
+<div class="login-page">
+  <section class="left-side">
+    <h1>Welcome to the Quiz Application!</h1>
+    <p>Log in to your account to continue your quiz journey.</p>
+    <p id="redirect">
+      New to the Quiz Application?
+      <a href="#register">Sign up here</a> to get started!
+    </p>
+  </section>
+  <form class="auth-form right-side" id="login-form">
+    <h2 class="form-heading">Login here</h2>
+    <label class="label-for-mail">
+      <span class="material-symbols-outlined"> mail </span>
+      <input
+        type="email"
+        name="email"
+        id="email"
+        placeholder="E-Mail"
+        required
+        min="5"
+        max="50"
+      />
+    </label>
+    <label class="label-for-password">
+      <span class="material-symbols-outlined"> lock </span>
+      <input
+        type="password"
+        name="password"
+        id="password"
+        placeholder="Password"
+        required
+        min="5"
+        max="50"
+      />
+      <button type="button" id="visibilityButton">
+        <span class="material-symbols-outlined" id="visibilityIcon">
+          visibility_off
+        </span>
+      </button>
+    </label>
+    <label class="label-checkbox">
+      <input type="checkbox" name="rememberMe" id="rememberMe" />
+      <span>Remember me</span>
+    </label>
+    <a class="forgot-pass-link">Forgot password?</a>
+    <button type="submit" class="form-submit-btn">
+      <span>Login</span>
+      <span class="loader"></span>
+    </button>
+    <p class="mobile-p">
+      New to the Quiz Application?
+      <a href="#register">Sign up here</a> to get started!
+    </p>
+  </form>
+</div>

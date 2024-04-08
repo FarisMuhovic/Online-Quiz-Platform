@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Quiz Master",
+    "description": "Congratulations! You've completed 50 quizzes."
+  },
+  {
+    "id": 2,
+    "name": "Knowledge Explorer",
+    "description": "Well done! You've explored quizzes in 5 different categories."
+  },
+  {
+    "id": 3,
+    "name": "Speed Demon",
+    "description": "Impressive! You've completed a quiz in under 1 minute."
+  },
+  {
+    "id": 4,
+    "name": "Dedicated Learner",
+    "description": "Keep it up! You've spent over 10 hours learning with quizzes."
+  },
+  {
+    "id": 5,
+    "name": "Quiz Champion",
+    "description": "You're a true quiz champion! Completed quizzes with a score of 100%."
+  },
+  {
+    "id": 6,
+    "name": "Category Explorer",
+    "description": "Explore quizzes in 10 different categories and expand your knowledge horizons."
+  }
+]

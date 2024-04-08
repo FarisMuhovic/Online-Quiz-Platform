@@ -1,6 +1,8 @@
 .quiz-management {
-  min-height: 100vh;
   margin: 2rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 .quiz-management form {
   background-color: var(--bg-color-accent);
@@ -35,27 +37,24 @@
 .quiz-management form > button:last-child {
   max-width: 300px;
 }
-.quizzes-heading {
-  margin-top: 1rem;
-  padding: 1rem;
-  background-color: var(--bg-color-accent);
-  border-bottom: 1px solid var(--primary-color);
-}
-.quiz-section {
+#quiz-container {
   background-color: var(--bg-color-accent);
   margin-top: 1rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 1rem;
 }
 .quiz {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
   border-bottom: 1px solid var(--primary-color);
   gap: 1rem;
   flex-wrap: wrap;
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--bg-color-accent);
 }
 .quiz-info {
   display: flex;
@@ -64,6 +63,12 @@
 .quiz p {
   min-width: 100px;
   margin: 0;
+}
+.quiz p:nth-child(2) {
+  min-width: 300px;
+}
+.quiz p:nth-child(3) {
+  min-width: 200px;
 }
 .btns-wrapper {
   margin-left: auto;
@@ -83,12 +88,13 @@
   color: red;
   border: 1px solid red;
 }
-#modal {
+#modal,
+.view-modal-details {
   display: none;
   flex-direction: column;
   max-width: 650px;
   width: 100%;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 50%;
   transform: translate(-50%, 25px);
@@ -97,7 +103,12 @@
   padding: 1rem 2rem;
   border: 3px solid var(--primary-color);
 }
-#modal > div {
+#details-body {
+  overflow: scroll;
+  height: 80vh;
+}
+#modal > div,
+.view-modal-details > div {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -162,11 +173,6 @@
   overflow: scroll;
   padding: 0.5rem;
 }
-.question-body {
-  /* display: flex;
-  align-items: center;
-  flex-direction: column; */
-}
 .question-answer {
   display: flex;
   gap: 1rem;
@@ -179,6 +185,9 @@
 }
 .question-answer > label > input {
   transform: translateY(-5px);
+}
+.quiz-view-details-modal ul li {
+  font-size: 1rem;
 }
 /*  Large devices (desktops, less than 1200px) */
 @media (max-width: 1199.98px) {
