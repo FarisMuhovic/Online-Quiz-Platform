@@ -370,6 +370,9 @@ footer p {
     padding: 0.75rem 0.5rem;
     border-bottom: 2px solid black;
   }
+  .status-modal {
+    animation: none;
+  }
 }
 @media (max-width: 575.98px) {
   .status-modal {

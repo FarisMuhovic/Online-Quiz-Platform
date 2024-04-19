@@ -81,34 +81,23 @@ const handleRegisterForm = (form, event) => {
   }
   const selectbox = document.getElementById("userType")
   data[selectbox.name] = selectbox.value
-
-  $.post("restapi/auth/register", data)
+  $.post("http://127.0.0.1/quiz-app/rest/routes/registerUser.php", data)
     .done(function (response) {
-      // handle different error based on if email taken or server error
-      // error variable just for demonstration purposes
-      let error = "email"
-      if (error == "email") {
-        statusModal("register", "error", "Email already exists")
-      } else {
-        statusModal("register", "success", "Account successfully created!")
+      let parsedResponse = JSON.parse(response)
+      if (parsedResponse.success) {
+        statusModal("register", "success", parsedResponse.message)
         const localStorageInfo = {
           email: data.email,
           firstName: data.firstName,
           lastName: data.lastName,
           userType: data.userType,
-          // role: "response.data.role",
-          // avatar: "response.data.avatar",
-          // id: "responseid"
           role: "user",
-          avatar: "avatar_1", // default avatar
-          id: "1",
+          avatar: "avatar1",
         }
-
         localStorage.setItem(
           "userInformation",
           JSON.stringify(localStorageInfo)
         )
-
         // redirect user to dashboard
         window.location.href = "index.html#dashboard"
       }
@@ -118,7 +107,11 @@ const handleRegisterForm = (form, event) => {
       }, 2000)
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      statusModal("register", "error", "Internal server error")
+      if (errorThrown == "Unauthorized") {
+        statusModal("register", "error", "Authentication failed!")
+      } else {
+        statusModal("register", "error", "Internal server error")
+      }
       document.querySelector(".loader").style.display = "none"
       setTimeout(() => {
         document.querySelector(".form-submit-btn").disabled = false
@@ -201,38 +194,24 @@ export const loginForm = () => {
         data[inpt.name] = inpt.checked
       }
     })
-    $.post("restapi/auth/login", data)
+    $.post("http://127.0.0.1/quiz-app/rest/routes/loginUser.php", data)
       .done(function (response) {
-        // handle different error based on if wrong creds or server error
-        // error variable just for demonstration purposes
-        let error = "wrongcreds"
-        if (error == "wrongcreds") {
-          statusModal("login", "error", "Wrong credentials")
-        } else {
-          statusModal("login", "success", "Log in successful!")
-
-          // receive user info
+        let parsedResponse = JSON.parse(response)
+        if (parsedResponse.success) {
+          statusModal("login", "success", parsedResponse.message)
           const localStorageInfo = {
-            email: data.email,
-            // firstName: "response.data.firstName",
-            // lastName: "response.data.lastName",
-            // userType: "response.data.userType",
-            // role: "response.data.role",
-            // avatar: "response.data.avatar",
-            // id: response.data.id,
-            firstName: "Faris",
-            lastName: "Muhovic",
-            userType: "student",
-            role: "admin",
-            avatar: "avatar_5",
-            id: "1",
+            id: parsedResponse.data.id,
+            email: parsedResponse.data.email,
+            firstName: parsedResponse.data.firstName,
+            lastName: parsedResponse.data.lastName,
+            userType: parsedResponse.data.userType,
+            role: parsedResponse.data.role,
+            avatar: parsedResponse.data.avatar,
           }
-
           localStorage.setItem(
             "userInformation",
             JSON.stringify(localStorageInfo)
           )
-
           // redirect user to dashboard
           window.location.href = "index.html#dashboard"
         }
@@ -242,7 +221,11 @@ export const loginForm = () => {
         }, 2000)
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
-        statusModal("login", "error", "Internal server error")
+        if (errorThrown == "Unauthorized") {
+          statusModal("login", "error", "Authentication failed!")
+        } else {
+          statusModal("login", "error", "Internal server error")
+        }
         document.querySelector(".loader").style.display = "none"
         setTimeout(() => {
           document.querySelector(".form-submit-btn").disabled = false

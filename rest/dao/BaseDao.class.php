@@ -42,29 +42,4 @@ class BaseDao {
     $prepared_statement->execute();
     return $prepared_statement;
   }
-  public function insert($table, $entity) {
-    $query = "INSERT INTO {$table} (";
-    // INSERT INTO patients (
-    foreach ($entity as $column => $value) {
-    $query .= $column . ", ";
-    }
-    // INSERT INTO patients (first_name, last_name, 
-    $query = substr($query, 0, -2);
-    // INSERT INTO patients (first_name, last_name
-    $query .= ") VALUES (";
-    // INSERT INTO patients (first_name, last_name) VALUES (
-    foreach ($entity as $column => $value) {
-    $query .= ":" . $column . ", ";
-    }
-    // INSERT INTO patients (first_name, last_name) VALUES (:first_name, :last_name, 
-    $query = substr($query, 0, -2);
-    // INSERT INTO patients (first_name, last_name) VALUES (:first_name, :last_name
-    $query .= ")";
-    // INSERT INTO patients (first_name, last_name) VALUES (:first_name, :last_name)
-
-    $statement = $this->connection->prepare($query);
-    $statement->execute($entity); // SQL injection prevention
-    $entity['id'] = $this->connection->lastInsertId();
-    return $entity;
-}
 }
