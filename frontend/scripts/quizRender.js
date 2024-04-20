@@ -188,7 +188,7 @@ const gradeAnswers = userQuizAnswers => {
   let correct = 0
 
   const takenQuiz = {
-    id: localStorage.getItem("selectedQuizID"),
+    id: JSON.parse(localStorage.getItem("selectedQuizID")),
     title: null,
     date: new Date().toString(),
     category: null,

@@ -27,16 +27,17 @@ export const changeAvatar = () => {
 
   $("#save-changes-for-avatar-change-btn").on("click", () => {
     if (clickedAvatar) {
-      $.post("restapi/profile/changevatar", clickedAvatar)
+      $.post("http://localhost/quiz-app/rest/routes/updateAvatar.php", {
+        clickedAvatar: clickedAvatar,
+        email: JSON.parse(localStorage.getItem("userInformation")).email,
+      })
         .done(function (response) {
-          if (response.ok) {
-            statusModal("Success", "Avatar created")
-            $("#user-avatar").attr(
-              "src",
-              `./images/avatars/${clickedAvatar}.svg`
-            )
-          }
+          statusModal("success", "Avatar created")
+          $("#user-avatar").attr("src", `./images/avatars/${clickedAvatar}.svg`)
           $("#modal-for-avatar").css("display", "none")
+          const localdata = JSON.parse(localStorage.getItem("userInformation"))
+          localdata.avatar = clickedAvatar
+          localStorage.setItem("userInformation", JSON.stringify(localdata))
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
           statusModal("error", "Internal server error!")
@@ -97,25 +98,58 @@ export const changePersonalInfo = () => {
     if ($("#save-changes-btn").css("display") == "none") {
       $("#save-changes-btn").css("display", "inline")
       $("#change-info-btn").text("Cancel")
-      formInputs.forEach(input => (input.disabled = false))
+      formInputs.forEach(input => {
+        if (input.name == "email") {
+        } else {
+          input.disabled = false
+        }
+      })
       $("#details-form").on("submit", e => {
         e.preventDefault()
-        const data = {}
-        formInputs.forEach(input => (data[input.name] = input.value))
-        $.post("restapi/profile/changedetails", data)
+        const data = {
+          email: localStorage.getItem("userInformation").email,
+        }
+        formInputs.forEach(input => {
+          if (input.name == "firstname") {
+            data.firstName = input.value
+          } else if (input.name == "lastname") {
+            data.lastName = input.value
+          } else if (input.name == "dateofbirth") {
+            data.dateOfBirth = input.value
+          } else {
+            data[input.name] = input.value
+          }
+        })
+        $.post("http://localhost/quiz-app/rest/routes/updateUserInfo.php", data)
           .done(function (response) {
-            if (response.ok) {
-              formInputs.forEach(input => (input.disabled = true))
-              userDiv.remove()
-              statusModal("Success", "Details changed")
-            }
+            formInputs.forEach(input => (data[input.name] = input.value))
+            formInputs.forEach(input => (input.disabled = true))
+            statusModal("success", "Details changed")
+            // change it into localstorage somehow idk !
+            const localdata = JSON.parse(
+              localStorage.getItem("userInformation")
+            )
+            formInputs.forEach(input => {
+              if (input.name == "firstname") {
+                localdata.firstName = input.value
+              } else if (input.name == "lastname") {
+                localdata.lastName = input.value
+              } else if (input.name == "dateofbirth") {
+                localdata.dateOfBirth = input.value
+              } else {
+                localdata[input.name] = input.value
+              }
+            })
+            localStorage.setItem("userInformation", JSON.stringify(localdata))
+            console.log(localdata)
           })
           .fail(function (jqXHR, textStatus, errorThrown) {
             statusModal("error", "Internal server error!")
+            formInputs.forEach(input => (input.disabled = true))
           })
         $("#save-changes-btn").css("display", "none")
         $("#change-info-btn").text("Change information")
-        console.log(data)
+        // console.log(data)
       })
     } else {
       $("#save-changes-btn").css("display", "none")
@@ -128,16 +162,22 @@ export const changePersonalInfo = () => {
 export const fetchAchievements = () => {
   const achievementsContainer = document.getElementById("achivements-container")
   achievementsContainer.innerHTML = `<h1>Achievements</h1>`
-  $.get("./data/achivements.json", (data, status) => {
-    data.forEach(achievement => {
-      achievementsContainer.innerHTML += `
+  $.get(
+    `http://127.0.0.1/quiz-app/rest/routes/getUserAchievements.php?email=${
+      JSON.parse(localStorage.getItem("userInformation")).email
+    }`,
+    (data, status) => {
+      const parsedData = JSON.parse(data)
+      parsedData.forEach(achievement => {
+        achievementsContainer.innerHTML += `
       <div class="achievement">
-        <h4>${achievement.name}</h4>
+        <h4>${achievement.title}</h4>
         <p>${achievement.description}</p>
       </div>
       `
-    })
-  })
+      })
+    }
+  )
 }
 
 const statusModal = (type, message) => {

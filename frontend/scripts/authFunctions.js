@@ -235,7 +235,10 @@ export const loginForm = () => {
 }
 
 export const logout = () => {
-  $.post("restapi/auth/logout", localStorage.getItem("userInformation"))
+  $.post(
+    "restapi/auth/logout",
+    JSON.parse(localStorage.getItem("userInformation"))
+  )
     .done(function (response) {
       window.location.href = "index.html#login"
       localStorage.clear()

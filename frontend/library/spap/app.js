@@ -126,9 +126,9 @@ app.route({
     loadUserInfo()
     changeTitle(window.location.hash)
     navSettings(window.location.hash)
-    changeAvatar()
     changePersonalInfo()
     fetchAchievements()
+    changeAvatar()
   },
 })
 
