@@ -79,14 +79,14 @@ app.route({
   load: "dashboard.html",
   onCreate: function () {
     setCurrentDate()
-    findUsername()
     $("#logout-dash").on("click", () => {
       logout()
     })
-    checkUserRole("dash")
-    isUserLoggedIn()
   },
   onReady: function () {
+    findUsername()
+    checkUserRole("dash")
+    isUserLoggedIn()
     changeTitle(window.location.hash)
     navSettings(window.location.hash)
     setNewFact()

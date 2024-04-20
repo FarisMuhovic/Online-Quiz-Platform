@@ -330,18 +330,18 @@ INSERT INTO question_field (title, isCorrect, question_id) VALUES
     ('K', FALSE, 7),
     ('Fe', FALSE, 7),
     ('Mg', FALSE, 7),
-    ('Oxygen, Nitrogen', TRUE, 8),
-    ('Hydrogen, Helium', FALSE, 8),
-    ('Carbon, Oxygen', FALSE, 8),
-    ('Nitrogen, Carbon', FALSE, 8),
+    ('Oxygen', TRUE, 8),
+    ('Hydrogen', FALSE, 8),
+    ('Carbon', FALSE, 8),
+    ('Nitrogen', FALSE, 8),
     ('H2O', TRUE, 9),
     ('CO2', FALSE, 9),
     ('HCl', FALSE, 9),
     ('NH3', FALSE, 9),
-    ('Fluorine, Chlorine, Bromine, Iodine, Astatine', TRUE, 10),
-    ('Hydrogen, Oxygen, Nitrogen, Carbon', FALSE, 10),
-    ('Helium, Lithium, Beryllium, Boron', FALSE, 10),
-    ('Sodium, Magnesium, Aluminum, Silicon', FALSE, 10);
+    ('Fluorine', TRUE, 10),
+    ('Hydrogen', FALSE, 10),
+    ('Helium', FALSE, 10),
+    ('Sodium', FALSE, 10);
 
 -- For Number Crunchin' Challenge (Quiz ID: 2)
 INSERT INTO question_field (title, isCorrect, question_id) VALUES
@@ -1261,3 +1261,45 @@ VALUES
     (5, '2024-01-01', 150),
     (5, '2024-02-01', 200),
     (5, '2024-03-01', 250);
+    
+SELECT 
+    q.quiz_id,
+    q.title AS quiz_title,
+    q.description AS quiz_description,
+    q.category AS quiz_category,
+    q.duration AS quiz_duration,
+    q.numberOfQuestions AS number_of_questions,
+    qn.title AS question_title,
+    qn.type AS question_type,
+    qf.title AS field_title,
+    qf.isCorrect AS field_is_correct 
+FROM 
+    quiz q 
+JOIN 
+    question qn ON qn.quiz_id = q.quiz_id 
+JOIN 
+    question_field qf ON qf.question_id = qn.question_id 
+WHERE 
+    q.quiz_id = 4;
+
+select quiz_id, title, description, category, duration, numberOfQuestions FROM quiz WHERE quiz_id = 4;
+select title,type FROM question WHERE quiz_id = 4;
+select * from question_field WHERE question_id = 4;
+
+SELECT 
+    q.title, 
+    q.type, 
+    GROUP_CONCAT(qf.title) as fieldNames, 
+    GROUP_CONCAT(qf.isCorrect) as isCorrect
+FROM 
+    question q
+JOIN 
+    question_field qf ON q.question_id = qf.question_id
+WHERE 
+    q.quiz_id = 1
+GROUP BY 
+    q.title, 
+    q.type;
+
+
+SELECT * FROM question;
