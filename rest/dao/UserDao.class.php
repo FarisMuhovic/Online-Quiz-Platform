@@ -34,5 +34,9 @@ class UserDao extends BaseDao {
     $result = $this->execute($query, $params);
     return $result->rowCount() > 0; // Return true if any rows were updated.
   }
-
+  public function getLeaderboard() {
+    return $this->query("select u.firstName, u.lastName, u.avatar , us.points , us.totalAttempts,
+    us.scienceAttempts , us.mathematicsAttempts, us.historyAttempts, us.literatureAttempts, us.geographyAttempts, us.languagesAttempts, us.sportsAttempts, us.musicAttempts, us.moviesAttempts
+    FROM user u JOIN user_stats us ON u.user_id = us.user_stats_id order by(us.points) DESC LIMIT 10", []);
+  }
 }

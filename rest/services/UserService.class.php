@@ -17,5 +17,7 @@ class UserService {
   public function changeUserInfo($payload){
     return $this->userDao->changeUserInfo($payload);
   }
-  
+  public function getLeaderboard() {
+    return $this->userDao->getLeaderboard();
+  }
 }

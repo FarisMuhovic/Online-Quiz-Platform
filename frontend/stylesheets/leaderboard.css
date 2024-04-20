@@ -69,7 +69,7 @@
 }
 .user-container {
   display: grid;
-  grid-template-columns: 70px repeat(4, 125px) 250px;
+  grid-template-columns: 70px repeat(4, 135px) 250px;
   align-items: center;
   justify-content: center;
   gap: 1rem;
