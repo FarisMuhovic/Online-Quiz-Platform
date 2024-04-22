@@ -220,8 +220,7 @@ const gradeAnswers = userQuizAnswers => {
         delete question.fieldNames
         delete question.isCorrect
       })
-      // fix for non answers are set as 1 default answer.
-      // fix user answer input
+
       takenQuiz.title = responseData.title
       takenQuiz.category = responseData.category
       let timeTaken = responseData.duration * 60 - timeLeft // in seconds

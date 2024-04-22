@@ -1,20 +1,29 @@
 export const fetchUsers = (value = "") => {
   const userContainer = document.getElementById("user-container")
-  $.get("./data/otherusers.json", (data, status) => {
-    userContainer.innerHTML = ""
-    if (data.length == 0) {
-      userContainer.innerHTML = `<img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" />`
-    }
-    data.forEach(user => {
-      if (user.name.toLowerCase().includes(value.toLowerCase())) {
-        fillHTMLwithUsers(userContainer, user)
-      } else {
+  $.get("http://127.0.0.1/quiz-app/rest/routes/getAllUsers.php")
+    .done(function (data) {
+      const parsedData = JSON.parse(data)
+      userContainer.innerHTML = ""
+      if (parsedData.length == 0) {
         userContainer.innerHTML = `<img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" />`
       }
+      parsedData.forEach(function (user) {
+        if (
+          user.firstName.toLowerCase().includes(value.toLowerCase()) ||
+          user.lastName.toLowerCase().includes(value.toLowerCase())
+        ) {
+          fillHTMLwithUsers(userContainer, user)
+        } else {
+          userContainer.innerHTML = `<img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" />`
+        }
+      })
+      setRole(parsedData)
+      removeUser(parsedData)
     })
-    setRole(data)
-    removeUser(data)
-  })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+      console.error("Error fetching data:", textStatus, errorThrown)
+      userContainer.innerHTML = `<img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" />`
+    })
 }
 export const searchUser = () => {
   $("#search-form-user-management").on("submit", e => {
@@ -25,20 +34,20 @@ export const searchUser = () => {
 
 const fillHTMLwithUsers = (userContainer, user) => {
   userContainer.innerHTML += `    
-  <div class="user" data-userID="${user.id}">
+  <div class="user" data-userID="${user.user_id}">
     <div class="user-info" id="user-info">
-      <p>User ID: ${user.id}</p>
-      <p>Name: ${user.name}</p>
+      <p>User ID: ${user.user_id}</p>
+      <p>Name: ${user.firstName} ${user.lastName}</p>
       <p>Type: ${user.role}</p>
       <p>Email: ${user.email}</p>
-      <p>Date registered: ${user.join_date}</p>
+      <p>Date registered: ${user.joinDate}</p>
     </div>
     <div class="btns-wrapper">
-      <button id="changeRoleBtn" class="change-role" data-id="${user.id}">${
-    user.role == "admin" ? "Demote" : "Promote"
-  }</button>
+      <button id="changeRoleBtn" class="change-role" data-id="${
+        user.user_id
+      }">${user.role == "admin" ? "Demote" : "Promote"}</button>
       <button id="removeUserBtn" class="remove-user" data-id="${
-        user.id
+        user.user_id
       }">Remove</button>
     </div>
   </div>`
@@ -62,12 +71,18 @@ const setRole = data => {
       if (!confirmBtn.getAttribute("data-event-listener")) {
         confirmBtn.addEventListener("click", () => {
           confirmBtn.setAttribute("data-event-listener", true)
-          console.log(userID)
+          // console.log(userID)
           data.forEach(user => {
-            if (user.id == userID) {
+            if (user.user_id == userID) {
               document.querySelectorAll(".user").forEach(userDiv => {
                 if (userDiv.attributes[1].value == userID) {
-                  $.post("restapi/user/setrole", userID)
+                  $.post(
+                    `http://127.0.0.1/quiz-app/rest/routes/changeRole.php`,
+                    {
+                      userID: userID,
+                      role: user.role == "user" ? "admin" : "user",
+                    }
+                  )
                     .done(function (response) {
                       if (user.role == "user") {
                         user.role = "admin"
@@ -75,8 +90,7 @@ const setRole = data => {
                         user.role = "user"
                       }
                       userDiv.children[0].children[2].innerText = `Type: ${user.role}`
-                      if (response.ok)
-                        statusModal("Success", "User role changed")
+                      statusModal("success", "User role changed")
                     })
                     .fail(function (jqXHR, textStatus, errorThrown) {
                       statusModal("error", "Internal server error!")
@@ -112,17 +126,16 @@ const removeUser = data => {
           .getElementById("confirm-btn-3")
           .addEventListener("click", () => {
             confirmBtn.setAttribute("data-event-listener", true)
-            console.log(userID)
             data.forEach(user => {
-              if (user.id == userID) {
+              if (user.user_id == userID) {
                 document.querySelectorAll(".user").forEach(userDiv => {
                   if (userDiv.attributes[1].value == userID) {
-                    $.post("restapi/user/removeUser", userID)
+                    $.get(
+                      `http://127.0.0.1/quiz-app/rest/routes/removeUser.php?userID=${userID}`
+                    )
                       .done(function (response) {
-                        if (response.ok) {
-                          userDiv.remove()
-                          statusModal("Success", "User role changed")
-                        }
+                        userDiv.remove()
+                        statusModal("success", "User successfully removed")
                       })
                       .fail(function (jqXHR, textStatus, errorThrown) {
                         statusModal("error", "Internal server error!")

@@ -8,6 +8,16 @@ class UserService {
   public function __construct() {
     $this->userDao = new UserDao();
   }
+  public function getAllUsers() {
+    return $this->userDao->getAllUsers();
+  }
+  public function removeUser($userID){
+    return $this->userDao->removeUser($userID);
+  }
+  public function changeUserRole($userID, $newRole) {
+    return $this->userDao->changeUserRole($userID, $newRole);
+
+  }
   public function getAchievements($userEmail) {
     return $this->userDao->getUserAchievements($userEmail);
   }

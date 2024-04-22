@@ -8,6 +8,39 @@ class UserDao extends BaseDao {
   public function __construct() {
     parent::__construct("user");
   }
+  public function getAllUsers() {
+    return $this->query("SELECT user_id, lastName, firstName, role, email, joinDate FROM user;", []);
+  }
+
+  public function removeUser($userID) {
+    try {
+        $query = "DELETE FROM user WHERE user_id = :userID";
+        $params = [':userID' => $userID];
+        
+        $this->execute($query, $params);
+        return true;
+    } catch (PDOException $e) {
+        // Handle any exceptions
+        echo "Error: " . $e->getMessage();
+        return false;
+    }
+  }
+  public function changeUserRole($userID, $newRole) {
+      try {
+          $query = "UPDATE user SET role = :newRole WHERE user_id = :userID";
+          $params = [
+              ':newRole' => $newRole,
+              ':userID' => $userID
+          ];
+            
+          $this->execute($query, $params);
+          return true;
+        } catch (PDOException $e) {
+          // Handle any exceptions
+          echo "Error: " . $e->getMessage();
+          return false;
+      }
+    }
   public function getUserAchievements($userEmail) {
     return $this->query("select a.title, a.description FROM user_achievements u JOIN achievement a ON a.achievement_id = u.user_achievement_id JOIN user usr ON usr.user_id = u.user_id WHERE usr.email = :email", ["email" => $userEmail]);
   }
@@ -100,10 +133,6 @@ class UserDao extends BaseDao {
             $this->execute($answerFieldQuery, $answerFieldParams);
         }
     }
-
     return true;
-}
-
-
-
+  }
 }

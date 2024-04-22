@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS user_achievements (
     user_achievement_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     achievement_id INT,
-	FOREIGN KEY (user_id) REFERENCES user(user_id),
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE,
     FOREIGN KEY (achievement_id) REFERENCES achievement(achievement_id)
 );
 
@@ -912,14 +912,8 @@ CREATE TABLE IF NOT EXISTS quiz_history (
     category VARCHAR(50),
     amountOfQuestions INT,
     correctAnswers INT,
-    FOREIGN KEY (user_id) REFERENCES user(user_id)
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
 );
-
-INSERT INTO quiz_history (user_id, quiz_id, title, dateTaken, timeTaken, category, amountOfQuestions, correctAnswers)
-VALUES (1, 1, 'The Element-ary Challenge', '2024-03-30', 1, 'science', 10, 4);
-
-INSERT INTO quiz_history (user_id, quiz_id, title, dateTaken, timeTaken, category, amountOfQuestions, correctAnswers)
-VALUES (2, 1, 'The Element-ary Challenge', '2024-03-31', 1, 'science', 10, 7);
 
 
 CREATE TABLE IF NOT EXISTS response (
@@ -927,14 +921,14 @@ CREATE TABLE IF NOT EXISTS response (
     quiz_history_id INT, -- Foreign key referencing the quiz_history table
     questionName VARCHAR(100) NOT NULL,
     isCorrect VARCHAR(25) NOT NULL,
-    FOREIGN KEY (quiz_history_id) REFERENCES quiz_history(quiz_history_id)
+    FOREIGN KEY (quiz_history_id) REFERENCES quiz_history(quiz_history_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS answer (
     answer_id INT AUTO_INCREMENT PRIMARY KEY,
     response_id INT, -- Foreign key referencing the response table
     text VARCHAR(100),
-    FOREIGN KEY (response_id) REFERENCES response(response_id)
+    FOREIGN KEY (response_id) REFERENCES response(response_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS answer_field (
@@ -942,270 +936,8 @@ CREATE TABLE IF NOT EXISTS answer_field (
     response_id INT, -- Foreign key referencing the response table
     title VARCHAR(50) NOT NULL,
     isCorrect VARCHAR(20) NOT NULL,
-    FOREIGN KEY (response_id) REFERENCES response(response_id)
+    FOREIGN KEY (response_id) REFERENCES response(response_id) ON DELETE CASCADE
 );
-
--- Response and answers for the first question
-INSERT INTO response (quiz_history_id, questionName, isCorrect)
-VALUES (1, 'What is H2O?', 'true');
-
-INSERT INTO answer (response_id, text)
-VALUES (1, 'Water');
-
-INSERT INTO answer_field (response_id, title, isCorrect)
-VALUES (1, 'Water', 'true'),
-       (1, 'Oxygen', 'false'),
-       (1, 'Sodium Hydroxide', 'false'),
-       (1, 'Carbon Dioxide', 'false');
-
--- Response and answers for the second question
-INSERT INTO response (quiz_history_id, questionName, isCorrect)
-VALUES (1, 'What is the chemical symbol for gold?', 'true');
-
-INSERT INTO answer (response_id, text)
-VALUES (2, 'Au');
-
-INSERT INTO answer_field (response_id, title, isCorrect)
-VALUES (2, 'Au', 'true'),
-       (2, 'Ag', 'false'),
-       (2, 'Fe', 'false'),
-       (2, 'Cu', 'false');
-
--- Response and answers for the third question
-INSERT INTO response (quiz_history_id, questionName, isCorrect)
-VALUES (1, 'What is the chemical formula for table salt?', 'true');
-
-INSERT INTO answer (response_id, text)
-VALUES (3, 'NaCl');
-
-INSERT INTO answer_field (response_id, title, isCorrect)
-VALUES (3, 'NaCl', 'true'),
-       (3, 'NaOH', 'false'),
-       (3, 'H2SO4', 'false'),
-       (3, 'HCl', 'false');
-
--- Response and answers for the fourth question
-INSERT INTO response (quiz_history_id, questionName, isCorrect)
-VALUES (1, 'Which element is a noble gas?', 'true');
-
-INSERT INTO answer (response_id, text)
-VALUES (4, 'Helium');
-
-INSERT INTO answer_field (response_id, title, isCorrect)
-VALUES (4, 'Helium', 'true'),
-       (4, 'Neon', 'false'),
-       (4, 'Argon', 'false'),
-       (4, 'Sodium', 'false');
-
--- Response and answers for the fifth question
-INSERT INTO response (quiz_history_id, questionName, isCorrect)
-VALUES (1, 'What is the chemical formula for methane?', 'false');
-
-INSERT INTO answer (response_id, text)
-VALUES (5, 'CO2');
-
-INSERT INTO answer_field (response_id, title, isCorrect)
-VALUES (5, 'CH4', 'true'),
-       (5, 'CO2', 'false'),
-       (5, 'H2SO4', 'false'),
-       (5, 'NH3', 'false');
-
--- Response and answers for the sixth question
-INSERT INTO response (quiz_history_id, questionName, isCorrect)
-VALUES (1, 'Which gas is essential for respiration?', 'false');
-
-INSERT INTO answer (response_id, text)
-VALUES (6, 'Carbon dioxide');
-
-INSERT INTO answer_field (response_id, title, isCorrect)
-VALUES (6, 'Oxygen', 'true'),
-       (6, 'Carbon dioxide', 'false'),
-       (6, 'Nitrogen', 'false'),
-       (6, 'Hydrogen', 'false');
-
--- Response and answers for the seventh question
-INSERT INTO response (quiz_history_id, questionName, isCorrect)
-VALUES (1, 'What is the chemical symbol for sodium?', 'false');
-
-INSERT INTO answer (response_id, text)
-VALUES (7, '');
-
-INSERT INTO answer_field (response_id, title, isCorrect)
-VALUES (7, 'Na', 'true'),
-       (7, 'K', 'false'),
-       (7, 'Fe', 'false'),
-       (7, 'Mg', 'false');
-
--- Response and answers for the eighth question
-INSERT INTO response (quiz_history_id, questionName, isCorrect)
-VALUES (1, 'Which elements are gases at room temperature?', 'true');
-
-INSERT INTO answer (response_id, text)
-VALUES (8, 'Oxygen, Nitrogen');
-
-INSERT INTO answer_field (response_id, title, isCorrect)
-VALUES (8, 'Oxygen', 'true'),
-       (8, 'Nitrogen', 'true'),
-       (8, 'Carbon', 'false'),
-       (8, 'Helium', 'false');
-
--- Response and answers for the ninth question
-INSERT INTO response (quiz_history_id, questionName, isCorrect)
-VALUES (1, 'What is the chemical formula for water?', 'false');
-
-INSERT INTO answer (response_id, text)
-VALUES (9, 'NaCl');
-
-INSERT INTO answer_field (response_id, title, isCorrect)
-VALUES (9, 'H2O', 'true'),
-       (9, 'CO2', 'true'),
-       (9, 'NaCl', 'false'),
-       (9, 'Helium', 'false');
-
--- Response and answers for the tenth question
-INSERT INTO response (quiz_history_id, questionName, isCorrect)
-VALUES (1, 'Which of the following are halogens?', 'true');
-
-INSERT INTO answer (response_id, text)
-VALUES (10, 'Fluorine, Chlorine');
-
-INSERT INTO answer_field (response_id, title, isCorrect)
-VALUES (10, 'Fluorine', 'true'),
-       (10, 'Chlorine', 'true'),
-       (10, 'Sodium', 'false'),
-       (10, 'Potassium', 'false');
-
--- QUIZ 2
--- Response and answers for the first question
-INSERT INTO response (quiz_history_id, questionName, isCorrect)
-VALUES (2, 'What is the sum of 5 + 7?', 'true');
-
-INSERT INTO answer (response_id, text)
-VALUES (11, '12');
-
-INSERT INTO answer_field (response_id, title, isCorrect)
-VALUES (11, '12', 'true'),
-       (11, '10', 'false'),
-       (11, '15', 'false'),
-       (11, '8', 'false');
-
--- Response and answers for the second question
-INSERT INTO response (quiz_history_id, questionName, isCorrect)
-VALUES (2, 'What is the product of 3 * 4?', 'true');
-
-INSERT INTO answer (response_id, text)
-VALUES (12, '12');
-
-INSERT INTO answer_field (response_id, title, isCorrect)
-VALUES (12, '12', 'true'),
-       (12, '10', 'false'),
-       (12, '15', 'false'),
-       (12, '8', 'false');
-
--- Response and answers for the third question
-INSERT INTO response (quiz_history_id, questionName, isCorrect)
-VALUES (2, 'What is the square root of 16?', 'true');
-
-INSERT INTO answer (response_id, text)
-VALUES (13, '4');
-
-INSERT INTO answer_field (response_id, title, isCorrect)
-VALUES (13, '4', 'true'),
-       (13, '5', 'false'),
-       (13, '6', 'false'),
-       (13, '7', 'false');
-
--- Response and answers for the fourth question
-INSERT INTO response (quiz_history_id, questionName, isCorrect)
-VALUES (2, 'What is 20% of 50?', 'false');
-
-INSERT INTO answer (response_id, text)
-VALUES (14, '10');
-
-INSERT INTO answer_field (response_id, title, isCorrect)
-VALUES (14, '10', 'true'),
-       (14, '15', 'false'),
-       (14, '25', 'false'),
-       (14, '30', 'false');
-
--- Response and answers for the fifth question
-INSERT INTO response (quiz_history_id, questionName, isCorrect)
-VALUES (2, 'What is the next number in the sequence: 2, 4, 6, 8, ...?', 'true');
-
-INSERT INTO answer (response_id, text)
-VALUES (15, '10');
-
-INSERT INTO answer_field (response_id, title, isCorrect)
-VALUES (15, '10', 'true'),
-       (15, '8', 'false'),
-       (15, '12', 'false'),
-       (15, '15', 'false');
-
--- Response and answers for the sixth question
-INSERT INTO response (quiz_history_id, questionName, isCorrect)
-VALUES (2, 'What is the value of π (pi)?', 'true');
-
-INSERT INTO answer (response_id, text)
-VALUES (16, '3.14');
-
-INSERT INTO answer_field (response_id, title, isCorrect)
-VALUES (16, '3.14', 'true'),
-       (16, '3.15', 'false'),
-       (16, '3.12', 'false'),
-       (16, '3.10', 'false');
-
--- Response and answers for the seventh question
-INSERT INTO response (quiz_history_id, questionName, isCorrect)
-VALUES (2, 'What is the area of a rectangle with length 5 and width 10?', 'true');
-
-INSERT INTO answer (response_id, text)
-VALUES (17, '50');
-
-INSERT INTO answer_field (response_id, title, isCorrect)
-VALUES (17, '50', 'true'),
-       (17, '40', 'false'),
-       (17, '60', 'false'),
-       (17, '70', 'false');
-
--- Response and answers for the eighth question
-INSERT INTO response (quiz_history_id, questionName, isCorrect)
-VALUES (2, 'What is the volume of a cube with side length 3?', 'true');
-
-INSERT INTO answer (response_id, text)
-VALUES (18, '27');
-
-INSERT INTO answer_field (response_id, title, isCorrect)
-VALUES (18, '27', 'true'),
-       (18, '30', 'false'),
-       (18, '25', 'false'),
-       (18, '20', 'false');
-
--- Response and answers for the ninth question
-INSERT INTO response (quiz_history_id, questionName, isCorrect)
-VALUES (2, 'What is the difference between 10 and 5?', 'true');
-
-INSERT INTO answer (response_id, text)
-VALUES (19, '5');
-
-INSERT INTO answer_field (response_id, title, isCorrect)
-VALUES (19, '5', 'true'),
-       (19, '6', 'false'),
-       (19, '4', 'false'),
-       (19, '3', 'false');
-
--- Response and answers for the tenth question
-INSERT INTO response (quiz_history_id, questionName, isCorrect)
-VALUES (2, 'What is the perimeter of a square with side length 7?', 'true');
-
-INSERT INTO answer (response_id, text)
-VALUES (20, '28');
-
-INSERT INTO answer_field (response_id, title, isCorrect)
-VALUES (20, '28', 'true'),
-       (20, '30', 'false'),
-       (20, '25', 'false'),
-       (20, '20', 'false');
-
 
 CREATE TABLE IF NOT EXISTS user_stats (
     user_stats_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -1315,3 +1047,13 @@ select * from quiz_history qh JOIN quiz q ON q.title = qh.title;
 
 select qh.quiz_history_id, qh.category,qh.title, qh.dateTaken, qh.timeTaken, qh.amountOfQuestions, qh.correctAnswers, u.user_id,qz.quiz_id from quiz_history qh 
 JOIN user u ON qh.user_id = u.user_id JOIN quiz qz ON qz.title = qh.title WHERE u.email = "john.doe@example.com";
+
+select * from quiz_history;
+
+select * from quiz_history;
+
+select * from response r JOIN answer a ON r.response_id = a.response_id where r.quiz_history_id = 4;
+select * from answer_field;
+select * from answer;
+
+select user_id,firstName,role,email,joinDate from user
