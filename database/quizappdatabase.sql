@@ -89,12 +89,13 @@ VALUES
 
 
 CREATE TABLE IF NOT EXISTS question (
-    question_id INT AUTO_INCREMENT PRIMARY KEY ,
+    question_id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(150) NOT NULL,
     type VARCHAR(20),
-    quiz_id INT, -- Foreign key referencing quiz table
-    FOREIGN KEY (quiz_id) REFERENCES quiz(quiz_id)
+    quiz_id INT,
+    FOREIGN KEY (quiz_id) REFERENCES quiz(quiz_id) ON DELETE CASCADE
 );
+
 
 -- The Element-ary Challenge (Quiz ID: 1)
 INSERT INTO question (title, type, quiz_id)
@@ -296,9 +297,10 @@ CREATE TABLE IF NOT EXISTS question_field (
     field_id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(50) NOT NULL,
     isCorrect VARCHAR(30) NOT NULL,
-    question_id INT, -- Foreign key referencing question table
-    FOREIGN KEY (question_id) REFERENCES question(question_id)
+    question_id INT,
+    FOREIGN KEY (question_id) REFERENCES question(question_id) ON DELETE CASCADE
 );
+
 
 -- For The Element-ary Challenge (Quiz ID: 1)
 INSERT INTO question_field (title, isCorrect, question_id) VALUES
@@ -956,16 +958,18 @@ CREATE TABLE IF NOT EXISTS user_stats (
     sportsAttempts INT,
     musicAttempts INT,
     moviesAttempts INT,
-    FOREIGN KEY (user_id) REFERENCES user(user_id)
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
 );
+
 
 CREATE TABLE IF NOT EXISTS user_monthly_points (
     month_id INT AUTO_INCREMENT PRIMARY KEY,
     user_stats_id INT, -- Foreign key referencing the user_stats table
     month_year DATE, 
     points INT,
-    FOREIGN KEY (user_stats_id) REFERENCES user_stats(user_stats_id)
+    FOREIGN KEY (user_stats_id) REFERENCES user_stats(user_stats_id) ON DELETE CASCADE
 );
+
 
 -- Insert data into user_stats table
 INSERT INTO user_stats (user_id, points, ranking, totalAttempts, passedAttempts, failedAttempts, scienceAttempts, mathematicsAttempts, historyAttempts, literatureAttempts, geographyAttempts, languagesAttempts, sportsAttempts, musicAttempts, moviesAttempts)
