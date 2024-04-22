@@ -39,4 +39,71 @@ class UserDao extends BaseDao {
     us.scienceAttempts , us.mathematicsAttempts, us.historyAttempts, us.literatureAttempts, us.geographyAttempts, us.languagesAttempts, us.sportsAttempts, us.musicAttempts, us.moviesAttempts
     FROM user u JOIN user_stats us ON u.user_id = us.user_stats_id order by(us.points) DESC LIMIT 10", []);
   }
+  public function insertHistory($payload) {
+    $result = $this->query_unique("SELECT user_id FROM user WHERE email = :email", ["email" => $payload["email"]]);
+    $userID = $result['user_id'];
+
+    $quizInfo = $payload["takenQuiz"];
+    $query = "INSERT INTO quiz_history (user_id, quiz_id, title, dateTaken, timeTaken, category, amountOfQuestions, correctAnswers)
+    VALUES (:userId, :quizId, :title, :dateTaken, :timeTaken, :category, :amountOfQuestions, :correctAnswers)";
+
+    $params = array(
+        ':userId' => $userID,
+        ':quizId' => $quizInfo["id"],
+        ':title' => $quizInfo["title"],
+        ':dateTaken' => date('Y-m-d'), 
+        ':timeTaken' => $quizInfo["timeTaken"],
+        ':category' => $quizInfo["category"],
+        ':amountOfQuestions' => $quizInfo["questionCount"],
+        ':correctAnswers' => $quizInfo["correctAnswers"]
+    );
+
+    $this->execute($query, $params);
+    
+    $quizHistoryID = $this->connection->lastInsertId();
+
+    foreach ($quizInfo["answers"] as $answer) {
+        $responseQuery = "INSERT INTO response (quiz_history_id, questionName, isCorrect)
+                          VALUES (:quizHistoryId, :questionName, :isCorrect)";
+        $responseParams = array(
+            ':quizHistoryId' => $quizHistoryID,
+            ':questionName' => $answer["questionName"],
+            ':isCorrect' => $answer["isUserCorrect"]
+        );
+        $this->execute($responseQuery, $responseParams);
+
+        // Get response ID
+        $responseID = $this->connection->lastInsertId();
+
+        // Insert answer data into answer table
+        foreach ($answer["fields"] as $field) {
+            $userAnswer = implode(", ", $answer["userAnswer"]);
+            $answerQuery = "INSERT INTO answer (response_id, text)
+                            VALUES (:responseId, :text)";
+            $answerParams = array(
+                ':responseId' => $responseID,
+                ':text' => $userAnswer
+            );
+            $this->execute($answerQuery, $answerParams);
+
+            // Get answer ID
+            $answerID = $this->connection->lastInsertId();
+
+            $isCorrect = $field["correct"] == "true" ? "true" : "false";
+            $answerFieldQuery = "INSERT INTO answer_field (response_id, title, isCorrect)
+                                 VALUES (:responseId, :title, :isCorrect)";
+            $answerFieldParams = array(
+                ':responseId' => $responseID,
+                ':title' => $field["title"],
+                ':isCorrect' => $isCorrect
+            );
+            $this->execute($answerFieldQuery, $answerFieldParams);
+        }
+    }
+
+    return true;
+}
+
+
+
 }

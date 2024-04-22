@@ -20,4 +20,7 @@ class UserService {
   public function getLeaderboard() {
     return $this->userDao->getLeaderboard();
   }
+  public function insertHistory($payload) {
+    return $this->userDao->insertHistory($payload);
+  }
 }

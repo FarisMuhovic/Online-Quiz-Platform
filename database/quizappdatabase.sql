@@ -904,6 +904,7 @@ INSERT INTO question_field (title, isCorrect, question_id) VALUES
 
 CREATE TABLE IF NOT EXISTS quiz_history (
     quiz_history_id INT AUTO_INCREMENT PRIMARY KEY,
+    quiz_id INT,
     user_id INT, -- Foreign key referencing the user table
     title VARCHAR(100) NOT NULL,
     dateTaken DATE,
@@ -914,11 +915,11 @@ CREATE TABLE IF NOT EXISTS quiz_history (
     FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 
-INSERT INTO quiz_history (user_id, title, dateTaken, timeTaken, category, amountOfQuestions, correctAnswers)
-VALUES (1, 'The Element-ary Challenge', '2024-03-30', 1, 'science', 10, 4);
+INSERT INTO quiz_history (user_id, quiz_id, title, dateTaken, timeTaken, category, amountOfQuestions, correctAnswers)
+VALUES (1, 1, 'The Element-ary Challenge', '2024-03-30', 1, 'science', 10, 4);
 
-INSERT INTO quiz_history (user_id, title, dateTaken, timeTaken, category, amountOfQuestions, correctAnswers)
-VALUES (2, 'The Element-ary Challenge', '2024-03-31', 1, 'science', 10, 7);
+INSERT INTO quiz_history (user_id, quiz_id, title, dateTaken, timeTaken, category, amountOfQuestions, correctAnswers)
+VALUES (2, 1, 'The Element-ary Challenge', '2024-03-31', 1, 'science', 10, 7);
 
 
 CREATE TABLE IF NOT EXISTS response (
@@ -1303,3 +1304,14 @@ GROUP BY
 
 
 SELECT * FROM question;
+select user_id from user where email = "alice.smith@example.com";
+select * from user_stats;
+select u.firstName, u.lastName, u.avatar , us.points , us.totalAttempts,
+us.scienceAttempts , us.mathematicsAttempts, us.historyAttempts, us.literatureAttempts, us.geographyAttempts, us.languagesAttempts, us.sportsAttempts, us.musicAttempts, us.moviesAttempts
+FROM user u JOIN user_stats us ON u.user_id = us.user_stats_id order by(us.points) DESC LIMIT 10;
+
+select a.title, a.description FROM user_achievements u JOIN achievement a ON a.achievement_id = u.user_achievement_id JOIN user usr ON usr.user_id = u.user_id WHERE usr.email = "bob.johnson@example.com";
+select * from quiz_history qh JOIN quiz q ON q.title = qh.title;
+
+select qh.quiz_history_id, qh.category,qh.title, qh.dateTaken, qh.timeTaken, qh.amountOfQuestions, qh.correctAnswers, u.user_id,qz.quiz_id from quiz_history qh 
+JOIN user u ON qh.user_id = u.user_id JOIN quiz qz ON qz.title = qh.title WHERE u.email = "john.doe@example.com";

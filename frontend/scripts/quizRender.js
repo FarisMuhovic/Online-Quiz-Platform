@@ -5,7 +5,6 @@ export const fetchQuestions = quizID => {
     .done(function (data, textStatus, jqXHR) {
       // Handle successful response
       const responseData = JSON.parse(data)
-      console.log(responseData)
       responseData.questions.forEach(question => {
         let fieldNames = question.fieldNames.split(",")
         let isCorrect = question.isCorrect.split(",").map(Number)
@@ -221,7 +220,8 @@ const gradeAnswers = userQuizAnswers => {
         delete question.fieldNames
         delete question.isCorrect
       })
-
+      // fix for non answers are set as 1 default answer.
+      // fix user answer input
       takenQuiz.title = responseData.title
       takenQuiz.category = responseData.category
       let timeTaken = responseData.duration * 60 - timeLeft // in seconds
@@ -233,6 +233,7 @@ const gradeAnswers = userQuizAnswers => {
       for (let i = 0; i < questionsSolved.length; i++) {
         userQuizAnswers[i].fields = questionsSolved[i].fields
       }
+      // this function below is wrong
       userQuizAnswers.forEach(question => {
         const userAnswer = question.userAnswer
         question.isUserCorrect = null
@@ -255,16 +256,28 @@ const gradeAnswers = userQuizAnswers => {
         }
       })
       takenQuiz.correctAnswers = correct
-      console.log(takenQuiz.correctAnswers)
-      $.post("/restapi/submitquiz", takenQuiz, function (response) {
-        // thats it
-        // $("a").off("click", showAlert)
-        // showEndText(takenQuiz)
-        // console.log(takenQuiz)
+      // send takenquiz, and also send user email,
+      takenQuiz.answers.forEach(answ => {
+        if (answ.userAnswer.length === 0) {
+          answ.userAnswer = ["Not answered"]
+        }
       })
+      $.post(`http://localhost/quiz-app/rest/routes/postQuizHistory.php?`, {
+        takenQuiz: takenQuiz,
+        email: JSON.parse(localStorage.getItem("userInformation")).email,
+      })
+        .done(function (response) {
+          $("a").off("click", showAlert)
+          statusModal("success", "Quiz history successfully updated")
+          showEndText(takenQuiz)
+        })
+        .fail(function (xhr, status, error) {
+          statusModal("error", "Failed to send the quiz to the database")
+          // console.error("Error submitting quiz:", error)
+        })
+
       $("a").off("click", showAlert)
       showEndText(takenQuiz)
-      console.log(takenQuiz)
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
       statusModal("error", "Failed to grade the quiz")
@@ -274,9 +287,6 @@ const gradeAnswers = userQuizAnswers => {
     })
 }
 const showEndText = quizHistory => {
-  console.log(quizHistory)
-  console.log(quizHistory.correctAnswers)
-
   let timer = 5
   $("#questions-container-form").html(`<div class="result-text">
     <h3>Quiz finished</h3>

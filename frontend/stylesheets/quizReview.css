@@ -28,7 +28,7 @@
   border-color: green !important;
   background-color: #edf7ed !important;
 }
-.user-answer {
+.wrong {
   border-color: red;
   background-color: rgba(255, 0, 0, 0.2);
 }
