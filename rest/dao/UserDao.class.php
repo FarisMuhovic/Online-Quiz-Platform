@@ -20,7 +20,6 @@ class UserDao extends BaseDao {
         $this->execute($query, $params);
         return true;
     } catch (PDOException $e) {
-        // Handle any exceptions
         echo "Error: " . $e->getMessage();
         return false;
     }
@@ -36,7 +35,6 @@ class UserDao extends BaseDao {
           $this->execute($query, $params);
           return true;
         } catch (PDOException $e) {
-          // Handle any exceptions
           echo "Error: " . $e->getMessage();
           return false;
       }
@@ -52,7 +50,7 @@ class UserDao extends BaseDao {
     ];
 
     $result = $this->execute($query, $params);
-    return $result->rowCount() > 0; // Return true if any rows were updated.
+    return $result->rowCount() > 0; 
 }
   public function changeUserInfo($payload){ 
     $query = "UPDATE user SET firstName = :firstName, lastName = :lastName, dateOfBirth = :dateOfBirth, country = :country WHERE email = :email";
@@ -65,7 +63,7 @@ class UserDao extends BaseDao {
     ];
 
     $result = $this->execute($query, $params);
-    return $result->rowCount() > 0; // Return true if any rows were updated.
+    return $result->rowCount() > 0; 
   }
   public function getLeaderboard() {
     return $this->query("select u.firstName, u.lastName, u.avatar , us.points , us.totalAttempts,
@@ -105,10 +103,8 @@ class UserDao extends BaseDao {
         );
         $this->execute($responseQuery, $responseParams);
 
-        // Get response ID
         $responseID = $this->connection->lastInsertId();
 
-        // Insert answer data into answer table
         foreach ($answer["fields"] as $field) {
             $userAnswer = implode(", ", $answer["userAnswer"]);
             $answerQuery = "INSERT INTO answer (response_id, text)
@@ -119,7 +115,6 @@ class UserDao extends BaseDao {
             );
             $this->execute($answerQuery, $answerParams);
 
-            // Get answer ID
             $answerID = $this->connection->lastInsertId();
 
             $isCorrect = $field["correct"] == "true" ? "true" : "false";

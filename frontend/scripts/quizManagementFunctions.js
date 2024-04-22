@@ -2,21 +2,26 @@ export const fetchQuizzesManagement = (value = "") => {
   const quizManagementContainer = document.getElementById(
     "quiz-manage-container"
   )
-  $.get("./data/quizBanner.json", (data, status) => {
-    quizManagementContainer.innerHTML = ""
-    if (data.length == 0) {
-      quizManagementContainer.innerHTML = `<img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" />`
-    }
-    data.forEach(quiz => {
-      if (quiz.title.toLowerCase().includes(value.toLowerCase())) {
-        fillHTMLManagement(quizManagementContainer, quiz)
-      } else {
+  $.get("http://127.0.0.1/quiz-app/rest/routes/getListOfQuizzes.php")
+    .done(function (data) {
+      const parsedData = JSON.parse(data)
+      quizManagementContainer.innerHTML = ""
+      if (parsedData.length == 0) {
         quizManagementContainer.innerHTML = `<img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" />`
       }
+      parsedData.forEach(quiz => {
+        if (quiz.title.toLowerCase().includes(value.toLowerCase())) {
+          fillHTMLManagement(quizManagementContainer, quiz)
+        } else {
+          quizManagementContainer.innerHTML = `<img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" />`
+        }
+      })
+      viewInDetail()
+      removeQuiz(parsedData)
     })
-    viewInDetail()
-    removeQuiz(data)
-  })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+      quizManagementContainer.innerHTML = `<h3 style="background-color: white; grid-column: 1 / -1; height: 75px; display:flex; justify-content: flex-start; padding:1rem; align-items: center; color: #f65656;   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px">Error loading quizzes. Please try again later.</h3>`
+    })
 }
 export const searchQuizManagement = () => {
   $("#search-form-quiz-management").on("submit", e => {
@@ -27,15 +32,15 @@ export const searchQuizManagement = () => {
 
 const fillHTMLManagement = (quizManagementContainer, quiz) => {
   quizManagementContainer.innerHTML += `
-  <div class="quiz" data-quizID="${quiz.id}">
+  <div class="quiz" data-quizID="${quiz.quiz_id}">
   <div class="quiz-info">
-    <p>Quiz ID: ${quiz.id}</p>
+    <p>Quiz ID: ${quiz.quiz_id}</p>
     <p>Title: ${quiz.title}</p>
     <p>Date created: ${quiz.dateCreated}</p>
   </div>
   <div class="btns-wrapper">
-    <button id="detail-quiz-btn-modal" class="edit-quiz-btn" data-id="${quiz.id}" >View in detail</button>
-    <button id="delete-quiz-btn-modal" class="remove-quiz-btn" data-id="${quiz.id}">Delete</button>
+    <button id="detail-quiz-btn-modal" class="edit-quiz-btn" data-id="${quiz.quiz_id}" >View in detail</button>
+    <button id="delete-quiz-btn-modal" class="remove-quiz-btn" data-id="${quiz.quiz_id}">Delete</button>
   </div>
 </div>`
 }
@@ -135,6 +140,7 @@ const submitFormQuiz = () => {
       quizLength: null,
       category: null,
       questions: [],
+      quiz_id: generateRandomId(),
     }
     e.preventDefault()
     quizCreatedData.title = modalForm.querySelector("#form-title").value
@@ -151,6 +157,8 @@ const submitFormQuiz = () => {
       const questionData = {
         questionName: null,
         typeOfQuestion: null,
+        question_id: generateRandomId(),
+        quiz_id: quizCreatedData.quiz_id,
         fields: [],
       }
       questionCounter++
@@ -164,6 +172,8 @@ const submitFormQuiz = () => {
         const fieldData = {
           text: null,
           isCorrect: null,
+          field_id: generateRandomId(),
+          question_id: questionData.question_id,
         }
         fieldData.text = inputsAnswers[i].value
         fieldData.isCorrect = isCorrectFields[i].checked
@@ -171,19 +181,22 @@ const submitFormQuiz = () => {
       }
       quizCreatedData.questions.push(questionData)
     })
-    if (questionCounter == 0) {
+    if (questionCounter < 1) {
       statusModal("warning", "Please enter more questions")
     } else {
-      $.post("/restapi/addquiz", quizCreatedData)
+      quizCreatedData.altText = quizCreatedData.category + "banner"
+      quizCreatedData.bannerImage = quizCreatedData.category
+      $.post(`http://localhost/quiz-app/rest/routes/createQuiz.php?`, {
+        quiz: quizCreatedData,
+      })
         .done(function (response) {
-          if (response.ok) statusModal("Success", "Quiz created")
+          statusModal("success", "Quiz created")
           $("#modal").css("display", "none")
         })
-        .fail(function (jqXHR, textStatus, errorThrown) {
+        .fail(function (xhr, status, error) {
           statusModal("error", "Internal server error!")
         })
     }
-    console.log(quizCreatedData)
   })
 }
 const emptyForm = () => {
@@ -215,22 +228,21 @@ const viewInDetail = () => {
         $("#details-modal-quiz").css("display", "none")
       })
       const quizID = e.target.attributes[2].value
-      $.post("/restapi/getQuizDetails", quizID).done(function (response) {})
-      // get request is just demonstration purposes, but logic inside of get request goes into post
-      $.get("./data/quizexample.json", (data, status) => {
-        console.log(data)
+      const url = `http://127.0.0.1/quiz-app/rest/routes/getQuizByID.php?quizID=${quizID}`
+      $.get(url).done(function (data) {
+        const parsedData = JSON.parse(data)
         const quizDataHtml = `
-            <div
-              <h4>${data.title}</h4>
-              <p>${data.description}</p>
-              <p>Quiz Length: ${data.quizLength} minutes</p>
-              <p>Category: ${data.category}</p>
-            </div>
-            <div  class="quiz-view-details-modal">
-              <h5>Questions:</h5>
-              ${quizDetailsQuestion(data)}
-            </div>
-          `
+                      <div
+                        <h4>${parsedData.title}</h4>
+                        <p>${parsedData.description}</p>
+                        <p>Quiz Length: ${parsedData.duration} minutes</p>
+                        <p>Category: ${parsedData.category}</p>
+                      </div>
+                      <div  class="quiz-view-details-modal">
+                        <h5>Questions:</h5>
+                        ${quizDetailsQuestion(parsedData)}
+                      </div>
+                    `
         $("#details-body").html(quizDataHtml)
       })
     })
@@ -240,7 +252,7 @@ const quizDetailsQuestion = data => {
   let questions = ``
   data.questions.forEach(question => {
     questions += `<p>
-    ${question.questionName}
+    ${question.title}
     </p>
     <ul>
       ${answersDetails(question)}
@@ -251,8 +263,9 @@ const quizDetailsQuestion = data => {
 }
 const answersDetails = question => {
   let listitems = ``
-  question.fields.forEach(field => {
-    listitems += `<li>${field.title}</li>`
+  const fieldNames = question.fieldNames.split(",")
+  fieldNames.forEach(field => {
+    listitems += `<li>${field}</li>`
   })
   return listitems
 }
@@ -270,12 +283,13 @@ const removeQuiz = data => {
       document.getElementById("confirm-btn").addEventListener("click", () => {
         const quizID = e.target.attributes[2].value
         data.forEach(quiz => {
-          if (quiz.id == quizID) {
+          if (quiz.quiz_id == quizID) {
             document.querySelectorAll(".quiz").forEach(quizDiv => {
               if (quizDiv.attributes[1].value == quizID) {
                 sureModal.classList.remove("trigger")
-
-                $.post("restapi/quiz/remove", quizID)
+                $.get(
+                  `http://127.0.0.1/quiz-app/rest/routes/removeQuiz.php?quizID=${quizID}`
+                )
                   .done(function (response) {
                     quizDiv.remove()
                     statusModal("success", "Quiz successfuly removed")
@@ -338,4 +352,9 @@ const statusModal = (type, message) => {
       btn.parentNode.remove()
     })
   }, 4000)
+}
+
+function generateRandomId() {
+  const randomNumber = Math.floor(Math.random() * 10000000)
+  return randomNumber
 }

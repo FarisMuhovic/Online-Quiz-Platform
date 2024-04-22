@@ -14,9 +14,7 @@ class AuthService {
       $result = $this->authDao->getUserByEmail($email);
       if ($result == false) {
         $isUserCreated = $this->authDao->insertUser($payload);
-        // if user is created return true else return false
         if ($isUserCreated) {
-          // create new tables for achievement history, quiz history and statistics.
           return $isUserCreated;
         }  
         return $result;
@@ -32,7 +30,6 @@ class AuthService {
       return $result;
     } else {
       if ($result["password"] == $password) {
-        // filter out password from return query and return user data
         unset($result["password"]);
         return $result;
       } else {

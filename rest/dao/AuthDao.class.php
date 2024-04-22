@@ -23,13 +23,10 @@ class AuthDao extends BaseDao {
           'joinDate' => date('Y-m-d'),
       );
       $this->execute($query, $params);
-
-      // registration successful - user inserted into DB
       return true;
   } catch (PDOException $e) {
-      // Handle exceptions
       echo "Error: " . $e->getMessage();
-      return false; // Return false to indicate failure
+      return false;
   }
   }
   public function getUserByEmail ($email) {
