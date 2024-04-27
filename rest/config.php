@@ -9,5 +9,5 @@ error_reporting(E_ALL ^ (E_NOTICE | E_DEPRECATED));
 define('DB_NAME', 'quizapp');
 define('DB_PORT', 3306);
 define('DB_USER', 'root');
-define('DB_PASSWORD', 'faris123');
-define('DB_HOST', '127.0.0.1'); // localhost
+define('DB_PASSWORD', 'b.5MedzeEM8jX');
+define('DB_HOST', '206.189.56.29'); // my docker container

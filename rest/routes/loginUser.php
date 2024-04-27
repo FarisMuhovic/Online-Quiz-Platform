@@ -1,8 +1,9 @@
 <?php 
 
 require '../services/AuthService.class.php';
-$authService = new AuthService();
+header('Content-Type: application/json');
 
+$authService = new AuthService();
 $payload = $_REQUEST;
 $result =  $authService->loginUser($payload);
 

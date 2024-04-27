@@ -328,6 +328,17 @@ footer p {
   margin: 1rem auto;
   grid-column: 1/-1;
 }
+.error-banner {
+  background-color: var(--bg-color-accent);
+  grid-column: 1/-1;
+  height: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  color: var(--error-color);
+  box-shadow: var(--uni-box-shadow);
+}
 /* Medium devices (tablets, less than 992px) */
 @media (max-width: 991.98px) {
   #heading-of-page {

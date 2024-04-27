@@ -10,14 +10,14 @@ class AuthService {
   }
 
   public function registerUser($payload) {
-      $email = $payload["email"];
-      $result = $this->authDao->getUserByEmail($email);
-      if ($result == false) {
-        $isUserCreated = $this->authDao->insertUser($payload);
-        if ($isUserCreated) {
-          return $isUserCreated;
-        }  
-        return $result;
+    $email = $payload["email"];
+    $result = $this->authDao->getUserByEmail($email);
+    if ($result == false) {
+      $isUserCreated = $this->authDao->insertUser($payload);
+      if ($isUserCreated) {
+        return $isUserCreated;
+      }  
+      return $result;
       } else {
         return $result;
       }
@@ -37,7 +37,6 @@ class AuthService {
       }
     }
   }
-
   // this will be implemetented if we do sessions
   public function logoutUser() {}
   public function checkSession() {}

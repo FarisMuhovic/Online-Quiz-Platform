@@ -18,18 +18,18 @@ export const registerForm = () => {
       firstName: {
         required: true,
         minlength: 2,
-        maxlength: 20,
+        maxlength: 50,
       },
       lastName: {
         required: true,
         minlength: 2,
-        maxlength: 20,
+        maxlength: 50,
       },
       email: {
         email: true,
         required: true,
         minlength: 5,
-        maxlength: 50,
+        maxlength: 320,
       },
       password: {
         required: true,
@@ -74,30 +74,23 @@ const handleRegisterForm = (form, event) => {
   event.preventDefault()
   document.querySelector(".loader").style.display = "inline-block"
   document.querySelector(".form-submit-btn").disabled = true
-  const data = {}
   const inputFields = $(form).find("input")
+  const data = {
+    id: crypto.randomUUID(),
+    avatar: 1,
+    role: "user",
+  }
   for (let i = 0; i < inputFields.length; i++) {
     if (inputFields[i].name) data[inputFields[i].name] = inputFields[i].value
   }
   const selectbox = document.getElementById("userType")
   data[selectbox.name] = selectbox.value
-  $.post("http://127.0.0.1/quiz-app/rest/routes/registerUser.php", data)
+  $.post(`${constants.apiURL}/registerUser.php`, data)
     .done(function (response) {
-      let parsedResponse = JSON.parse(response)
-      if (parsedResponse.success) {
-        statusModal("register", "success", parsedResponse.message)
-        const localStorageInfo = {
-          email: data.email,
-          firstName: data.firstName,
-          lastName: data.lastName,
-          userType: data.userType,
-          role: "user",
-          avatar: "avatar1",
-        }
-        localStorage.setItem(
-          "userInformation",
-          JSON.stringify(localStorageInfo)
-        )
+      if (response.success) {
+        statusModal("register", "success", response.message)
+        delete data.password
+        localStorage.setItem("userInformation", JSON.stringify(data))
         // redirect user to dashboard
         window.location.href = "index.html#dashboard"
       }
@@ -118,68 +111,6 @@ const handleRegisterForm = (form, event) => {
       }, 2000)
     })
 }
-const statusModal = (page, type, message) => {
-  let modal
-  if (type == "error") {
-    modal = `
-    <div class="status-modal error">
-      <span class="material-symbols-outlined">error</span>
-      <p><b>Error</b>: ${message}</p>
-      <button class="exit-status-modal">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-    </div>
-    `
-  } else if (type == "success") {
-    modal = `
-    <div class="status-modal success">
-      <span class="material-symbols-outlined">check</span>
-      <p><b>Success</b>: ${message}</p>
-      <button class="exit-status-modal">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-    </div>
-    `
-  } else if (type == "warning") {
-    modal = `
-    <div class="status-modal warning">
-      <span class="material-symbols-outlined">warning</span>
-      <p><b>Warning</b>: ${message}</p>
-      <button class="exit-status-modal">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-    </div>
-    `
-  } else if (type == "info") {
-    modal = `
-    <div class="status-modal info">
-      <span class="material-symbols-outlined">info</span>
-      <p><b>Info</b>: ${message}</p>
-      <button class="exit-status-modal">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-    </div>
-    `
-  }
-  if (page == "register") {
-    $("#register").append(modal)
-  } else if (page == "login") {
-    $("#login").append(modal)
-  } else if (page == "dashboard") {
-    $("#dashboard").append(modal)
-  }
-  const exitmodalbtns = document.querySelectorAll(".exit-status-modal")
-  exitmodalbtns.forEach(btn => {
-    btn.addEventListener("click", e => {
-      e.target.parentElement.parentElement.remove()
-    })
-  })
-  setTimeout(() => {
-    exitmodalbtns.forEach(btn => {
-      btn.parentNode.remove()
-    })
-  }, 4000)
-}
 export const loginForm = () => {
   $("#login-form").on("submit", e => {
     const data = {}
@@ -194,19 +125,21 @@ export const loginForm = () => {
         data[inpt.name] = inpt.checked
       }
     })
-    $.post("http://127.0.0.1/quiz-app/rest/routes/loginUser.php", data)
+    $.post(`${constants.apiURL}/loginUser.php`, data)
       .done(function (response) {
-        let parsedResponse = JSON.parse(response)
-        if (parsedResponse.success) {
-          statusModal("login", "success", parsedResponse.message)
+        if (response.success) {
+          statusModal("login", "success", response.message)
           const localStorageInfo = {
-            id: parsedResponse.data.id,
-            email: parsedResponse.data.email,
-            firstName: parsedResponse.data.firstName,
-            lastName: parsedResponse.data.lastName,
-            userType: parsedResponse.data.userType,
-            role: parsedResponse.data.role,
-            avatar: parsedResponse.data.avatar,
+            id: response.data.id,
+            email: response.data.email,
+            firstName: response.data.firstName,
+            lastName: response.data.lastName,
+            role: response.data.role,
+            category: response.data.category,
+            avatar: response.data.avatar,
+            joinDate: response.data.joinDate,
+            dateOfBirth: response.data.dateOfBirth,
+            country: response.data.country,
           }
           localStorage.setItem(
             "userInformation",
