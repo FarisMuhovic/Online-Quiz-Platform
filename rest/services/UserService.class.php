@@ -16,7 +16,6 @@ class UserService {
   }
   public function changeUserRole($userID, $newRole) {
     return $this->userDao->changeUserRole($userID, $newRole);
-
   }
   public function getAchievements($userEmail) {
     return $this->userDao->getUserAchievements($userEmail);

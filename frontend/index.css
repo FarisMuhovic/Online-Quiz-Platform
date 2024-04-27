@@ -391,4 +391,7 @@ footer p {
     width: 100%;
     transform: translateX(-50%);
   }
+  .error-banner {
+    height: fit-content;
+  }
 }

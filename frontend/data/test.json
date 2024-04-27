@@ -1,29 +1,36 @@
 {
-  "title": "quizquizquizquiz",
-  "description": "quizquizquizquiz",
-  "quizLength": "24",
-  "category": "science",
-  "questions": [
-    {
-      "questionName": "quizquiz",
-      "typeOfQuestion": "multipleChoice",
-      "question_id": "9369286",
-      "quiz_id": "3399381",
-      "fields": [
-        {
-          "text": "a toilet",
-          "isCorrect": "false",
-          "field_id": "7774671",
-          "question_id": "9369286"
-        },
-        {
-          "text": "b",
-          "isCorrect": "true",
-          "field_id": "1685542",
-          "question_id": "9369286"
-        }
-      ]
-    }
-  ],
-  "quiz_id": "3399381"
+  "takenQuiz": {
+    "quizID": "1",
+    "userID": "438d407c-b67a-4aff-8d16-96a08c4bd8ad",
+    "timeTaken": "1",
+    "correctAnswers": "1",
+    "answers": [
+      {
+        "questionName": "The arrangement of electrons around the nucleus of an atom in shells is best described by which model",
+        "userAnswer": [{"title": "Bohr Model", "isCorrect": "true"}]
+      },
+      {"questionName": "What is the atomic number of an element defined as"},
+      {
+        "questionName": "What is the smallest unit of an element that maintains the properties of that element"
+      },
+      {"questionName": "What part of the atom has a negative charge"},
+      {
+        "questionName": "What type of reaction involves an exchange of electrons between two elements"
+      },
+      {
+        "questionName": "Which element is known as the building block of life and is a key component of all organic compounds"
+      },
+      {
+        "questionName": "Which element is known as the building block of life and is a key component of all organic compounds"
+      },
+      {
+        "questionName": "Which principle(s) explain(s) why no two electrons in an atom can have the same four quantum numbers"
+      },
+      {
+        "questionName": "Which subatomic particle(s) make(s) up the nucleus of an atom"
+      },
+      {"questionName": "Who developed the periodic table"}
+    ],
+    "questionCount": "10"
+  }
 }

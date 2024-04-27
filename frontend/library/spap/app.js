@@ -19,9 +19,9 @@ app.route({
   onCreate: function () {
     const hash = window.location.hash
     showNavFooter(hash)
-    // if not logged in redirect to login page ( will be null because logged out user wont have a role)
   },
   onReady: function () {
+    // if not logged in redirect to login page ( will be null because logged out user wont have a role)
     let data = JSON.parse(localStorage.getItem("userInformation"))
     if (!data) {
       $("#return-to-dashboard-error")
@@ -47,6 +47,7 @@ app.route({
     registerForm()
   },
   onReady: function () {
+    localStorage.clear() // whenever an user goes to login or register, his old credentials are deleted.
     changeTitle(window.location.hash)
     passwordFieldChange()
   },
@@ -62,6 +63,7 @@ app.route({
   },
 
   onReady: function () {
+    localStorage.clear()
     changeTitle(window.location.hash)
     passwordFieldChange()
   },

@@ -54,20 +54,10 @@ export const findUsername = () => {
 }
 
 export const checkUserRole = type => {
-  let userInfo = null
-  userInfo = JSON.parse(localStorage.getItem("userInformation"))
-
+  let userInfo = JSON.parse(localStorage.getItem("userInformation"))
   if (userInfo) {
     if (userInfo.role == "admin") {
       type == "dash" ? addAdminSection() : addAdminListItem()
-    } else if (!userInfo.role) {
-      $.get("restapi/getRole/userID", (data, status) => {
-        userInfo.role = data.role
-        localStorage.setItem("userInformation", userInfo)
-        if (data.role == "admin") {
-          type == "dash" ? addAdminSection() : addAdminListItem()
-        }
-      })
     }
   }
 }
@@ -92,16 +82,15 @@ const addAdminSection = () => {
   const userManagement = document.createElement("section")
   userManagement.className = "dashboard-item"
   userManagement.innerHTML = `
-  <a href="#userManagement">
-      <img
-        src="./images/dashboard-banners/manageusers.png"
-        alt="User management banner"
-        loading="lazy"
-      />
-      <h3>Manage users</h3>
-  </a>
-  <p>See a list of users, and create them or update their information.</p>
-`
+    <a href="#userManagement">
+        <img
+          src="./images/dashboard-banners/manageusers.png"
+          alt="User management banner"
+          loading="lazy"
+        />
+        <h3>Manage users</h3>
+    </a>
+    <p>See a list of users, and create them or update their information.</p>`
 
   dashboard.insertBefore(quizManagement, lastSection)
   dashboard.insertBefore(userManagement, lastSection)

@@ -74,10 +74,7 @@ export const showNavFooter = hash => {
   }
 }
 export const isUserLoggedIn = () => {
-  if (localStorage.getItem("userInformation")) {
-    // user is logged in
-  } else {
-    // user is not logged in
+  if (!localStorage.getItem("userInformation")) {
     window.location.href = "index.html#login"
     localStorage.clear()
   }
