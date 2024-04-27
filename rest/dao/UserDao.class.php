@@ -86,29 +86,39 @@ class UserDao extends BaseDao {
     $this->execute($query, $params);
     $quizHistoryID = $this->connection->lastInsertId(); 
 
-    // Iterate over answers
     foreach ($quizInfo["answers"] as $answer) {
-        // Insert answer
-        $query2 = "INSERT INTO answer (title, isCorrect)
-                   VALUES (:title, :isCorrect)";
+        $query2 = "INSERT INTO quiz_answer (quiz_history_id)
+                   VALUES (:quiz_history_id)";
         
         $params2 = array (
-            ':title' => $answer["questionName"],
-            ':isCorrect' => isset($answer["userAnswer"]) ? $answer["userAnswer"][0]["isCorrect"] : null,
-        );
-        $this->execute($query2, $params2);
-        $answerID = $this->connection->lastInsertId();
-
-        // Insert quiz answer
-        $query3 = "INSERT INTO quiz_answer (answer_id, quiz_history_id)
-                   VALUES (:answer_id, :quiz_history_id)";
-        
-        $params3 = array (
-            ':answer_id' => $answerID,
             ':quiz_history_id' => $quizHistoryID,
         );
-        $this->execute($query3, $params3);
+        $this->execute($query2, $params2);
+        $quiz_answer = $this->connection->lastInsertId();
+
+        // Check if "userAnswer" exists
+        if (isset($answer["userAnswer"]) && is_array($answer["userAnswer"])) {
+            foreach($answer["userAnswer"] as $field) {
+                $query3 = "INSERT INTO answer (quiz_answer_id, title, isCorrect)
+                           VALUES (:quiz_answer_id, :title, :isCorrect)";
+        
+                $params3 = array (
+                    ':quiz_answer_id' => $quiz_answer,
+                    ':title' => $field["title"],
+                    ':isCorrect' => $field["isCorrect"] == "true" ? 1 : 0, 
+                );
+                $this->execute($query3, $params3);
+            }
+        } else {
+          $query3 = "INSERT INTO answer (quiz_answer_id, title, isCorrect)
+          VALUES (:quiz_answer_id, :title, :isCorrect)";
+          $params3 = array (
+              ':quiz_answer_id' => $quiz_answer,
+              ':title' => null,
+              ':isCorrect' => 0, 
+            );
+          $this->execute($query3, $params3);
+        }
     }
   }
-
 }

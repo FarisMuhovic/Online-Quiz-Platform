@@ -216,6 +216,7 @@ const gradeAnswers = userQuizAnswers => {
 
       takenQuiz.answers = userQuizAnswers
       takenQuiz.questionCount = data.numberOfQuestions
+      console.log(takenQuiz.answers)
       takenQuiz.answers.forEach(ans => {
         const newUserAnswer = []
         ans.userAnswer.forEach(userAnswer => {
@@ -224,11 +225,10 @@ const gradeAnswers = userQuizAnswers => {
               newUserAnswer.push({title: userAnswer, isCorrect: true})
             } else if (userAnswer == field.title && !field.isCorrect) {
               newUserAnswer.push({title: userAnswer, isCorrect: false})
-            } else if (userAnswer.length == 0) {
-              newUserAnswer.push({title: "", isCorrect: ""})
-            }
+            } 
           })
         })
+
         ans.userAnswer = newUserAnswer
         delete ans.fields
       })
@@ -251,6 +251,7 @@ const gradeAnswers = userQuizAnswers => {
         correct += correctAll
       })
       takenQuiz.correctAnswers = correct
+      console.log(takenQuiz)
       $.post(`${constants.apiURL}/postQuizHistory.php`, {
         takenQuiz: takenQuiz,
       })
