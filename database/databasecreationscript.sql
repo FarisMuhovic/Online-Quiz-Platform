@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS user (
 	avatar INT DEFAULT 1,  
     joinDate DATE DEFAULT (CURDATE()),
     dateOfBirth DATE,
+    age INT,
 	country VARCHAR(100)
 );
    

@@ -140,6 +140,7 @@ export const loginForm = () => {
             joinDate: response.data.joinDate,
             dateOfBirth: response.data.dateOfBirth,
             country: response.data.country,
+            age: response.data.age,
           }
           localStorage.setItem(
             "userInformation",

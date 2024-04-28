@@ -1,10 +1,10 @@
-INSERT INTO user (id,email,password, firstName, lastName, role, category, avatar, joinDate, dateOfBirth, country)
+INSERT INTO user (id,email,password, firstName, lastName, role, category, avatar, joinDate, dateOfBirth, country, age)
 VALUES 
-    ('42994af1-612b-46a2-b8f5-63f70038114e', 'john.doe@example.com', 'sadas4asd', 'John', 'Doe', 'user', 'educator', 4 , '2023-03-11', '1990-05-15', 'USA'),
-    ('765909b0-7297-4c62-ae90-0bdd41a596be', 'alice.smith@example.com', '#$sfasf', 'Alice', 'Smith', 'user', 'quiz enthusiast', 3, '2023-07-02', '1995-07-20', 'Canada'),
-    ('438d407c-b67a-4aff-8d16-96a08c4bd8ad','bob.johnson@example.com', 'hipposlol', 'Bob', 'Johnson', 'user', 'student', 5, '2023-03-07', '1988-11-10', 'UK'),
-    ('d45426d6-1ae4-42ad-b27a-0f418d54856f', 'emily.brown@example.com', 'osdasdsd', 'Emily', 'Brown', 'admin', 'student', 4, '2023-06-04', '1992-03-25', 'Australia'),
-    ('fa245808-6d07-4630-84d9-aebbb57fdb3e', 'faris.muhovic@stu.ibu.edu.ba', 'farisfare', 'Faris', 'Muhovic', 'admin', 'student', 8, '2023-04-05', '2002-09-30', 'Germany');
+    ('42994af1-612b-46a2-b8f5-63f70038114e', 'john.doe@example.com', 'sadas4asd', 'John', 'Doe', 'user', 'educator', 4 , '2023-03-11', '1990-05-15', 'USA', 19),
+    ('765909b0-7297-4c62-ae90-0bdd41a596be', 'alice.smith@example.com', '#$sfasf', 'Alice', 'Smith', 'user', 'quiz enthusiast', 3, '2023-07-02', '1995-07-20', 'Canada', 34),
+    ('438d407c-b67a-4aff-8d16-96a08c4bd8ad','bob.johnson@example.com', 'hipposlol', 'Bob', 'Johnson', 'user', 'student', 5, '2023-03-07', '1988-11-10', 'UK',21),
+    ('d45426d6-1ae4-42ad-b27a-0f418d54856f', 'emily.brown@example.com', 'osdasdsd', 'Emily', 'Brown', 'admin', 'student', 4, '2023-06-04', '1992-03-25', 'Australia', 23),
+    ('fa245808-6d07-4630-84d9-aebbb57fdb3e', 'faris.muhovic@stu.ibu.edu.ba', 'farisfare', 'Faris', 'Muhovic', 'admin', 'student', 8, '2023-04-05', '2002-09-30', 'Germany', 25);
    
 INSERT INTO achievement (title, banner, description)
 VALUES 
