@@ -39,31 +39,38 @@ class UserDao extends BaseDao {
           return false;
       }
     }
-  public function getUserAchievements($userEmail) {
-    return $this->query("select a.title, a.description FROM user_achievements u JOIN achievement a ON a.achievement_id = u.user_achievement_id JOIN user usr ON usr.user_id = u.user_id WHERE usr.email = :email", ["email" => $userEmail]);
+  public function getUserAchievements($id) {
+    $query = "
+      SELECT a.title, a.description, a.banner FROM achievement a 
+      JOIN user_achievement ua ON a.id = ua.achievement_id 
+      JOIN user u ON u.id = ua.user_id 
+      WHERE u.id = :id";
+
+    return $this->query($query, ["id" => $id]);
   }
-  public function changeUserAvatar($avatar, $email) {
-    $query = "UPDATE user SET avatar = :avatar WHERE email = :email";
+  public function changeUserAvatar($avatar, $userID) {
+    $query = "UPDATE user SET avatar = :avatar WHERE id = :id";
     $params = [
         ':avatar' => $avatar,
-        ':email' => $email
+        ':id' => $userID
     ];
 
     $result = $this->execute($query, $params);
-    return $result->rowCount() > 0; 
+    return $result->rowCount() > 0;
 }
   public function changeUserInfo($payload){ 
-    $query = "UPDATE user SET firstName = :firstName, lastName = :lastName, dateOfBirth = :dateOfBirth, country = :country WHERE email = :email";
+    $query = "UPDATE user SET firstName = :firstName, lastName = :lastName, dateOfBirth = :dateOfBirth, country = :country, age = :age WHERE id = :id";
     $params = [
+      ':id' => $payload["id"], 
       ':firstName' => $payload["firstName"],
       ':lastName' => $payload["lastName"],
       ':dateOfBirth' => $payload["dateOfBirth"],
       ':country' => $payload["country"],
-      ':email' => $payload["email"], 
+      ':age'=> $payload["age"],
     ];
 
     $result = $this->execute($query, $params);
-    return $result->rowCount() > 0; 
+    return $result->rowCount() > 0;
   }
   public function getLeaderboard() {
     return $this->query("select u.firstName, u.lastName, u.avatar , us.points , us.totalAttempts,
@@ -73,7 +80,6 @@ class UserDao extends BaseDao {
   public function insertHistory($payload) {
     $quizInfo = $payload["takenQuiz"];
 
-    // Insert quiz history
     $query = "INSERT INTO quiz_history (quiz_id, user_id, timeTaken, correctAnswers)
               VALUES (:quiz_id, :user_id, :timeTaken, :correctAnswers)";
         
@@ -96,7 +102,6 @@ class UserDao extends BaseDao {
         $this->execute($query2, $params2);
         $quiz_answer = $this->connection->lastInsertId();
 
-        // Check if "userAnswer" exists
         if (isset($answer["userAnswer"]) && is_array($answer["userAnswer"])) {
             foreach($answer["userAnswer"] as $field) {
                 $query3 = "INSERT INTO answer (quiz_answer_id, title, isCorrect)

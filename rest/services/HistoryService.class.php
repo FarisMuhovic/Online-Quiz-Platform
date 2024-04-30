@@ -8,8 +8,8 @@ class QuizService {
   public function __construct() {
     $this->historyDao = new HistoryDao();
   }
-  public function getQuizHistory($email) {
-    return $this->getQuizHistory($email);
+  public function getQuizHistory($id) {
+    return $this->getQuizHistory($id);
   }
   public function getQuizHistoryByID($email, $quiz_id) {
     return $this->getQuizHistoryByID($email, $quiz_id); 

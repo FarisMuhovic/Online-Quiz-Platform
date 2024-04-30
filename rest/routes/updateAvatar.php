@@ -3,10 +3,10 @@
 require '../services/UserService.class.php';
 $userService = new UserService();
 
-if(isset($_POST['clickedAvatar'])&&isset($_POST['email'])) {
+if(isset($_POST['clickedAvatar'])&&isset($_POST['userID'])) {
   $clickedAvatar = $_POST['clickedAvatar'];
-  $email = $_POST['email'];
-  $result = $userService->changeUserAvatar($clickedAvatar,$email);
+  $userID = $_POST['userID'];
+  $result = $userService->changeUserAvatar($clickedAvatar,$userID);
   header('HTTP/1.1 200 OK');
   echo json_encode($result);
 } else {

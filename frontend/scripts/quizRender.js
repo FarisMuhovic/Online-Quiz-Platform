@@ -221,11 +221,12 @@ const gradeAnswers = userQuizAnswers => {
         const newUserAnswer = []
         ans.userAnswer.forEach(userAnswer => {
           ans.fields.forEach(field => {
+            console.log(field)
             if (userAnswer == field.title && field.isCorrect) {
               newUserAnswer.push({title: userAnswer, isCorrect: true})
             } else if (userAnswer == field.title && !field.isCorrect) {
               newUserAnswer.push({title: userAnswer, isCorrect: false})
-            } 
+            }
           })
         })
 
@@ -251,7 +252,6 @@ const gradeAnswers = userQuizAnswers => {
         correct += correctAll
       })
       takenQuiz.correctAnswers = correct
-      console.log(takenQuiz)
       $.post(`${constants.apiURL}/postQuizHistory.php`, {
         takenQuiz: takenQuiz,
       })
@@ -295,7 +295,4 @@ const showEndText = quizHistory => {
   }/${quizHistory.questionCount}(${score}%)</p>
   </div>`)
   $("#quiz-time-left").text("Time left: 00:00")
-  setTimeout(() => {
-    window.location.href = "#quizHistory"
-  }, timeout)
 }

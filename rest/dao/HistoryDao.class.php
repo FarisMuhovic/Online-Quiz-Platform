@@ -8,30 +8,32 @@ class HistoryDao extends BaseDao {
   public function __construct() {
     parent::__construct("quiz_history");
   }
-  public function getQuizHistory($email) {
+  public function getQuizHistory($id) {
     $query = "
-    select qh.quiz_history_id, qh.category,qh.title, qh.dateTaken, qh.timeTaken, qh.amountOfQuestions, qh.correctAnswers, u.user_id,qz.quiz_id from quiz_history qh 
-    JOIN user u ON qh.user_id = u.user_id JOIN quiz qz ON qz.title = qh.title WHERE u.email = :email";
-    return $this->query($query, ["email"=> $email]);
+    select qh.id as quiz_history_id,qh.dateTaken, qh.timeTaken, qh.correctAnswers, q.title, q.description, q.category, q.numberOfQuestions, q.id from quiz_history qh 
+    JOIN quiz q ON q.id = qh.quiz_id 
+    WHERE user_id = :id";
+    return $this->query($query, ["id" => $id]);
   }
-  public function getQuizHistoryByID($email, $quiz_id) {
-    $quizHistoryData = $this->query_unique("SELECT quiz_history_id, quiz_id, user_id, title, dateTaken, timeTaken, category, amountOfQuestions, correctAnswers FROM quiz_history WHERE quiz_id = :quizId AND user_id = (SELECT user_id FROM user WHERE email = :email)", ["quizId" => $quiz_id, "email" => $email]);
+  public function getQuizHistoryByID($id, $quiz_id) {
+    $query1 = "
+    select q.title, q.category, qh.correctAnswers, q.numberOfQuestions, qh.id as quiz_history_id, q.id as quiz_id
+    from quiz_history qh
+    JOIN quiz q ON q.id = qh.quiz_id
+    where qh.user_id = :userid and qh.id = :quizid";
+
+    $quizHistoryData = $this->query_unique($query1, ["userid" => $id, "quizid" => $quiz_id]);
 
     if (!$quizHistoryData) {
         return null; 
+    } else {
+      $query2 = "
+      select ans.title, ans.isCorrect, ans.quiz_answer_id, qa.id from quiz_history qh
+      JOIN quiz_answer qa ON qh.id = qa.quiz_history_id
+      JOIN answer ans ON ans.quiz_answer_id = qa.id
+      WHERE qh.id = :id";
+      $quizHistoryData["answers"] = $this->query($query2, ["id" => $quizHistoryData["quiz_history_id"]]);
+      return $quizHistoryData;
     }
-    $responses = $this->query("SELECT response_id, questionName, isCorrect FROM response WHERE quiz_history_id = :quizHistoryId", ["quizHistoryId" => $quizHistoryData['quiz_history_id']]);
-
-    foreach ($responses as &$response) {
-        $response['answers'] = $this->query("SELECT text FROM answer WHERE response_id = :responseId", ["responseId" => $response['response_id']]);
-        $response['answerFields'] = $this->query("SELECT title, isCorrect FROM answer_field WHERE response_id = :responseId", ["responseId" => $response['response_id']]);
-    }
-    $quizHistoryData['responses'] = $responses;
-
-    $quizHistoryObject = (object) $quizHistoryData;
-
-    return $quizHistoryObject;
-}
-
-
+  }
 }

@@ -27,8 +27,9 @@ export const changeAvatar = () => {
 
   $("#save-changes-for-avatar-change-btn").on("click", () => {
     if (clickedAvatar) {
+      clickedAvatar = Number(clickedAvatar.charAt(clickedAvatar.length - 1))
       $.post(`${constants.apiURL}/updateAvatar.php`, {
-        clickedAvatar: Number(clickedAvatar.charAt(clickedAvatar.length - 1)),
+        clickedAvatar: clickedAvatar,
         userID: JSON.parse(localStorage.getItem("userInformation")).id,
       })
         .done(function (response) {
@@ -110,7 +111,7 @@ export const changePersonalInfo = () => {
       $("#details-form").on("submit", e => {
         e.preventDefault()
         const data = {
-          id: localStorage.getItem("userInformation").id,
+          id: JSON.parse(localStorage.getItem("userInformation")).id,
         }
         formInputs.forEach(input => {
           if (input.name == "firstname") {
@@ -123,30 +124,33 @@ export const changePersonalInfo = () => {
             data[input.name] = input.value
           }
         })
-        $.post(
-          `"http://localhost/quiz-app/rest/routes/updateUserInfo.php`,
-          data
-        )
+        $.post(`${constants.apiURL}/updateUserInfo.php`, data)
           .done(function (response) {
-            formInputs.forEach(input => (data[input.name] = input.value))
-            formInputs.forEach(input => (input.disabled = true))
-            statusModal("profile", "success", "Details changed")
-            // change it into localstorage somehow idk !
-            const localdata = JSON.parse(
-              localStorage.getItem("userInformation")
-            )
-            formInputs.forEach(input => {
-              if (input.name == "firstname") {
-                localdata.firstName = input.value
-              } else if (input.name == "lastname") {
-                localdata.lastName = input.value
-              } else if (input.name == "dateofbirth") {
-                localdata.dateOfBirth = input.value
-              } else {
-                localdata[input.name] = input.value
-              }
-            })
-            localStorage.setItem("userInformation", JSON.stringify(localdata))
+            console.log(response)
+            if (response != "false") {
+              formInputs.forEach(input => (data[input.name] = input.value))
+              formInputs.forEach(input => (input.disabled = true))
+              statusModal("profile", "success", "Details changed")
+
+              const localdata = JSON.parse(
+                localStorage.getItem("userInformation")
+              )
+              formInputs.forEach(input => {
+                if (input.name == "firstname") {
+                  localdata.firstName = input.value
+                } else if (input.name == "lastname") {
+                  localdata.lastName = input.value
+                } else if (input.name == "dateofbirth") {
+                  localdata.dateOfBirth = input.value
+                } else {
+                  localdata[input.name] = input.value
+                }
+              })
+              localStorage.setItem("userInformation", JSON.stringify(localdata))
+            } else {
+              formInputs.forEach(input => (input.disabled = true))
+              statusModal("profile", "error", "Internal server error!")
+            }
           })
           .fail(function (jqXHR, textStatus, errorThrown) {
             statusModal("profile", "error", "Internal server error!")
@@ -171,16 +175,13 @@ export const fetchAchievements = () => {
       JSON.parse(localStorage.getItem("userInformation")).id
     }`,
     (data, status) => {
-      console.log(data)
-      // const parsedData = JSON.parse(data)
-      // parsedData.forEach(achievement => {
-      //   achievementsContainer.innerHTML += `
-      // <div class="achievement">
-      //   <h4>${achievement.title}</h4>
-      //   <p>${achievement.description}</p>
-      // </div>
-      // `
-      // })
+      data.forEach(achievement => {
+        achievementsContainer.innerHTML += `
+        <div class="achievement">
+          <h4>${achievement.title}</h4>
+          <p>${achievement.description}</p>
+        </div>`
+      })
     }
   )
 }

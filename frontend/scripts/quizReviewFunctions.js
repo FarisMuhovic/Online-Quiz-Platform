@@ -2,69 +2,83 @@ export const fetchQuizReview = () => {
   const quizReviewContainer = document.getElementById("quiz-review-container")
   quizReviewContainer.innerHTML = ""
   const selectedQuizID = localStorage.getItem("selectedReviewQuizID")
-  const userEmail = JSON.parse(localStorage.getItem("userInformation")).email
-  $.post("http://localhost/quiz-app/rest/routes/getSpecificQuizHistory.php", {
+  const id = JSON.parse(localStorage.getItem("userInformation")).id
+  $.post(`${constants.apiURL}/getSpecificQuizHistory.php`, {
     quizID: selectedQuizID,
-    email: userEmail,
+    id: id,
   })
     .done(function (data) {
-      const parsedData = JSON.parse(data)
-      console.log(parsedData)
-      // Executed when the request is successful
       quizReviewContainer.innerHTML = `
-    <section class="heading">
-      <h1>${parsedData.title}</h1>
-      <h3>${parsedData.category}</h3>
-      <p>Your score: ${parsedData.correctAnswers}/${parsedData.amountOfQuestions}</p>
-      <h3>Color info:</h3>
-      <div class="info-div">
-        <p>Red: your answer (wrong)</p>
-        <p>Green: right answer, and your answer.</p>
-        <p>Note: if every answer is red (except the right one), that means you didn't answer at all.</p>
-      </div>
-      </section>
-    `
-      parsedData.responses.forEach(answer => {
-        quizReviewContainer.innerHTML += `
-        <section class="question">
-          <h4 class="question-title">${answer.questionName}</h4>
-          <div class="question-answers">
-            ${insertAnswersHTML(answer)}
-          </div>
-        </section>
-        `
-      })
+      <section class="heading">
+        <h1>${data.title}</h1>
+        <h3>${data.category}</h3>
+        <p>Your score: ${data.correctAnswers}/${data.numberOfQuestions}</p>
+        <h3>Color info:</h3>
+        <div class="info-div">
+          <p>Red: your answer (wrong)</p>
+          <p>Green: right answer, and your answer.</p>
+          <p>Note: if every answer is red (except the right one), that means you didn't answer at all.</p>
+        </div>
+      </section>`
+
+      $.get(`${constants.apiURL}/getQuizByID.php?quizID=${data.quiz_id}`).done(
+        function (quizdata) {
+          quizdata.questions.forEach(question => {
+            const fields = question.fields.split("|")
+            question.fields = fields.map(field => {
+              let fieldData = field.split("<.>")
+              return {
+                title: fieldData[0],
+                isCorrect: fieldData[1] == 1,
+              }
+            })
+            quizReviewContainer.innerHTML += `
+              <section class="question">
+                <h4 class="question-title">${question.title}?</h4>
+                <div class="question-answers">
+                    ${insertFields(question.fields)}
+                </div>
+              </section>`
+          })
+          checkAnswers(data.answers)
+        }
+      )
     })
     .fail(function () {
-      // console.error("Request failed.")
-      quizReviewContainer.innerHTML = `<h3 style="background-color: white; grid-column: 1 / -1; height: 75px; display:flex; justify-content: flex-start; padding:1rem; align-items: center; color: #f65656;   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px">Error loading quiz history. Please try again later.</h3>`
+      quizReviewContainer.innerHTML = constants.errorBanner(
+        "Failed to load specific quiz history."
+      )
     })
 }
-const insertAnswersHTML = answer => {
+const insertFields = answers => {
   let answersHTML = ""
-
-  // checks if array of answers contains not answered text
-  // means that the user didnt answer this question
-  if (answer.answers.some(item => item.text.includes("Not answered"))) {
-    answer.answerFields.forEach(field => {
-      answersHTML += `<p class="answer
-       ${field.isCorrect == "true" ? "correct" : "wrong"}
-      ">${field.title}</p>`
-    })
-  } else {
-    // if answered
-    for (let i = 0; i < answer.answerFields.length; i++) {
-      answersHTML += `<p class="answer
-      ${
-        answer.answers[i].text == answer.answerFields[i].title
-          ? answer.answerFields[i].isCorrect == "true"
-            ? "correct"
-            : "wrong"
-          : ""
-      } ${answer.answerFields[i].isCorrect == "true" ? "correct" : ""}
-      ">${answer.answerFields[i].title}</p>
-      `
-    }
-  }
+  answers.forEach(field => {
+    answersHTML += `
+    <p class="answer ${field.isCorrect ? "correct" : ""}">
+      ${field.title}
+    </p>`
+  })
   return answersHTML
+}
+const checkAnswers = answers => {
+  document.querySelectorAll(".question").forEach(question => {
+    question.querySelectorAll("p").forEach(p => {
+      answers.forEach(answ => {
+        if (answ.title == p.innerText && answ.isCorrect == "1") {
+          p.classList.add("correct")
+          question.dataset.didAnswer = true
+        } else if (answ.title == p.innerText && answ.isCorrect == "0") {
+          p.classList.add("wrong")
+          question.dataset.didAnswer = true
+        }
+      })
+    })
+  })
+  document.querySelectorAll(".question").forEach(question => {
+    if (!question.dataset.didAnswer) {
+      question.querySelectorAll("p").forEach(p => {
+        p.classList.add("wrong")
+      })
+    }
+  })
 }

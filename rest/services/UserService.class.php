@@ -17,11 +17,11 @@ class UserService {
   public function changeUserRole($userID, $newRole) {
     return $this->userDao->changeUserRole($userID, $newRole);
   }
-  public function getAchievements($userEmail) {
-    return $this->userDao->getUserAchievements($userEmail);
+  public function getAchievements($id) {
+    return $this->userDao->getUserAchievements($id);
   }
-  public function changeUserAvatar($avatar, $email){
-    return $this->userDao->changeUserAvatar($avatar , $email);
+  public function changeUserAvatar($avatar, $userID){
+    return $this->userDao->changeUserAvatar($avatar , $userID);
   }
   public function changeUserInfo($payload){
     return $this->userDao->changeUserInfo($payload);
