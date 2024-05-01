@@ -11,8 +11,6 @@ export const fetchQuizzesManagement = (value = "") => {
       data.forEach(quiz => {
         if (quiz.title.toLowerCase().includes(value.toLowerCase())) {
           fillHTMLManagement(quizManagementContainer, quiz)
-        } else {
-          quizManagementContainer.innerHTML = constants.noDataBanner
         }
       })
       viewInDetail()

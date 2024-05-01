@@ -12,8 +12,6 @@ export const fetchUsers = (value = "") => {
           user.lastName.toLowerCase().includes(value.toLowerCase())
         ) {
           fillHTMLwithUsers(userContainer, user)
-        } else {
-          userContainer.innerHTML = constants.noDataBanner
         }
       })
       setRole(data)
