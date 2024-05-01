@@ -3,7 +3,7 @@
 require '../services/HistoryService.class.php';
 
 if(isset($_POST['id']) && isset($_POST['quizID'])) {
-  $historyService = new HistoryDao();
+  $historyService = new HistoryService();
   $userID = $_POST['id'];
   $id = $_POST['quizID'];
   $result = $historyService->getQuizHistoryByID($userID, $id);

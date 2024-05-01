@@ -11,7 +11,9 @@ export const fetchTopUsers = () => {
     for (let i = 3; i < data.length; i++) {
       fillLowerLeaderboard(data, i)
     }
-  })
+  }).fail(() =>
+    statusModal("leaderboard", "error", "Failed to load the leaderboard.")
+  )
 }
 
 const fillFirstThree = data => {

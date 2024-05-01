@@ -1,9 +1,9 @@
 <?php
 
 require '../services/HistoryService.class.php';
-$historyService = new HistoryDao();
 
 if(isset($_GET['id'])) {
+  $historyService = new HistoryService();
   $id = $_GET['id'];
   $result = $historyService->getQuizHistory($id);
   header('Content-Type: application/json');

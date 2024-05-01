@@ -48,6 +48,9 @@ export const searchQuiz = () => {
     }
     fetchQuizzes(inputQuery.title, inputQuery.category)
   })
+  $("#category").on("change", e => {
+    fetchQuizzes($("#search-bar").val(), $("#category").val())
+  })
 }
 
 export const clearSearchFilters = () => {

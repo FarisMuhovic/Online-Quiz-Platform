@@ -19,7 +19,7 @@ export const fetchQuizzesManagement = (value = "") => {
       removeQuiz(data)
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      quizManagementContainer.innerHTML = constants.noDataBanner(
+      quizManagementContainer.innerHTML = constants.errorBanner(
         "Error loading quizzes, please try again later."
       )
     })
@@ -189,13 +189,13 @@ const submitFormQuiz = () => {
     } else {
       quizCreatedData.altText = quizCreatedData.category + "banner"
       quizCreatedData.bannerImage = quizCreatedData.category
-      console.log(quizCreatedData)
       $.post(`${constants.apiURL}/createQuiz.php?`, {
         quiz: quizCreatedData,
       })
         .done(function (response) {
           statusModal("quizManagement", "success", "Quiz created")
           $("#modal").css("display", "none")
+          $("#questions-container").html("")
         })
         .fail(function (xhr, status, error) {
           statusModal("quizManagement", "error", "Internal server error!")
