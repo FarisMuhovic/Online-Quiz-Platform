@@ -40,34 +40,34 @@ class QuizDao extends BaseDao {
     }
 }
 
-private function insertQuestion($quizId, $question) {
-    $query = "INSERT INTO question (title, type, quiz_id)
-              VALUES (:title, :type, :quizId)";
-    $params = [
-        ':title' => $question['questionName'],
-        ':type' => $question['typeOfQuestion'],
-        ':quizId' => $quizId
-    ];
-    $this->execute($query, $params);
+  private function insertQuestion($quizId, $question) {
+      $query = "INSERT INTO question (title, type, quiz_id)
+                VALUES (:title, :type, :quizId)";
+      $params = [
+          ':title' => $question['questionName'],
+          ':type' => $question['typeOfQuestion'],
+          ':quizId' => $quizId
+      ];
+      $this->execute($query, $params);
 
-    $questionId = $this->connection->lastInsertId();
+      $questionId = $this->connection->lastInsertId();
 
-    foreach ($question['fields'] as $field) {
-        $this->insertQuestionField($questionId, $field);
-    }
-}
+      foreach ($question['fields'] as $field) {
+          $this->insertQuestionField($questionId, $field);
+      }
+  }
 
-private function insertQuestionField($questionId, $field) {
+  private function insertQuestionField($questionId, $field) {
 
-    $query = "INSERT INTO question_field (title, isCorrect, question_id)
-              VALUES (:title, :isCorrect, :questionId)";
-    $params = [
-        ':title' => $field['text'],
-        ':isCorrect' => $field['isCorrect'],
-        ':questionId' => $questionId
-    ];
-    $this->execute($query, $params);
-}
+      $query = "INSERT INTO question_field (title, isCorrect, question_id)
+                VALUES (:title, :isCorrect, :questionId)";
+      $params = [
+          ':title' => $field['text'],
+          ':isCorrect' => $field['isCorrect'],
+          ':questionId' => $questionId
+      ];
+      $this->execute($query, $params);
+  }
   public function getQuizById($ID) {
     $quizData = $this->query_unique("SELECT id, title, description, category, duration, numberOfQuestions FROM quiz WHERE id = :id", ["id" => $ID]);
 
@@ -86,7 +86,7 @@ private function insertQuestionField($questionId, $field) {
   }
   public function removeQuiz($quizID) {
     try {
-      $query = "DELETE FROM quiz WHERE quiz_id = :quizID";
+      $query = "DELETE FROM quiz WHERE id = :quizID";
       $params = [':quizID' => $quizID];
       
         $this->execute($query, $params);

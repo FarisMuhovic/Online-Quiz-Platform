@@ -1,29 +1,24 @@
 export const fetchTopUsers = () => {
-  $.get(
-    "http://localhost/quiz-app/rest/routes/getLeaderboard.php",
-    (data, status) => {
-      const parsedData = JSON.parse(data)
-      console.log(parsedData)
-      if (parsedData.length === 0) {
-        $(".leaderboard-page").html(
-          `<h1 id="heading-of-page" style="text-align: center">Leaderboard</h1>
+  $.get(`${constants.apiURL}/getLeaderboard.php`, (data, status) => {
+    if (data.length === 0) {
+      $(".leaderboard-page").html(
+        `<h1 id="heading-of-page" style="text-align: center">Leaderboard</h1>
         <img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" />
         `
-        )
-      }
-      fillFirstThree(parsedData)
-      for (let i = 3; i < parsedData.length; i++) {
-        fillLowerLeaderboard(parsedData, i)
-      }
+      )
     }
-  )
+    fillFirstThree(data)
+    for (let i = 3; i < data.length; i++) {
+      fillLowerLeaderboard(data, i)
+    }
+  })
 }
 
 const fillFirstThree = data => {
   $("#first").html(
     `
     <span class="material-symbols-outlined"> workspace_premium </span>
-    <img src="./images/avatars/${data[0].avatar}.svg" alt="avatar" />
+    <img src="./images/avatars/avatar${data[0].avatar}.svg" alt="avatar" />
     <p>${data[0].firstName + " " + data[0].lastName}</p>
     <p>${data[0].totalAttempts} quizzes taken</p>
     <p>${data[0].points} points</p>
@@ -33,7 +28,7 @@ const fillFirstThree = data => {
   $("#second").html(
     `
     <span class="material-symbols-outlined"> workspace_premium </span>
-    <img src="./images/avatars/${data[1].avatar}.svg" alt="avatar" />
+    <img src="./images/avatars/avatar${data[1].avatar}.svg" alt="avatar" />
     <p>${data[1].firstName + " " + data[1].lastName}</p>
     <p>${data[1].totalAttempts} quizzes taken</p>
     <p>${data[1].points} points</p>
@@ -43,7 +38,7 @@ const fillFirstThree = data => {
   $("#third").html(
     `
     <span class="material-symbols-outlined"> workspace_premium </span>
-    <img src="./images/avatars/${data[2].avatar}.svg" alt="avatar" />
+    <img src="./images/avatars/avatar${data[2].avatar}.svg" alt="avatar" />
     <p>${data[2].firstName + " " + data[2].lastName}</p>
     <p>${data[2].totalAttempts} quizzes taken</p>
     <p>${data[2].points} points</p>
@@ -54,7 +49,7 @@ const fillFirstThree = data => {
 const findFavCategory = attempt => {
   let maxCategory = ""
   let maxAttempts = 0
-
+  console.log(attempt)
   for (const key in attempt) {
     if (key.includes("Attempts") && !key.includes("total")) {
       const currentAttempts = attempt[key]
@@ -64,19 +59,21 @@ const findFavCategory = attempt => {
       }
     }
   }
-
+  console.log(maxCategory)
   return maxCategory.charAt(0).toUpperCase() + maxCategory.slice(1)
 }
 const fillLowerLeaderboard = (data, i) => {
   $("#rest-players").append(
     `    
     <div class="user-container">
-      <img src="./images/avatars/${data[i].avatar}.svg" alt="avatar" />
+      <img src="./images/avatars/avatar${data[i].avatar}.svg" alt="avatar" />
       <p>Rank ${i + 1}</p>
       <p>${data[i].firstName + " " + data[i].lastName}</p>
       <p>${data[i].totalAttempts} quizzes taken</p>
       <p>${data[i].points} points</p>
-      <p>Favourite category: ${findFavCategory(data[i])}</p>
+      <p>Favourite category: ${
+        findFavCategory(data[i]) == "Failed" ? "None" : findFavCategory(data[i])
+      }</p>
     </div>
   `
   )

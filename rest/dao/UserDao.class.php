@@ -9,12 +9,12 @@ class UserDao extends BaseDao {
     parent::__construct("user");
   }
   public function getAllUsers() {
-    return $this->query("SELECT user_id, lastName, firstName, role, email, joinDate FROM user;", []);
+    return $this->query("SELECT id, age, lastName, firstName, role, email, joinDate FROM user;", []);
   }
 
   public function removeUser($userID) {
     try {
-        $query = "DELETE FROM user WHERE user_id = :userID";
+        $query = "DELETE FROM user WHERE id  = :userID";
         $params = [':userID' => $userID];
         
         $this->execute($query, $params);
@@ -26,7 +26,7 @@ class UserDao extends BaseDao {
   }
   public function changeUserRole($userID, $newRole) {
       try {
-          $query = "UPDATE user SET role = :newRole WHERE user_id = :userID";
+          $query = "UPDATE user SET role = :newRole WHERE id = :userID";
           $params = [
               ':newRole' => $newRole,
               ':userID' => $userID
@@ -73,9 +73,13 @@ class UserDao extends BaseDao {
     return $result->rowCount() > 0;
   }
   public function getLeaderboard() {
-    return $this->query("select u.firstName, u.lastName, u.avatar , us.points , us.totalAttempts,
-    us.scienceAttempts , us.mathematicsAttempts, us.historyAttempts, us.literatureAttempts, us.geographyAttempts, us.languagesAttempts, us.sportsAttempts, us.musicAttempts, us.moviesAttempts
-    FROM user u JOIN user_stats us ON u.user_id = us.user_stats_id order by(us.points) DESC LIMIT 10", []);
+    $query = "
+      select * from user u 
+      JOIN user_stats us ON u.id = us.user_id 
+      JOIN user_attempts ua ON us.id = ua.id 
+      ORDER BY us.points DESC 
+      LIMIT 10";
+    return $this->query($query, []);
   }
   public function insertHistory($payload) {
     $quizInfo = $payload["takenQuiz"];

@@ -1,5 +1,6 @@
 <?php
 
+header('Content-Type: application/json');
 require '../services/UserService.class.php';
 $userService = new UserService();
 
