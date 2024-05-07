@@ -13,4 +13,4 @@ define('DB_PASSWORD', 'faris123');
 define('DB_HOST', '127.0.0.1'); // localhost
 
 // JWT
-define('JWT_SECRET', "h6O5Jew92Oo8TWGf8CTJojHKac2CovLV");
+define('JWT_SECRET', "ASLPD2$@aSDKASO23sad@$");
