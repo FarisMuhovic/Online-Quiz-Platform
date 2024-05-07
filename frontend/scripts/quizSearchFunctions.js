@@ -1,6 +1,6 @@
 export const fetchQuizzes = (name = "", catg = "none") => {
   const quizContainer = document.getElementById("quiz-search-container")
-  $.get(`${constants.apiURL}/getListOfQuizzes.php`)
+  $.get(`${constants.apiURL}/quiz/all`)
     .done(function (data) {
       quizContainer.innerHTML = ""
       if (data.length == 0) {

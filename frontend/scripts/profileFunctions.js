@@ -28,11 +28,15 @@ export const changeAvatar = () => {
   $("#save-changes-for-avatar-change-btn").on("click", () => {
     if (clickedAvatar) {
       clickedAvatar = Number(clickedAvatar.charAt(clickedAvatar.length - 1))
-      $.post(`${constants.apiURL}/updateAvatar.php`, {
-        clickedAvatar: clickedAvatar,
-        userID: JSON.parse(localStorage.getItem("userInformation")).id,
-      })
-        .done(function (response) {
+      $.ajax({
+        url: `${constants.apiURL}/users/updateAvatar`,
+        type: "PUT",
+        contentType: "application/json",
+        data: JSON.stringify({
+          clickedAvatar: clickedAvatar,
+          userID: JSON.parse(localStorage.getItem("userInformation")).id,
+        }),
+        success: function (response) {
           statusModal("profile", "success", "Avatar created")
           $("#user-avatar").attr(
             "src",
@@ -42,10 +46,11 @@ export const changeAvatar = () => {
           const localdata = JSON.parse(localStorage.getItem("userInformation"))
           localdata.avatar = clickedAvatar
           localStorage.setItem("userInformation", JSON.stringify(localdata))
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
           statusModal("profile", "error", "Internal server error!")
-        })
+        },
+      })
     } else {
       statusModal("profile", "error", "Error changing avatar")
     }
@@ -124,10 +129,12 @@ export const changePersonalInfo = () => {
             data[input.name] = input.value
           }
         })
-        $.post(`${constants.apiURL}/updateUserInfo.php`, data)
-          .done(function (response) {
-            console.log(response)
-            if (response != "false") {
+        $.ajax({
+          url: `${constants.apiURL}/updateInformation`,
+          type: "PUT",
+          data: data,
+          success: function (response) {
+            if (response !== "false") {
               formInputs.forEach(input => (data[input.name] = input.value))
               formInputs.forEach(input => (input.disabled = true))
               statusModal("profile", "success", "Details changed")
@@ -136,11 +143,11 @@ export const changePersonalInfo = () => {
                 localStorage.getItem("userInformation")
               )
               formInputs.forEach(input => {
-                if (input.name == "firstname") {
+                if (input.name === "firstname") {
                   localdata.firstName = input.value
-                } else if (input.name == "lastname") {
+                } else if (input.name === "lastname") {
                   localdata.lastName = input.value
-                } else if (input.name == "dateofbirth") {
+                } else if (input.name === "dateofbirth") {
                   localdata.dateOfBirth = input.value
                 } else {
                   localdata[input.name] = input.value
@@ -151,11 +158,12 @@ export const changePersonalInfo = () => {
               formInputs.forEach(input => (input.disabled = true))
               statusModal("profile", "error", "Internal server error!")
             }
-          })
-          .fail(function (jqXHR, textStatus, errorThrown) {
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
             statusModal("profile", "error", "Internal server error!")
             formInputs.forEach(input => (input.disabled = true))
-          })
+          },
+        })
         $("#save-changes-btn").css("display", "none")
         $("#change-info-btn").text("Change information")
       })
@@ -171,7 +179,7 @@ export const fetchAchievements = () => {
   const achievementsContainer = document.getElementById("achivements-container")
   achievementsContainer.innerHTML = `<h1>Achievements</h1>`
   $.get(
-    `${constants.apiURL}/getUserAchievements.php?id=${
+    `${constants.apiURL}/users/achievements?id=${
       JSON.parse(localStorage.getItem("userInformation")).id
     }`,
     (data, status) => {

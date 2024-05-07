@@ -1,5 +1,5 @@
 export const fetchTopUsers = () => {
-  $.get(`${constants.apiURL}/getLeaderboard.php`, (data, status) => {
+  $.get(`${constants.apiURL}/users/leaderboard`, (data, status) => {
     if (data.length === 0) {
       $(".leaderboard-page").html(
         `<h1 id="heading-of-page" style="text-align: center">Leaderboard</h1>
@@ -51,7 +51,6 @@ const fillFirstThree = data => {
 const findFavCategory = attempt => {
   let maxCategory = ""
   let maxAttempts = 0
-  console.log(attempt)
   for (const key in attempt) {
     if (key.includes("Attempts") && !key.includes("total")) {
       const currentAttempts = attempt[key]
@@ -61,7 +60,6 @@ const findFavCategory = attempt => {
       }
     }
   }
-  console.log(maxCategory)
   return maxCategory.charAt(0).toUpperCase() + maxCategory.slice(1)
 }
 const fillLowerLeaderboard = (data, i) => {

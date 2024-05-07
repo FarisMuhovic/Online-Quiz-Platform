@@ -1,5 +1,5 @@
 export const fetchQuestions = quizID => {
-  $.get(`${constants.apiURL}/getQuizByID.php?quizID=${quizID}`)
+  $.get(`${constants.apiURL}/quiz/id?quizID=${quizID}`)
     .done(function (data) {
       data.questions.forEach(question => {
         const fields = question.fields.split("|")
@@ -192,7 +192,7 @@ const gradeAnswers = userQuizAnswers => {
   let time = $("#quiz-time-left")[0].innerText.split(":")
   let timeLeft = Number(time[1]) * 60 + Number(time[2])
 
-  $.get(`${constants.apiURL}/getQuizByID.php?quizID=${takenQuiz.quizID}`)
+  $.get(`${constants.apiURL}/quiz/id?quizID=${takenQuiz.quizID}`)
     .done(function (data, textStatus, jqXHR) {
       data.questions.forEach(question => {
         const fields = question.fields.split("|")
@@ -216,12 +216,10 @@ const gradeAnswers = userQuizAnswers => {
 
       takenQuiz.answers = userQuizAnswers
       takenQuiz.questionCount = data.numberOfQuestions
-      console.log(takenQuiz.answers)
       takenQuiz.answers.forEach(ans => {
         const newUserAnswer = []
         ans.userAnswer.forEach(userAnswer => {
           ans.fields.forEach(field => {
-            console.log(field)
             if (userAnswer == field.title && field.isCorrect) {
               newUserAnswer.push({title: userAnswer, isCorrect: true})
             } else if (userAnswer == field.title && !field.isCorrect) {
@@ -252,7 +250,7 @@ const gradeAnswers = userQuizAnswers => {
         correct += correctAll
       })
       takenQuiz.correctAnswers = correct
-      $.post(`${constants.apiURL}/postQuizHistory.php`, {
+      $.post(`${constants.apiURL}/history/new`, {
         takenQuiz: takenQuiz,
       })
         .done(function (response) {

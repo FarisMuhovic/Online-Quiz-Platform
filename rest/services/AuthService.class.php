@@ -2,6 +2,9 @@
 
 require_once __DIR__ . '/../dao/AuthDao.class.php';
 
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
 class AuthService {
   private $authDao;
 
@@ -13,14 +16,15 @@ class AuthService {
     $email = $payload["email"];
     $result = $this->authDao->getUserByEmail($email);
     if ($result == false) {
+      $payload["password"] = password_hash($payload["password"], PASSWORD_BCRYPT);
       $isUserCreated = $this->authDao->insertUser($payload);
-      if ($isUserCreated) {
+      if (!$isUserCreated) {
         return $isUserCreated;
       }  
       return $result;
-      } else {
-        return $result;
-      }
+    } else {
+      return 0;
+    }
   }
   public function loginUser($payload) {
     $email = $payload["email"];
@@ -29,15 +33,22 @@ class AuthService {
     if ($result == false) {
       return $result;
     } else {
-      if ($result["password"] == $password) {
+      if (password_verify($password, $result["password"])) {
         unset($result["password"]);
+        $jwt_payload = [
+          'user' => $result,
+          'iat' => time(),
+          'exo' => time() * 60 * 60 * 24 * 3 // 3days
+        ];
+        $token = JWT::encode($jwt_payload, JWT_SECRET, 'HS256');
+        $result["token"] = $token;
         return $result;
       } else {
         return 0;
       }
     }
   }
-  // this will be implemetented if we do sessions
+
   public function logoutUser() {}
   public function checkSession() {}
 }

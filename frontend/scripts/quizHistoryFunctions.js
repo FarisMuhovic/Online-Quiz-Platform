@@ -5,7 +5,7 @@ export const fetchQuizHistory = (value = "") => {
     id = JSON.parse(localStorage.getItem("userInformation")).id
   }
 
-  $.get(`${constants.apiURL}/getQuizHistory.php?id=${id}`)
+  $.get(`${constants.apiURL}/history/all?id=${id}`)
     .done(function (data) {
       quizHistoryContainer.innerHTML = ""
       if (data.length === 0) {

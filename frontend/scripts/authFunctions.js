@@ -85,14 +85,18 @@ const handleRegisterForm = (form, event) => {
   }
   const selectbox = document.getElementById("userType")
   data[selectbox.name] = selectbox.value
-  $.post(`${constants.apiURL}/registerUser.php`, data)
+  $.post(`${constants.apiURL}/auth/register`, data)
     .done(function (response) {
       if (response.success) {
         statusModal("register", "success", response.message)
         delete data.password
         localStorage.setItem("userInformation", JSON.stringify(data))
         // redirect user to dashboard
-        window.location.href = "index.html#dashboard"
+        setTimeout(() => {
+          window.location.href = "index.html#dashboard"
+        }, 500)
+      } else {
+        statusModal("register", "error", "Authentication failed!")
       }
       document.querySelector(".loader").style.display = "none"
       setTimeout(() => {
@@ -100,11 +104,7 @@ const handleRegisterForm = (form, event) => {
       }, 2000)
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      if (errorThrown == "Unauthorized") {
-        statusModal("register", "error", "Authentication failed!")
-      } else {
-        statusModal("register", "error", "Internal server error")
-      }
+      statusModal("register", "error", "Internal server error")
       document.querySelector(".loader").style.display = "none"
       setTimeout(() => {
         document.querySelector(".form-submit-btn").disabled = false
@@ -125,7 +125,7 @@ export const loginForm = () => {
         data[inpt.name] = inpt.checked
       }
     })
-    $.post(`${constants.apiURL}/loginUser.php`, data)
+    $.post(`${constants.apiURL}/auth/login`, data)
       .done(function (response) {
         if (response.success) {
           statusModal("login", "success", response.message)
@@ -147,7 +147,11 @@ export const loginForm = () => {
             JSON.stringify(localStorageInfo)
           )
           // redirect user to dashboard
-          window.location.href = "index.html#dashboard"
+          setTimeout(() => {
+            window.location.href = "index.html#dashboard"
+          }, 500)
+        } else {
+          statusModal("login", "error", "Authentication failed!")
         }
         document.querySelector(".loader").style.display = "none"
         setTimeout(() => {
@@ -155,11 +159,7 @@ export const loginForm = () => {
         }, 2000)
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
-        if (errorThrown == "Unauthorized") {
-          statusModal("login", "error", "Authentication failed!")
-        } else {
-          statusModal("login", "error", "Internal server error")
-        }
+        statusModal("login", "error", "Internal server error")
         document.querySelector(".loader").style.display = "none"
         setTimeout(() => {
           document.querySelector(".form-submit-btn").disabled = false

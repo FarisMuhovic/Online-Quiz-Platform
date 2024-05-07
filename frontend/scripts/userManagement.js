@@ -1,6 +1,6 @@
 export const fetchUsers = (value = "") => {
   const userContainer = document.getElementById("user-container")
-  $.get(`${constants.apiURL}/getAllUsers.php`)
+  $.get(`${constants.apiURL}/users`)
     .done(function (data) {
       userContainer.innerHTML = ""
       if (data.length == 0) {
@@ -71,11 +71,15 @@ const setRole = data => {
             if (user.id == userID) {
               document.querySelectorAll(".user").forEach(userDiv => {
                 if (userDiv.attributes[1].value == userID) {
-                  $.post(`${constants.apiURL}/changeRole.php`, {
-                    userID: userID,
-                    role: user.role == "user" ? "admin" : "user",
-                  })
-                    .done(function (response) {
+                  $.ajax({
+                    url: `${constants.apiURL}/users/updateRole`,
+                    type: "PUT",
+                    data: JSON.stringify({
+                      userID: userID,
+                      role: user.role == "user" ? "admin" : "user",
+                    }),
+                    contentType: "application/json",
+                    success: function (response) {
                       if (user.role == "user") {
                         user.role = "admin"
                       } else {
@@ -87,17 +91,18 @@ const setRole = data => {
                         "success",
                         "User role changed"
                       )
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
                       statusModal(
                         "userManagement",
                         "error",
                         "Internal server error!"
                       )
-                    })
-                    .always(function () {
+                    },
+                    complete: function () {
                       sureModal.classList.remove("trigger")
-                    })
+                    },
+                  })
                 }
               })
             }
@@ -130,25 +135,28 @@ const removeUser = data => {
               if (user.id == userID) {
                 document.querySelectorAll(".user").forEach(userDiv => {
                   if (userDiv.attributes[1].value == userID) {
-                    $.get(`${constants.apiURL}/removeUser.php?userID=${userID}`)
-                      .done(function (response) {
+                    $.ajax({
+                      url: `${constants.apiURL}/users/remove?userID=${userID}`,
+                      type: "DELETE",
+                      success: function (response) {
                         userDiv.remove()
                         statusModal(
                           "userManagement",
                           "success",
                           "User successfully removed"
                         )
-                      })
-                      .fail(function (jqXHR, textStatus, errorThrown) {
+                      },
+                      error: function (jqXHR, textStatus, errorThrown) {
                         statusModal(
                           "userManagement",
                           "error",
                           "Internal server error!"
                         )
-                      })
-                      .always(function () {
+                      },
+                      complete: function () {
                         sureModal.classList.remove("trigger")
-                      })
+                      },
+                    })
                   }
                 })
               }

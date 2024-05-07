@@ -2,7 +2,7 @@ export const fetchQuizzesManagement = (value = "") => {
   const quizManagementContainer = document.getElementById(
     "quiz-manage-container"
   )
-  $.get(`${constants.apiURL}/getListOfQuizzes.php`)
+  $.get(`${constants.apiURL}/quiz/all`)
     .done(function (data) {
       quizManagementContainer.innerHTML = ""
       if (data.length == 0) {
@@ -187,7 +187,7 @@ const submitFormQuiz = () => {
     } else {
       quizCreatedData.altText = quizCreatedData.category + "banner"
       quizCreatedData.bannerImage = quizCreatedData.category
-      $.post(`${constants.apiURL}/createQuiz.php?`, {
+      $.post(`${constants.apiURL}/quiz/new`, {
         quiz: quizCreatedData,
       })
         .done(function (response) {
@@ -230,9 +230,10 @@ const viewInDetail = () => {
         $("#details-modal-quiz").css("display", "none")
       })
       const quizID = e.target.attributes[2].value
-      $.get(`${constants.apiURL}/getQuizByID.php?quizID=${quizID}`).done(
-        function (data) {
-          const quizDataHtml = `
+      $.get(`${constants.apiURL}/quiz/id?quizID=${quizID}`).done(function (
+        data
+      ) {
+        const quizDataHtml = `
            <div
             <h4>${data.title}</h4>
               <p>${data.description}</p>
@@ -243,9 +244,8 @@ const viewInDetail = () => {
             <h5>Questions:</h5>
             ${quizDetailsQuestion(data)}
           </div>`
-          $("#details-body").html(quizDataHtml)
-        }
-      )
+        $("#details-body").html(quizDataHtml)
+      })
     })
   })
 }
@@ -299,7 +299,7 @@ const removeQuiz = data => {
             document.querySelectorAll(".quiz").forEach(quizDiv => {
               if (quizDiv.attributes[1].value == quizID) {
                 sureModal.classList.remove("trigger")
-                $.get(`${constants.apiURL}/removeQuiz.php?quizID=${quizID}`)
+                $.get(`${constants.apiURL}/quiz/remove?quizID=${quizID}`)
                   .done(function (response) {
                     quizDiv.remove()
                     statusModal(

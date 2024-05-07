@@ -3,7 +3,7 @@ export const fetchQuizReview = () => {
   quizReviewContainer.innerHTML = ""
   const selectedQuizID = localStorage.getItem("selectedReviewQuizID")
   const id = JSON.parse(localStorage.getItem("userInformation")).id
-  $.post(`${constants.apiURL}/getSpecificQuizHistory.php`, {
+  $.post(`${constants.apiURL}/history/id`, {
     quizID: selectedQuizID,
     id: id,
   })
@@ -21,7 +21,7 @@ export const fetchQuizReview = () => {
         </div>
       </section>`
 
-      $.get(`${constants.apiURL}/getQuizByID.php?quizID=${data.quiz_id}`).done(
+      $.get(`${constants.apiURL}/quiz/id?quizID=${data.quiz_id}`).done(
         function (quizdata) {
           quizdata.questions.forEach(question => {
             const fields = question.fields.split("|")
