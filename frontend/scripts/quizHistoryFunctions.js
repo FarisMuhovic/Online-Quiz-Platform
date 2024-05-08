@@ -5,8 +5,18 @@ export const fetchQuizHistory = (value = "") => {
     id = JSON.parse(localStorage.getItem("userInformation")).id
   }
 
-  $.get(`${constants.apiURL}/history/all?id=${id}`)
-    .done(function (data) {
+  $.ajax({
+    url: `${constants.apiURL}/history/all?id=${id}`,
+    type: "GET",
+    beforeSend: function (xhr) {
+      if (JSON.parse(localStorage.getItem("userInformation")).token) {
+        xhr.setRequestHeader(
+          "Authorization",
+          JSON.parse(localStorage.getItem("userInformation")).token
+        )
+      }
+    },
+    success: function (data) {
       quizHistoryContainer.innerHTML = ""
       if (data.length === 0) {
         quizHistoryContainer.innerHTML = constants.noDataBanner
@@ -18,12 +28,13 @@ export const fetchQuizHistory = (value = "") => {
         })
         listenForAClick()
       }
-    })
-    .fail(function (xhr, status, error) {
+    },
+    error: function (xhr, status, error) {
       quizHistoryContainer.innerHTML = constants.errorBanner(
         "Error loading quiz history. Please try again later."
       )
-    })
+    },
+  })
 }
 
 export const searchQuizHistory = () => {

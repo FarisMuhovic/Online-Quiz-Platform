@@ -10,9 +10,6 @@ Flight::group('/users', function () {
      *      path="/users",
      *      tags={"users"},
      *      summary="Get all users",
-     *      security={
-     *          {"ApiKey": {}}
-     *      },
      *      @OA\Response(
      *           response=200,
      *           description="Array of users"
@@ -28,9 +25,6 @@ Flight::group('/users', function () {
      *      path="/users/achievements",
      *      tags={"users"},
      *      summary="Get specific user achievements by ID",
-     *      security={
-     *          {"ApiKey": {}}
-     *      },
      *      @OA\Response(
      *           response=200,
      *           description="Array of achievements"
@@ -52,9 +46,6 @@ Flight::group('/users', function () {
      *      path="/users/leaderboard",
      *      tags={"users"},
      *      summary="Get top 10 users for the leaderboard in descending order",
-     *      security={
-     *          {"ApiKey": {}}
-     *      },
      *      @OA\Response(
      *           response=200,
      *           description="Array of users"
@@ -89,15 +80,17 @@ Flight::group('/users', function () {
      * )
      */
     Flight::route('PUT /updateRole', function () {
-        $ID = Flight::request()->query['userID'];
-        $role = Flight::request()->query['role'];
-        if ($ID && $role) {
-            $result =  Flight::get('userService')->changeUserRole($ID,$role);
-            Flight::json($result);
+        $data = Flight::request()->data->getData(); 
+        if (isset($data['userID']) && isset($data['role'])) {
+            $ID = $data['userID'];
+            $role = $data['role'];
+            $result = Flight::get('userService')->changeUserRole($ID, $role);
+            Flight::json($result, 200);
         } else {
-            Flight::json(array('error' => 'No id provided'));
+            Flight::json(array('error' => 'No userID or role provided in the request body'), 400);
         }
     });
+    
      /**
      * @OA\PUT(
      *      path="/users/updateAvatar",

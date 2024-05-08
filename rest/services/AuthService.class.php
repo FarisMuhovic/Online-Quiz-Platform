@@ -18,7 +18,18 @@ class AuthService {
     if ($result == 0) {
       $payload["password"] = password_hash($payload["password"], PASSWORD_BCRYPT);
       $isUserCreated = $this->authDao->insertUser($payload);
-      return $isUserCreated;
+      if (!$isUserCreated) {
+        return 0;
+      } else {
+        $jwt_payload = [
+          'user' => $result,
+          'iat' => time(),
+          'exp' => time() * 60 * 60 * 24 * 3 // 3days
+        ];
+        $token = JWT::encode($jwt_payload, JWT_SECRET, 'HS256');
+        $payload["token"] = $token;
+        return $payload;
+      }
     } else {
       return 0;
     }
@@ -35,7 +46,7 @@ class AuthService {
         $jwt_payload = [
           'user' => $result,
           'iat' => time(),
-          'exo' => time() * 60 * 60 * 24 * 3 // 3days
+          'exp' => time() * 60 * 60 * 24 * 3 // 3days
         ];
         $token = JWT::encode($jwt_payload, JWT_SECRET, 'HS256');
         $result["token"] = $token;
@@ -46,6 +57,12 @@ class AuthService {
     }
   }
 
-  public function logoutUser() {}
-  public function checkSession() {}
+  public function logoutUser($token) {
+    $decoded_token = JWT::decode($token, new Key(JWT_SECRET, 'HS256'));
+    Flight::json([
+      'jwt_decoded' => $decoded_token,
+      'user' => $decoded_token->user
+    ]);
+    // if decode true destroy token, logout, else dont
+  }
 }

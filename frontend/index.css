@@ -326,7 +326,6 @@ footer p {
 }
 .empty-banner {
   margin: 1rem auto;
-  transform: translateX(50%);
   grid-column: 1/-1;
 }
 .error-banner {

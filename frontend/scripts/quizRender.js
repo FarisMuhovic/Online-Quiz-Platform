@@ -1,6 +1,16 @@
 export const fetchQuestions = quizID => {
-  $.get(`${constants.apiURL}/quiz/id?quizID=${quizID}`)
-    .done(function (data) {
+  $.ajax({
+    url: `${constants.apiURL}/quiz/id?quizID=${quizID}`,
+    type: "GET",
+    beforeSend: function (xhr) {
+      if (JSON.parse(localStorage.getItem("userInformation")).token) {
+        xhr.setRequestHeader(
+          "Authorization",
+          JSON.parse(localStorage.getItem("userInformation")).token
+        )
+      }
+    },
+    success: function (data) {
       data.questions.forEach(question => {
         const fields = question.fields.split("|")
         question.fields = fields.map(field => {
@@ -14,13 +24,14 @@ export const fetchQuestions = quizID => {
       setQuizIntro(data.title, data.category)
       setTimeLeft(data.duration)
       renderQuestions(data.questions)
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
       statusModal("quiz", "error", "Failed to load quiz")
       setTimeout(() => {
         window.location.href = "#quizSearch"
       }, 1500)
-    })
+    },
+  })
 }
 
 export const submitQuizBtn = () => {
@@ -192,8 +203,18 @@ const gradeAnswers = userQuizAnswers => {
   let time = $("#quiz-time-left")[0].innerText.split(":")
   let timeLeft = Number(time[1]) * 60 + Number(time[2])
 
-  $.get(`${constants.apiURL}/quiz/id?quizID=${takenQuiz.quizID}`)
-    .done(function (data, textStatus, jqXHR) {
+  $.ajax({
+    url: `${constants.apiURL}/quiz/id?quizID=${takenQuiz.quizID}`,
+    type: "GET",
+    beforeSend: function (xhr) {
+      if (JSON.parse(localStorage.getItem("userInformation")).token) {
+        xhr.setRequestHeader(
+          "Authorization",
+          JSON.parse(localStorage.getItem("userInformation")).token
+        )
+      }
+    },
+    success: function (data, textStatus, jqXHR) {
       data.questions.forEach(question => {
         const fields = question.fields.split("|")
         question.fields = fields.map(field => {
@@ -204,6 +225,7 @@ const gradeAnswers = userQuizAnswers => {
           }
         })
       })
+
       let timeTaken = data.duration * 60 - timeLeft // in seconds
       takenQuiz.timeTaken = timeTaken
 
@@ -216,6 +238,7 @@ const gradeAnswers = userQuizAnswers => {
 
       takenQuiz.answers = userQuizAnswers
       takenQuiz.questionCount = data.numberOfQuestions
+
       takenQuiz.answers.forEach(ans => {
         const newUserAnswer = []
         ans.userAnswer.forEach(userAnswer => {
@@ -231,6 +254,8 @@ const gradeAnswers = userQuizAnswers => {
         ans.userAnswer = newUserAnswer
         delete ans.fields
       })
+
+      let correct = 0
       takenQuiz.answers.forEach(answer => {
         let correctAll = 0
         answer.userAnswer.forEach(ans => {
@@ -242,6 +267,7 @@ const gradeAnswers = userQuizAnswers => {
             }
           }
         })
+
         if (correctAll > 0) {
           correctAll = 1
         } else {
@@ -250,33 +276,46 @@ const gradeAnswers = userQuizAnswers => {
         correct += correctAll
       })
       takenQuiz.correctAnswers = correct
-      $.post(`${constants.apiURL}/history/new`, {
-        takenQuiz: takenQuiz,
-      })
-        .done(function (response) {
+
+      $.ajax({
+        url: `${constants.apiURL}/history/new`,
+        type: "POST",
+        beforeSend: function (xhr) {
+          if (JSON.parse(localStorage.getItem("userInformation")).token) {
+            xhr.setRequestHeader(
+              "Authorization",
+              JSON.parse(localStorage.getItem("userInformation")).token
+            )
+          }
+        },
+        contentType: "application/json",
+        data: JSON.stringify({takenQuiz: takenQuiz}),
+        success: function (response) {
           $("a").off("click", showAlert)
           statusModal("quiz", "success", "Quiz history successfully updated")
           showEndText(takenQuiz)
-        })
-        .fail(function (xhr, status, error) {
+        },
+        error: function (xhr, status, error) {
           statusModal(
             "quiz",
             "error",
             "Failed to send the quiz to the database"
           )
-        })
+        },
+      })
 
       $("a").off("click", showAlert)
       setTimeout(() => {
         showEndText(takenQuiz)
       }, 5000)
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
       statusModal("quiz", "error", "Failed to grade the quiz")
       setTimeout(() => {
         window.location.href = "#quizSearch"
       }, 2500)
-    })
+    },
+  })
 }
 const showEndText = quizHistory => {
   const timeout = 15000

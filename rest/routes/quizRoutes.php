@@ -10,9 +10,6 @@ Flight::group('/quiz', function () {
      *      path="/quiz/all",
      *      tags={"quiz"},
      *      summary="Get all quizzes",
-     *      security={
-     *          {"ApiKey": {}}
-     *      },
      *      @OA\Response(
      *           response=200,
      *           description="Array of quizzes"
@@ -28,9 +25,6 @@ Flight::group('/quiz', function () {
      *      path="/quiz/id",
      *      tags={"quiz"},
      *      summary="Get a quiz by id",
-     *      security={
-     *          {"ApiKey": {}}
-     *      },
      *      @OA\Response(
      *           response=200,
      *           description="Object of that quiz"
@@ -72,13 +66,10 @@ Flight::group('/quiz', function () {
           }
     });
     /**
-     * @OA\Get(
+     * @OA\Delete(
      *      path="/quiz/remove",
      *      tags={"quiz"},
-     *      summary="Removes a quiz from the database by ID",
-     *      security={
-     *          {"ApiKey": {}}
-     *      },
+     *      summary="Removes a quiz from the database by quizID",
      *      @OA\Response(
      *           response=200,
      *           description="Quiz successfuly removed"
@@ -86,7 +77,7 @@ Flight::group('/quiz', function () {
      *      @OA\Parameter(@OA\Schema(type="number"), in="query", name="quizID", example="3", description="Quiz ID")
      * )
      */
-    Flight::route('GET /remove', function () {
+    Flight::route('DELETE /remove', function () {
         $ID = Flight::request()->query['quizID'];
         if($ID) {
             $result = Flight::get('quizService')->removeQuiz($ID);

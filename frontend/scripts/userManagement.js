@@ -1,9 +1,19 @@
 export const fetchUsers = (value = "") => {
   const userContainer = document.getElementById("user-container")
-  $.get(`${constants.apiURL}/users`)
-    .done(function (data) {
+  $.ajax({
+    url: `${constants.apiURL}/users`,
+    type: "GET",
+    beforeSend: function (xhr) {
+      if (JSON.parse(localStorage.getItem("userInformation")).token) {
+        xhr.setRequestHeader(
+          "Authorization",
+          JSON.parse(localStorage.getItem("userInformation")).token
+        )
+      }
+    },
+    success: function (data) {
       userContainer.innerHTML = ""
-      if (data.length == 0) {
+      if (data.length === 0) {
         userContainer.innerHTML = constants.noDataBanner
       }
       data.forEach(function (user) {
@@ -16,10 +26,11 @@ export const fetchUsers = (value = "") => {
       })
       setRole(data)
       removeUser(data)
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-      userContainer.innerHTML = constants.noDataBanner
-    })
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      userContainer.innerHTML = constants.errorBanner("Failed to load users.")
+    },
+  })
 }
 export const searchUser = () => {
   $("#search-form-user-management").on("submit", e => {
@@ -74,6 +85,18 @@ const setRole = data => {
                   $.ajax({
                     url: `${constants.apiURL}/users/updateRole`,
                     type: "PUT",
+                    beforeSend: function (xhr) {
+                      if (
+                        JSON.parse(localStorage.getItem("userInformation"))
+                          .token
+                      ) {
+                        xhr.setRequestHeader(
+                          "Authorization",
+                          JSON.parse(localStorage.getItem("userInformation"))
+                            .token
+                        )
+                      }
+                    },
                     data: JSON.stringify({
                       userID: userID,
                       role: user.role == "user" ? "admin" : "user",
@@ -86,6 +109,8 @@ const setRole = data => {
                         user.role = "user"
                       }
                       userDiv.children[0].children[2].innerText = `Type: ${user.role}`
+                      btn.innerHTML =
+                        user.role == "admin" ? "Demote" : "Promote"
                       statusModal(
                         "userManagement",
                         "success",
@@ -138,6 +163,18 @@ const removeUser = data => {
                     $.ajax({
                       url: `${constants.apiURL}/users/remove?userID=${userID}`,
                       type: "DELETE",
+                      beforeSend: function (xhr) {
+                        if (
+                          JSON.parse(localStorage.getItem("userInformation"))
+                            .token
+                        ) {
+                          xhr.setRequestHeader(
+                            "Authorization",
+                            JSON.parse(localStorage.getItem("userInformation"))
+                              .token
+                          )
+                        }
+                      },
                       success: function (response) {
                         userDiv.remove()
                         statusModal(

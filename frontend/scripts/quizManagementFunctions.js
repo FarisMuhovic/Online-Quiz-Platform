@@ -2,10 +2,20 @@ export const fetchQuizzesManagement = (value = "") => {
   const quizManagementContainer = document.getElementById(
     "quiz-manage-container"
   )
-  $.get(`${constants.apiURL}/quiz/all`)
-    .done(function (data) {
+  $.ajax({
+    url: `${constants.apiURL}/quiz/all`,
+    type: "GET",
+    beforeSend: function (xhr) {
+      if (JSON.parse(localStorage.getItem("userInformation")).token) {
+        xhr.setRequestHeader(
+          "Authorization",
+          JSON.parse(localStorage.getItem("userInformation")).token
+        )
+      }
+    },
+    success: function (data) {
       quizManagementContainer.innerHTML = ""
-      if (data.length == 0) {
+      if (data.length === 0) {
         quizManagementContainer.innerHTML = constants.noDataBanner
       }
       data.forEach(quiz => {
@@ -15,12 +25,13 @@ export const fetchQuizzesManagement = (value = "") => {
       })
       viewInDetail()
       removeQuiz(data)
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
       quizManagementContainer.innerHTML = constants.errorBanner(
         "Error loading quizzes, please try again later."
       )
-    })
+    },
+  })
 }
 export const searchQuizManagement = () => {
   $("#search-form-quiz-management").on("submit", e => {
@@ -187,17 +198,28 @@ const submitFormQuiz = () => {
     } else {
       quizCreatedData.altText = quizCreatedData.category + "banner"
       quizCreatedData.bannerImage = quizCreatedData.category
-      $.post(`${constants.apiURL}/quiz/new`, {
-        quiz: quizCreatedData,
-      })
-        .done(function (response) {
+      $.ajax({
+        url: `${constants.apiURL}/quiz/new`,
+        type: "POST",
+        beforeSend: function (xhr) {
+          if (JSON.parse(localStorage.getItem("userInformation")).token) {
+            xhr.setRequestHeader(
+              "Authorization",
+              JSON.parse(localStorage.getItem("userInformation")).token
+            )
+          }
+        },
+        contentType: "application/json",
+        data: JSON.stringify({quiz: quizCreatedData}),
+        success: function (response) {
           statusModal("quizManagement", "success", "Quiz created")
           $("#modal").css("display", "none")
           $("#questions-container").html("")
-        })
-        .fail(function (xhr, status, error) {
+        },
+        error: function (xhr, status, error) {
           statusModal("quizManagement", "error", "Internal server error!")
-        })
+        },
+      })
     }
   })
 }
@@ -230,21 +252,31 @@ const viewInDetail = () => {
         $("#details-modal-quiz").css("display", "none")
       })
       const quizID = e.target.attributes[2].value
-      $.get(`${constants.apiURL}/quiz/id?quizID=${quizID}`).done(function (
-        data
-      ) {
-        const quizDataHtml = `
-           <div
-            <h4>${data.title}</h4>
+      $.ajax({
+        url: `${constants.apiURL}/quiz/id?quizID=${quizID}`,
+        type: "GET",
+        beforeSend: function (xhr) {
+          if (JSON.parse(localStorage.getItem("userInformation")).token) {
+            xhr.setRequestHeader(
+              "Authorization",
+              JSON.parse(localStorage.getItem("userInformation")).token
+            )
+          }
+        },
+        success: function (data) {
+          const quizDataHtml = `
+            <div>
+              <h4>${data.title}</h4>
               <p>${data.description}</p>
               <p>Quiz Length: ${data.duration} minutes</p>
               <p>Category: ${data.category}</p>
-           </div>
-          <div class="quiz-view-details-modal">
-            <h5>Questions:</h5>
-            ${quizDetailsQuestion(data)}
-          </div>`
-        $("#details-body").html(quizDataHtml)
+            </div>
+            <div class="quiz-view-details-modal">
+              <h5>Questions:</h5>
+              ${quizDetailsQuestion(data)}
+            </div>`
+          $("#details-body").html(quizDataHtml)
+        },
       })
     })
   })
@@ -299,22 +331,36 @@ const removeQuiz = data => {
             document.querySelectorAll(".quiz").forEach(quizDiv => {
               if (quizDiv.attributes[1].value == quizID) {
                 sureModal.classList.remove("trigger")
-                $.get(`${constants.apiURL}/quiz/remove?quizID=${quizID}`)
-                  .done(function (response) {
+                $.ajax({
+                  url: `${constants.apiURL}/quiz/remove?quizID=${quizID}`,
+                  type: "DELETE",
+                  beforeSend: function (xhr) {
+                    if (
+                      JSON.parse(localStorage.getItem("userInformation")).token
+                    ) {
+                      xhr.setRequestHeader(
+                        "Authorization",
+                        JSON.parse(localStorage.getItem("userInformation"))
+                          .token
+                      )
+                    }
+                  },
+                  success: function (response) {
                     quizDiv.remove()
                     statusModal(
                       "quizManagement",
                       "success",
-                      "Quiz successfuly removed"
+                      "Quiz successfully removed"
                     )
-                  })
-                  .fail(function (jqXHR, textStatus, errorThrown) {
+                  },
+                  error: function (jqXHR, textStatus, errorThrown) {
                     statusModal(
                       "quizManagement",
                       "error",
                       "Internal server error!"
                     )
-                  })
+                  },
+                })
               }
             })
           }

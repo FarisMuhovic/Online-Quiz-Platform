@@ -42,7 +42,8 @@ Flight::group('/auth', function () {
         if ($result == true) {
           Flight::json(array(
               'success' => true,
-              'message' => 'Account successfully created!'
+              'message' => 'Account successfully created!',
+              'data' => $result
           ), 200);
         } else {
           Flight::json(array(
@@ -90,5 +91,30 @@ Flight::group('/auth', function () {
               'message' => 'Authentication failed.'
           ), 401);
         }
+    });
+    /**
+     * @OA\Post(
+     *      path="/auth/logout",
+     *      tags={"auth"},
+     *      summary="Logout user from system",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
+     *      @OA\Response(
+     *           response=200,
+     *           description="Success response or exception"
+     *      ),
+     * )
+     */
+    Flight::route('POST /logout', function () {
+      try {
+        $token = Flight::request()->getHeader('Authentication');
+        if($token){
+            Flight::get('authService')->logout($token);
+            return true;
+        }
+      } catch (\Exception $e){
+          Flight::halt(500, $e->getMessage());
+      }            
     });
 });

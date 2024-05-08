@@ -32,6 +32,14 @@ export const changeAvatar = () => {
         url: `${constants.apiURL}/users/updateAvatar`,
         type: "PUT",
         contentType: "application/json",
+        beforeSend: function (xhr) {
+          if (JSON.parse(localStorage.getItem("userInformation")).token) {
+            xhr.setRequestHeader(
+              "Authorization",
+              JSON.parse(localStorage.getItem("userInformation")).token
+            )
+          }
+        },
         data: JSON.stringify({
           clickedAvatar: clickedAvatar,
           userID: JSON.parse(localStorage.getItem("userInformation")).id,
@@ -130,9 +138,17 @@ export const changePersonalInfo = () => {
           }
         })
         $.ajax({
-          url: `${constants.apiURL}/updateInformation`,
+          url: `${constants.apiURL}/users/updateInformation`,
           type: "PUT",
           data: data,
+          beforeSend: function (xhr) {
+            if (JSON.parse(localStorage.getItem("userInformation")).token) {
+              xhr.setRequestHeader(
+                "Authorization",
+                JSON.parse(localStorage.getItem("userInformation")).token
+              )
+            }
+          },
           success: function (response) {
             if (response !== "false") {
               formInputs.forEach(input => (data[input.name] = input.value))
@@ -178,18 +194,28 @@ export const changePersonalInfo = () => {
 export const fetchAchievements = () => {
   const achievementsContainer = document.getElementById("achivements-container")
   achievementsContainer.innerHTML = `<h1>Achievements</h1>`
-  $.get(
-    `${constants.apiURL}/users/achievements?id=${
+  $.ajax({
+    url: `${constants.apiURL}/users/achievements?id=${
       JSON.parse(localStorage.getItem("userInformation")).id
     }`,
-    (data, status) => {
+    type: "GET",
+    beforeSend: function (xhr) {
+      if (JSON.parse(localStorage.getItem("userInformation")).token) {
+        xhr.setRequestHeader(
+          "Authorization",
+          JSON.parse(localStorage.getItem("userInformation")).token
+        )
+      }
+    },
+    success: function (data, status) {
       data.forEach(achievement => {
         achievementsContainer.innerHTML += `
-        <div class="achievement">
-          <h4>${achievement.title}</h4>
-          <p>${achievement.description}</p>
-        </div>`
+          <div class="achievement">
+            <h4>${achievement.title}</h4>
+            <p>${achievement.description}</p>
+          </div>`
       })
-    }
-  )
+    },
+    error: function () {},
+  })
 }

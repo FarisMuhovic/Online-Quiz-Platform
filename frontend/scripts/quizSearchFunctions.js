@@ -1,9 +1,19 @@
 export const fetchQuizzes = (name = "", catg = "none") => {
   const quizContainer = document.getElementById("quiz-search-container")
-  $.get(`${constants.apiURL}/quiz/all`)
-    .done(function (data) {
+  $.ajax({
+    url: `${constants.apiURL}/quiz/all`,
+    type: "GET",
+    beforeSend: function (xhr) {
+      if (JSON.parse(localStorage.getItem("userInformation")).token) {
+        xhr.setRequestHeader(
+          "Authorization",
+          JSON.parse(localStorage.getItem("userInformation")).token
+        )
+      }
+    },
+    success: function (data) {
       quizContainer.innerHTML = ""
-      if (data.length == 0) {
+      if (data.length === 0) {
         quizContainer.innerHTML = constants.noDataBanner
       }
       data.forEach(quiz => {
@@ -32,12 +42,13 @@ export const fetchQuizzes = (name = "", catg = "none") => {
         }
       })
       listenForClick()
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
       quizContainer.innerHTML = constants.errorBanner(
         "Error loading quizzes, please try again later."
       )
-    })
+    },
+  })
 }
 export const searchQuiz = () => {
   $("#search-form").on("submit", e => {

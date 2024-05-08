@@ -10,9 +10,6 @@ Flight::group('/history', function () {
      *      path="/history/all",
      *      tags={"history"},
      *      summary="Get all taken quizzes",
-     *      security={
-     *          {"ApiKey": {}}
-     *      },
      *      @OA\Response(
      *           response=200,
      *           description="Array of taken quizzes"

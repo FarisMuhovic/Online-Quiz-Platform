@@ -1,19 +1,32 @@
 export const fetchTopUsers = () => {
-  $.get(`${constants.apiURL}/users/leaderboard`, (data, status) => {
-    if (data.length === 0) {
-      $(".leaderboard-page").html(
-        `<h1 id="heading-of-page" style="text-align: center">Leaderboard</h1>
-        <img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" />
-        `
-      )
-    }
-    fillFirstThree(data)
-    for (let i = 3; i < data.length; i++) {
-      fillLowerLeaderboard(data, i)
-    }
-  }).fail(() =>
-    statusModal("leaderboard", "error", "Failed to load the leaderboard.")
-  )
+  $.ajax({
+    url: `${constants.apiURL}/users/leaderboard`,
+    type: "GET",
+    beforeSend: function (xhr) {
+      if (JSON.parse(localStorage.getItem("userInformation")).token) {
+        xhr.setRequestHeader(
+          "Authorization",
+          JSON.parse(localStorage.getItem("userInformation")).token
+        )
+      }
+    },
+    success: function (data, status) {
+      if (data.length === 0) {
+        $(".leaderboard-page").html(
+          `<h1 id="heading-of-page" style="text-align: center">Leaderboard</h1>
+          <img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" />
+          `
+        )
+      }
+      fillFirstThree(data)
+      for (let i = 3; i < data.length; i++) {
+        fillLowerLeaderboard(data, i)
+      }
+    },
+    error: function () {
+      statusModal("leaderboard", "error", "Failed to load the leaderboard.")
+    },
+  })
 }
 
 const fillFirstThree = data => {

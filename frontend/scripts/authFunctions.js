@@ -90,6 +90,7 @@ const handleRegisterForm = (form, event) => {
       if (response.success == true) {
         statusModal("register", "success", response.message)
         delete data.password
+        data["token"] = response.data.token
         localStorage.setItem("userInformation", JSON.stringify(data))
         // redirect user to dashboard
         setTimeout(() => {
@@ -133,23 +134,7 @@ export const loginForm = () => {
       .done(function (response) {
         if (response.success) {
           statusModal("login", "success", response.message)
-          const localStorageInfo = {
-            id: response.data.id,
-            email: response.data.email,
-            firstName: response.data.firstName,
-            lastName: response.data.lastName,
-            role: response.data.role,
-            category: response.data.category,
-            avatar: response.data.avatar,
-            joinDate: response.data.joinDate,
-            dateOfBirth: response.data.dateOfBirth,
-            country: response.data.country,
-            age: response.data.age,
-          }
-          localStorage.setItem(
-            "userInformation",
-            JSON.stringify(localStorageInfo)
-          )
+          localStorage.setItem("userInformation", JSON.stringify(response.data))
           // redirect user to dashboard
           setTimeout(() => {
             window.location.href = "index.html#dashboard"
@@ -177,20 +162,30 @@ export const loginForm = () => {
 }
 
 export const logout = () => {
-  $.post(
-    "restapi/auth/logout",
-    JSON.parse(localStorage.getItem("userInformation"))
-  )
-    .done(function (response) {
+  $.ajax({
+    url: `${constants.apiURL}/auth/logout`,
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify(localStorage.getItem("userInformation")),
+    beforeSend: function (xhr) {
+      if (JSON.parse(localStorage.getItem("userInformation")).token) {
+        xhr.setRequestHeader(
+          "Authorization",
+          JSON.parse(localStorage.getItem("userInformation")).token
+        )
+      }
+    },
+    success: function (response) {
       window.location.href = "index.html#login"
       localStorage.clear()
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-      // failed to destroy session
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      // Failed to destroy session
       statusModal(
         "dashboard",
         "error",
         "Failed to log out, Internal server error!"
       )
-    })
+    },
+  })
 }
