@@ -87,7 +87,7 @@ const handleRegisterForm = (form, event) => {
   data[selectbox.name] = selectbox.value
   $.post(`${constants.apiURL}/auth/register`, data)
     .done(function (response) {
-      if (response.success) {
+      if (response.success == true) {
         statusModal("register", "success", response.message)
         delete data.password
         localStorage.setItem("userInformation", JSON.stringify(data))
@@ -104,7 +104,11 @@ const handleRegisterForm = (form, event) => {
       }, 2000)
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      statusModal("register", "error", "Internal server error")
+      if (errorThrown == "Unauthorized") {
+        statusModal("register", "error", "Authentication failed!")
+      } else {
+        statusModal("register", "error", "Internal server error")
+      }
       document.querySelector(".loader").style.display = "none"
       setTimeout(() => {
         document.querySelector(".form-submit-btn").disabled = false
@@ -159,7 +163,11 @@ export const loginForm = () => {
         }, 2000)
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
-        statusModal("login", "error", "Internal server error")
+        if (errorThrown == "Unauthorized") {
+          statusModal("login", "error", "Authentication failed!")
+        } else {
+          statusModal("login", "error", "Internal server error")
+        }
         document.querySelector(".loader").style.display = "none"
         setTimeout(() => {
           document.querySelector(".form-submit-btn").disabled = false

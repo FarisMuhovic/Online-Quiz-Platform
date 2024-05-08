@@ -15,13 +15,10 @@ class AuthService {
   public function registerUser($payload) {
     $email = $payload["email"];
     $result = $this->authDao->getUserByEmail($email);
-    if ($result == false) {
+    if ($result == 0) {
       $payload["password"] = password_hash($payload["password"], PASSWORD_BCRYPT);
       $isUserCreated = $this->authDao->insertUser($payload);
-      if (!$isUserCreated) {
-        return $isUserCreated;
-      }  
-      return $result;
+      return $isUserCreated;
     } else {
       return 0;
     }
@@ -30,8 +27,8 @@ class AuthService {
     $email = $payload["email"];
     $password = $payload["password"];
     $result = $this->authDao->getUserByEmail($email);
-    if ($result == false) {
-      return $result;
+    if ($result == 1) {
+      return 0;
     } else {
       if (password_verify($password, $result["password"])) {
         unset($result["password"]);
