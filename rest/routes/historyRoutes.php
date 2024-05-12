@@ -42,8 +42,8 @@ Flight::group('/history', function () {
      *          description="Information about user and quiz history ID",
      *          @OA\JsonContent(
      *             required={"quizID", "id"},
-     *             @OA\Property(property="quizID", type="number", example="25"),
-     *             @OA\Property(property="id", type="string", example="cef69047-71f9-4a64-a9b0-a2b8bb8703b6"),
+     *             @OA\Property(property="quizID", type="number", example="3"),
+     *             @OA\Property(property="id", type="string", example="fa245808-6d07-4630-84d9-aebbb57fdb3e"),
      *          )
      *      ),
      * )

@@ -18,7 +18,7 @@ Flight::group('/quiz', function () {
      */
     Flight::route('GET /all', function () {
         $result =  Flight::get('quizService')->getAllQuizBanners();
-        Flight::json($result);
+        Flight::json($result, 200);
     });
     /**
      * @OA\Get(
@@ -36,9 +36,9 @@ Flight::group('/quiz', function () {
         $ID = Flight::request()->query['quizID'];
         if($ID) {
             $result = Flight::get('quizService')->getQuizByID($ID);
-            Flight::json($result);
+            Flight::json($result, 200);
         } else {
-            Flight::json(array('error' => 'No quiz ID provided'));
+            Flight::json(array('error' => 'No quiz ID provided'), 400);
         }
     });
      /**
@@ -60,9 +60,9 @@ Flight::group('/quiz', function () {
         $requestData = Flight::request()->data->getData();
         if($requestData) {
             $result = Flight::get('quizService')->insertQuiz($requestData["quiz"]);
-            Flight::json($result);
+            Flight::json($result, 200);
           }  else {
-            Flight::json(array('error' => 'No avatar provided'));
+            Flight::json(array('error' => 'No avatar provided'), 400);
           }
     });
     /**
@@ -81,9 +81,9 @@ Flight::group('/quiz', function () {
         $ID = Flight::request()->query['quizID'];
         if($ID) {
             $result = Flight::get('quizService')->removeQuiz($ID);
-            Flight::json($result);
+            Flight::json($result, 200);
         } else {
-            Flight::json(array('error' => 'No quiz ID provided'));
+            Flight::json(array('error' => 'No quiz ID provided'), 400);
         }        
     });
 });

@@ -18,7 +18,7 @@ Flight::group('/users', function () {
      */
     Flight::route('GET /', function () {
         $result = Flight::get('userService')->getAllUsers();
-        Flight::json($result);
+        Flight::json($result, 200);
     });
      /**
      * @OA\Get(
@@ -36,9 +36,9 @@ Flight::group('/users', function () {
         $ID = Flight::request()->query['id'];
         if($ID) {
             $result = Flight::get('userService')->getAchievements($ID);
-            Flight::json($result);
+            Flight::json($result, 200);
         } else {
-            Flight::json(array('error' => 'No user id provided'));
+            Flight::json(array('error' => 'No user id provided'), 400);
         }
     });
     /**
@@ -54,7 +54,7 @@ Flight::group('/users', function () {
      */
     Flight::route('GET /leaderboard', function () {
         $result =  Flight::get('userService')->getLeaderboard();
-        Flight::json($result);
+        Flight::json($result, 200);
     });
      /**
      * @OA\PUT(
@@ -73,8 +73,8 @@ Flight::group('/users', function () {
      *          description="Set role (user or admin) and user ID",
      *          @OA\JsonContent(
      *             required={"userID", "role"},
-     *             @OA\Property(property="userID", type="string", example="cef69047-71f9-4a64-a9b0-a2b8bb8703b6"),
-     *             @OA\Property(property="role", type="string", example="admin"),
+     *             @OA\Property(property="userID", type="string", example="fa245808-6d07-4630-84d9-aebbb57fdb3e"),
+     *             @OA\Property(property="role", type="string", example="user"),
      *          )
      *      ),
      * )
@@ -108,24 +108,25 @@ Flight::group('/users', function () {
      *          description="Set avatar and user ID",
      *          @OA\JsonContent(
      *             required={"userID", "avatar"},
-     *             @OA\Property(property="userID", type="string", example="cef69047-71f9-4a64-a9b0-a2b8bb8703b6"),
+     *             @OA\Property(property="userID", type="string", example="fa245808-6d07-4630-84d9-aebbb57fdb3e"),
      *             @OA\Property(property="avatar", type="number", example="1"),
      *          )
      *      ),
      * )
      */
     Flight::route('PUT /updateAvatar', function () {
-        $ID = Flight::request()->query['userID'];
-        $clickedAvatar = Flight::request()->query['clickedAvatar'];
+        $data = Flight::request()->data->getData(); 
+        $ID = $data["userID"];
+        $clickedAvatar = $data["clickedAvatar"];
         if ($ID && $clickedAvatar) {
             $result =  Flight::get('userService')->changeUserAvatar($clickedAvatar,$ID);
-            Flight::json($result);
+            Flight::json($result, 200);
         } else {
-            Flight::json(array('error' => 'No avatar provided'));
+            Flight::json(array('error' => 'No avatar provided'), 400);
         }
     });
      /**
-     * @OA\PUT(
+     * @OA\POST(
      *      path="/users/updateInformation",
      *      tags={"users"},
      *      summary="Change information of the user",
@@ -139,14 +140,14 @@ Flight::group('/users', function () {
      *      ),
      * )
      */
-    Flight::route('PUT /updateInformation', function () {
+    Flight::route('POST /updateInformation', function () {
         $requestData = Flight::request()->data->getData();
         if($requestData) {
             $result = Flight::get('userService')->changeUserInfo($requestData);
-            Flight::json($result);
+            Flight::json($result, 200);
           } else {
-            Flight::json(array('error' => 'No info provided'));
-          }          
+            Flight::json(array('error' => 'No info provided'), 400);
+        }          
     });
      /**
      * @OA\Delete(
@@ -161,16 +162,16 @@ Flight::group('/users', function () {
      *           response=400,
      *           description="Failed to remove an user."
      *      ),
-     *      @OA\Parameter(@OA\Schema(type="string"), in="query", name="userID", example="fa245808-6d07-4630-84d9-aebbb57fdb3e", description="User ID")
+     *      @OA\Parameter(@OA\Schema(type="string"), in="query", name="userID", example="765909b0-7297-4c62-ae90-0bdd41a596be", description="User ID")
      * )
      */
     Flight::route('DELETE /remove', function () {
         $ID = Flight::request()->query['userID'];
         if($ID) {
             $result = Flight::get('userService')->removeUser($ID);
-            Flight::json($result);
+            Flight::json($result, 200);
         } else {
-            Flight::json(array('error' => 'No user ID provided'));
+            Flight::json(array('error' => 'No user ID provided'), 400);
         }        
     });
 });

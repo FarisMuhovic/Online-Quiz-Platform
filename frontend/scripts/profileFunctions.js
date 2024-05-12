@@ -139,7 +139,7 @@ export const changePersonalInfo = () => {
         })
         $.ajax({
           url: `${constants.apiURL}/users/updateInformation`,
-          type: "PUT",
+          type: "POST",
           data: data,
           beforeSend: function (xhr) {
             if (JSON.parse(localStorage.getItem("userInformation")).token) {
