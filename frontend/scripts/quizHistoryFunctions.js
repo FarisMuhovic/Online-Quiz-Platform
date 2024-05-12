@@ -59,7 +59,7 @@ const fillHTMLHistory = (quizHistoryContainer, quiz) => {
     </p>
     <p >
       <span class="material-symbols-outlined"> schedule </span>
-      <span>${quiz.timeTaken} minutes taken</span>
+      <span>${quiz.timeTaken} seconds taken</span>
     </p>
     <p>Score: ${quiz.correctAnswers}/${
     quiz.numberOfQuestions
