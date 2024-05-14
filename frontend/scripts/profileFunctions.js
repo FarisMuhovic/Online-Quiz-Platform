@@ -27,23 +27,40 @@ export const changeAvatar = () => {
 
   $("#save-changes-for-avatar-change-btn").on("click", () => {
     if (clickedAvatar) {
-      $.post("http://localhost/quiz-app/rest/routes/updateAvatar.php", {
-        clickedAvatar: clickedAvatar,
-        email: JSON.parse(localStorage.getItem("userInformation")).email,
-      })
-        .done(function (response) {
-          statusModal("success", "Avatar created")
-          $("#user-avatar").attr("src", `./images/avatars/${clickedAvatar}.svg`)
+      clickedAvatar = Number(clickedAvatar.charAt(clickedAvatar.length - 1))
+      $.ajax({
+        url: `${constants.apiURL}/users/updateAvatar`,
+        type: "PUT",
+        contentType: "application/json",
+        beforeSend: function (xhr) {
+          if (JSON.parse(localStorage.getItem("userInformation")).token) {
+            xhr.setRequestHeader(
+              "Authorization",
+              JSON.parse(localStorage.getItem("userInformation")).token
+            )
+          }
+        },
+        data: JSON.stringify({
+          clickedAvatar: clickedAvatar,
+          userID: JSON.parse(localStorage.getItem("userInformation")).id,
+        }),
+        success: function (response) {
+          statusModal("profile", "success", "Avatar created")
+          $("#user-avatar").attr(
+            "src",
+            `./images/avatars/avatar${clickedAvatar}.svg`
+          )
           $("#modal-for-avatar").css("display", "none")
           const localdata = JSON.parse(localStorage.getItem("userInformation"))
           localdata.avatar = clickedAvatar
           localStorage.setItem("userInformation", JSON.stringify(localdata))
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-          statusModal("error", "Internal server error!")
-        })
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          statusModal("profile", "error", "Internal server error!")
+        },
+      })
     } else {
-      statusModal("error", "Error changing avatar")
+      statusModal("profile", "error", "Error changing avatar")
     }
   })
 }
@@ -61,7 +78,7 @@ export const loadUserInfo = () => {
       `
       <h1 id="greeting-h1">Hello,  ${userInfo.firstName}! 👋</h1>
       <img
-        src="./images/avatars/${userInfo.avatar}.svg"
+        src="./images/avatars/avatar${userInfo.avatar}.svg"
         alt="avatar"
         loading="lazy"
         id="user-avatar"
@@ -80,7 +97,7 @@ export const loadUserInfo = () => {
       `
       <h1 id="greeting-h1">Hello 👋</h1>
       <img
-        src="./images/avatars/avatar_1.svg"
+        src="./images/avatars/avatar1.svg"
         alt="avatar"
         loading="lazy"
         id="user-avatar"
@@ -107,7 +124,7 @@ export const changePersonalInfo = () => {
       $("#details-form").on("submit", e => {
         e.preventDefault()
         const data = {
-          email: localStorage.getItem("userInformation").email,
+          id: JSON.parse(localStorage.getItem("userInformation")).id,
         }
         formInputs.forEach(input => {
           if (input.name == "firstname") {
@@ -120,36 +137,51 @@ export const changePersonalInfo = () => {
             data[input.name] = input.value
           }
         })
-        $.post("http://localhost/quiz-app/rest/routes/updateUserInfo.php", data)
-          .done(function (response) {
-            formInputs.forEach(input => (data[input.name] = input.value))
+        $.ajax({
+          url: `${constants.apiURL}/users/updateInformation`,
+          type: "POST",
+          data: data,
+          beforeSend: function (xhr) {
+            if (JSON.parse(localStorage.getItem("userInformation")).token) {
+              xhr.setRequestHeader(
+                "Authorization",
+                JSON.parse(localStorage.getItem("userInformation")).token
+              )
+            }
+          },
+          success: function (response) {
+            if (response !== "false") {
+              formInputs.forEach(input => (data[input.name] = input.value))
+              formInputs.forEach(input => (input.disabled = true))
+              statusModal("profile", "success", "Details changed")
+
+              const localdata = JSON.parse(
+                localStorage.getItem("userInformation")
+              )
+              formInputs.forEach(input => {
+                if (input.name === "firstname") {
+                  localdata.firstName = input.value
+                } else if (input.name === "lastname") {
+                  localdata.lastName = input.value
+                } else if (input.name === "dateofbirth") {
+                  localdata.dateOfBirth = input.value
+                } else {
+                  localdata[input.name] = input.value
+                }
+              })
+              localStorage.setItem("userInformation", JSON.stringify(localdata))
+            } else {
+              formInputs.forEach(input => (input.disabled = true))
+              statusModal("profile", "error", "Internal server error!")
+            }
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            statusModal("profile", "error", "Internal server error!")
             formInputs.forEach(input => (input.disabled = true))
-            statusModal("success", "Details changed")
-            // change it into localstorage somehow idk !
-            const localdata = JSON.parse(
-              localStorage.getItem("userInformation")
-            )
-            formInputs.forEach(input => {
-              if (input.name == "firstname") {
-                localdata.firstName = input.value
-              } else if (input.name == "lastname") {
-                localdata.lastName = input.value
-              } else if (input.name == "dateofbirth") {
-                localdata.dateOfBirth = input.value
-              } else {
-                localdata[input.name] = input.value
-              }
-            })
-            localStorage.setItem("userInformation", JSON.stringify(localdata))
-            console.log(localdata)
-          })
-          .fail(function (jqXHR, textStatus, errorThrown) {
-            statusModal("error", "Internal server error!")
-            formInputs.forEach(input => (input.disabled = true))
-          })
+          },
+        })
         $("#save-changes-btn").css("display", "none")
         $("#change-info-btn").text("Change information")
-        // console.log(data)
       })
     } else {
       $("#save-changes-btn").css("display", "none")
@@ -162,67 +194,28 @@ export const changePersonalInfo = () => {
 export const fetchAchievements = () => {
   const achievementsContainer = document.getElementById("achivements-container")
   achievementsContainer.innerHTML = `<h1>Achievements</h1>`
-  $.get(
-    `http://127.0.0.1/quiz-app/rest/routes/getUserAchievements.php?email=${
-      JSON.parse(localStorage.getItem("userInformation")).email
+  $.ajax({
+    url: `${constants.apiURL}/users/achievements?id=${
+      JSON.parse(localStorage.getItem("userInformation")).id
     }`,
-    (data, status) => {
-      const parsedData = JSON.parse(data)
-      parsedData.forEach(achievement => {
+    type: "GET",
+    beforeSend: function (xhr) {
+      if (JSON.parse(localStorage.getItem("userInformation")).token) {
+        xhr.setRequestHeader(
+          "Authorization",
+          JSON.parse(localStorage.getItem("userInformation")).token
+        )
+      }
+    },
+    success: function (data, status) {
+      data.forEach(achievement => {
         achievementsContainer.innerHTML += `
-      <div class="achievement">
-        <h4>${achievement.title}</h4>
-        <p>${achievement.description}</p>
-      </div>
-      `
+          <div class="achievement">
+            <h4>${achievement.title}</h4>
+            <p>${achievement.description}</p>
+          </div>`
       })
-    }
-  )
-}
-
-const statusModal = (type, message) => {
-  let modal
-  if (type == "error") {
-    modal = `
-    <div class="status-modal error">
-      <span class="material-symbols-outlined">error</span>
-      <p><b>Error</b>: ${message}</p>
-      <button class="exit-status-modal">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-    </div>
-    `
-  } else if (type == "success") {
-    modal = `
-    <div class="status-modal success">
-      <span class="material-symbols-outlined">check</span>
-      <p><b>Success</b>: ${message}</p>
-      <button class="exit-status-modal">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-    </div>
-    `
-  } else if (type == "warning") {
-    modal = `
-    <div class="status-modal warning">
-      <span class="material-symbols-outlined">warning</span>
-      <p><b>Warning</b>: ${message}</p>
-      <button class="exit-status-modal">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-    </div>
-    `
-  }
-  $("#profile").append(modal)
-  const exitmodalbtns = document.querySelectorAll(".exit-status-modal")
-  exitmodalbtns.forEach(btn => {
-    btn.addEventListener("click", e => {
-      e.target.parentElement.parentElement.remove()
-    })
+    },
+    error: function () {},
   })
-  setTimeout(() => {
-    exitmodalbtns.forEach(btn => {
-      btn.parentNode.remove()
-    })
-  }, 4000)
 }

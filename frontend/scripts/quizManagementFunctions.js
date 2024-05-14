@@ -2,26 +2,36 @@ export const fetchQuizzesManagement = (value = "") => {
   const quizManagementContainer = document.getElementById(
     "quiz-manage-container"
   )
-  $.get("http://127.0.0.1/quiz-app/rest/routes/getListOfQuizzes.php")
-    .done(function (data) {
-      const parsedData = JSON.parse(data)
-      quizManagementContainer.innerHTML = ""
-      if (parsedData.length == 0) {
-        quizManagementContainer.innerHTML = `<img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" />`
+  $.ajax({
+    url: `${constants.apiURL}/quiz/all`,
+    type: "GET",
+    beforeSend: function (xhr) {
+      if (JSON.parse(localStorage.getItem("userInformation")).token) {
+        xhr.setRequestHeader(
+          "Authorization",
+          JSON.parse(localStorage.getItem("userInformation")).token
+        )
       }
-      parsedData.forEach(quiz => {
+    },
+    success: function (data) {
+      quizManagementContainer.innerHTML = ""
+      if (data.length === 0) {
+        quizManagementContainer.innerHTML = constants.noDataBanner
+      }
+      data.forEach(quiz => {
         if (quiz.title.toLowerCase().includes(value.toLowerCase())) {
           fillHTMLManagement(quizManagementContainer, quiz)
-        } else {
-          quizManagementContainer.innerHTML = `<img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" />`
         }
       })
       viewInDetail()
-      removeQuiz(parsedData)
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-      quizManagementContainer.innerHTML = `<h3 style="background-color: white; grid-column: 1 / -1; height: 75px; display:flex; justify-content: flex-start; padding:1rem; align-items: center; color: #f65656;   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px">Error loading quizzes. Please try again later.</h3>`
-    })
+      removeQuiz(data)
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      quizManagementContainer.innerHTML = constants.errorBanner(
+        "Error loading quizzes, please try again later."
+      )
+    },
+  })
 }
 export const searchQuizManagement = () => {
   $("#search-form-quiz-management").on("submit", e => {
@@ -32,15 +42,15 @@ export const searchQuizManagement = () => {
 
 const fillHTMLManagement = (quizManagementContainer, quiz) => {
   quizManagementContainer.innerHTML += `
-  <div class="quiz" data-quizID="${quiz.quiz_id}">
+  <div class="quiz" data-quizID="${quiz.id}">
   <div class="quiz-info">
-    <p>Quiz ID: ${quiz.quiz_id}</p>
+    <p>Quiz ID: ${quiz.id}</p>
     <p>Title: ${quiz.title}</p>
     <p>Date created: ${quiz.dateCreated}</p>
   </div>
   <div class="btns-wrapper">
-    <button id="detail-quiz-btn-modal" class="edit-quiz-btn" data-id="${quiz.quiz_id}" >View in detail</button>
-    <button id="delete-quiz-btn-modal" class="remove-quiz-btn" data-id="${quiz.quiz_id}">Delete</button>
+    <button id="detail-quiz-btn-modal" class="edit-quiz-btn" data-id="${quiz.id}" >View in detail</button>
+    <button id="delete-quiz-btn-modal" class="remove-quiz-btn" data-id="${quiz.id}">Delete</button>
   </div>
 </div>`
 }
@@ -140,7 +150,7 @@ const submitFormQuiz = () => {
       quizLength: null,
       category: null,
       questions: [],
-      quiz_id: generateRandomId(),
+      id: generateRandomId(),
     }
     e.preventDefault()
     quizCreatedData.title = modalForm.querySelector("#form-title").value
@@ -158,12 +168,14 @@ const submitFormQuiz = () => {
         questionName: null,
         typeOfQuestion: null,
         question_id: generateRandomId(),
-        quiz_id: quizCreatedData.quiz_id,
+        id: quizCreatedData.id,
         fields: [],
       }
       questionCounter++
       questionData.questionName = qstn.querySelector("#questionName").value
-      questionData.typeOfQuestion = qstn.querySelector("#typeOfQuestion").value
+      let typeOfQuestion = qstn.querySelector("#typeOfQuestion").value
+      questionData.typeOfQuestion =
+        typeOfQuestion == "multipleChoice" ? "MCQ" : "MRQ"
       const inputsAnswers = qstn.querySelectorAll(".question-answer > input")
       const isCorrectFields = qstn.querySelectorAll(
         ".question-answer > label input"
@@ -176,26 +188,38 @@ const submitFormQuiz = () => {
           question_id: questionData.question_id,
         }
         fieldData.text = inputsAnswers[i].value
-        fieldData.isCorrect = isCorrectFields[i].checked
+        fieldData.isCorrect = isCorrectFields[i].checked ? 1 : 0
         questionData.fields.push(fieldData)
       }
       quizCreatedData.questions.push(questionData)
     })
     if (questionCounter < 1) {
-      statusModal("warning", "Please enter more questions")
+      statusModal("quizManagement", "warning", "Please enter more questions")
     } else {
       quizCreatedData.altText = quizCreatedData.category + "banner"
       quizCreatedData.bannerImage = quizCreatedData.category
-      $.post(`http://localhost/quiz-app/rest/routes/createQuiz.php?`, {
-        quiz: quizCreatedData,
-      })
-        .done(function (response) {
-          statusModal("success", "Quiz created")
+      $.ajax({
+        url: `${constants.apiURL}/quiz/new`,
+        type: "POST",
+        beforeSend: function (xhr) {
+          if (JSON.parse(localStorage.getItem("userInformation")).token) {
+            xhr.setRequestHeader(
+              "Authorization",
+              JSON.parse(localStorage.getItem("userInformation")).token
+            )
+          }
+        },
+        contentType: "application/json",
+        data: JSON.stringify({quiz: quizCreatedData}),
+        success: function (response) {
+          statusModal("quizManagement", "success", "Quiz created")
           $("#modal").css("display", "none")
-        })
-        .fail(function (xhr, status, error) {
-          statusModal("error", "Internal server error!")
-        })
+          $("#questions-container").html("")
+        },
+        error: function (xhr, status, error) {
+          statusModal("quizManagement", "error", "Internal server error!")
+        },
+      })
     }
   })
 }
@@ -228,31 +252,42 @@ const viewInDetail = () => {
         $("#details-modal-quiz").css("display", "none")
       })
       const quizID = e.target.attributes[2].value
-      const url = `http://127.0.0.1/quiz-app/rest/routes/getQuizByID.php?quizID=${quizID}`
-      $.get(url).done(function (data) {
-        const parsedData = JSON.parse(data)
-        const quizDataHtml = `
-                      <div
-                        <h4>${parsedData.title}</h4>
-                        <p>${parsedData.description}</p>
-                        <p>Quiz Length: ${parsedData.duration} minutes</p>
-                        <p>Category: ${parsedData.category}</p>
-                      </div>
-                      <div  class="quiz-view-details-modal">
-                        <h5>Questions:</h5>
-                        ${quizDetailsQuestion(parsedData)}
-                      </div>
-                    `
-        $("#details-body").html(quizDataHtml)
+      $.ajax({
+        url: `${constants.apiURL}/quiz/id?quizID=${quizID}`,
+        type: "GET",
+        beforeSend: function (xhr) {
+          if (JSON.parse(localStorage.getItem("userInformation")).token) {
+            xhr.setRequestHeader(
+              "Authorization",
+              JSON.parse(localStorage.getItem("userInformation")).token
+            )
+          }
+        },
+        success: function (data) {
+          const quizDataHtml = `
+            <div>
+              <h4>${data.title}</h4>
+              <p>${data.description}</p>
+              <p>Quiz Length: ${data.duration} minutes</p>
+              <p>Category: ${data.category}</p>
+            </div>
+            <div class="quiz-view-details-modal">
+              <h5>Questions:</h5>
+              ${quizDetailsQuestion(data)}
+            </div>`
+          $("#details-body").html(quizDataHtml)
+        },
       })
     })
   })
 }
 const quizDetailsQuestion = data => {
   let questions = ``
+  let counter = 0
   data.questions.forEach(question => {
+    counter++
     questions += `<p>
-    ${question.title}
+    ${counter}.${question.title}
     </p>
     <ul>
       ${answersDetails(question)}
@@ -263,9 +298,18 @@ const quizDetailsQuestion = data => {
 }
 const answersDetails = question => {
   let listitems = ``
-  const fieldNames = question.fieldNames.split(",")
-  fieldNames.forEach(field => {
-    listitems += `<li>${field}</li>`
+  const fields = question.fields.split("|")
+  question.fields = fields.map(field => {
+    let fieldData = field.split("<.>")
+    return {
+      title: fieldData[0],
+      isCorrect: fieldData[1] == 1,
+    }
+  })
+  question.fields.forEach(field => {
+    listitems += `<li style="color: ${field.isCorrect == "1" ? "green" : ""}">${
+      field.title
+    }</li>`
   })
   return listitems
 }
@@ -283,20 +327,40 @@ const removeQuiz = data => {
       document.getElementById("confirm-btn").addEventListener("click", () => {
         const quizID = e.target.attributes[2].value
         data.forEach(quiz => {
-          if (quiz.quiz_id == quizID) {
+          if (quiz.id == quizID) {
             document.querySelectorAll(".quiz").forEach(quizDiv => {
               if (quizDiv.attributes[1].value == quizID) {
                 sureModal.classList.remove("trigger")
-                $.get(
-                  `http://127.0.0.1/quiz-app/rest/routes/removeQuiz.php?quizID=${quizID}`
-                )
-                  .done(function (response) {
+                $.ajax({
+                  url: `${constants.apiURL}/quiz/remove?quizID=${quizID}`,
+                  type: "DELETE",
+                  beforeSend: function (xhr) {
+                    if (
+                      JSON.parse(localStorage.getItem("userInformation")).token
+                    ) {
+                      xhr.setRequestHeader(
+                        "Authorization",
+                        JSON.parse(localStorage.getItem("userInformation"))
+                          .token
+                      )
+                    }
+                  },
+                  success: function (response) {
                     quizDiv.remove()
-                    statusModal("success", "Quiz successfuly removed")
-                  })
-                  .fail(function (jqXHR, textStatus, errorThrown) {
-                    statusModal("error", "Internal server error!")
-                  })
+                    statusModal(
+                      "quizManagement",
+                      "success",
+                      "Quiz successfully removed"
+                    )
+                  },
+                  error: function (jqXHR, textStatus, errorThrown) {
+                    statusModal(
+                      "quizManagement",
+                      "error",
+                      "Internal server error!"
+                    )
+                  },
+                })
               }
             })
           }
@@ -306,54 +370,6 @@ const removeQuiz = data => {
     })
   })
 }
-
-const statusModal = (type, message) => {
-  let modal
-  if (type == "error") {
-    modal = `
-    <div class="status-modal error">
-      <span class="material-symbols-outlined">error</span>
-      <p><b>Error</b>: ${message}</p>
-      <button class="exit-status-modal">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-    </div>
-    `
-  } else if (type == "success") {
-    modal = `
-    <div class="status-modal success">
-      <span class="material-symbols-outlined">check</span>
-      <p><b>Success</b>: ${message}</p>
-      <button class="exit-status-modal">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-    </div>
-    `
-  } else if (type == "warning") {
-    modal = `
-    <div class="status-modal warning">
-      <span class="material-symbols-outlined">warning</span>
-      <p><b>Warning</b>: ${message}</p>
-      <button class="exit-status-modal">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-    </div>
-    `
-  }
-  $("#quizManagement").append(modal)
-  const exitmodalbtns = document.querySelectorAll(".exit-status-modal")
-  exitmodalbtns.forEach(btn => {
-    btn.addEventListener("click", e => {
-      e.target.parentElement.parentElement.remove()
-    })
-  })
-  setTimeout(() => {
-    exitmodalbtns.forEach(btn => {
-      btn.parentNode.remove()
-    })
-  }, 4000)
-}
-
 function generateRandomId() {
   const randomNumber = Math.floor(Math.random() * 10000000)
   return randomNumber

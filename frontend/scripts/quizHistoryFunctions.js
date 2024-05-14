@@ -1,31 +1,40 @@
 export const fetchQuizHistory = (value = "") => {
   const quizHistoryContainer = document.getElementById("quiz-history-container")
-  let userEmail = null
+  let id = null
   if (localStorage.getItem("userInformation")) {
-    userEmail = JSON.parse(localStorage.getItem("userInformation")).email
+    id = JSON.parse(localStorage.getItem("userInformation")).id
   }
 
-  $.get(
-    `http://localhost/quiz-app/rest/routes/getQuizHistory.php?email=${userEmail}`
-  )
-    .done(function (data) {
-      const parsedData = JSON.parse(data)
+  $.ajax({
+    url: `${constants.apiURL}/history/all?id=${id}`,
+    type: "GET",
+    beforeSend: function (xhr) {
+      if (JSON.parse(localStorage.getItem("userInformation")).token) {
+        xhr.setRequestHeader(
+          "Authorization",
+          JSON.parse(localStorage.getItem("userInformation")).token
+        )
+      }
+    },
+    success: function (data) {
       quizHistoryContainer.innerHTML = ""
-      if (parsedData.length === 0) {
-        quizHistoryContainer.innerHTML = `<img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" />`
+      if (data.length === 0) {
+        quizHistoryContainer.innerHTML = constants.noDataBanner
       } else {
-        parsedData.forEach(function (quiz) {
+        data.forEach(function (quiz) {
           if (quiz.title.toLowerCase().includes(value.toLowerCase())) {
             fillHTMLHistory(quizHistoryContainer, quiz)
           }
         })
         listenForAClick()
       }
-    })
-    .fail(function (xhr, status, error) {
-      // console.error("Error fetching quiz history:", error)
-      quizHistoryContainer.innerHTML = `<h3 style="background-color: white; grid-column: 1 / -1; height: 75px; display:flex; justify-content: flex-start; padding:1rem; align-items: center; color: #f65656;   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px">Error loading quiz history. Please try again later.</h3>`
-    })
+    },
+    error: function (xhr, status, error) {
+      quizHistoryContainer.innerHTML = constants.errorBanner(
+        "Error loading quiz history. Please try again later."
+      )
+    },
+  })
 }
 
 export const searchQuizHistory = () => {
@@ -36,7 +45,7 @@ export const searchQuizHistory = () => {
 }
 
 const fillHTMLHistory = (quizHistoryContainer, quiz) => {
-  const scorePercentage = (quiz.correctAnswers / quiz.amountOfQuestions) * 100
+  const scorePercentage = (quiz.correctAnswers / quiz.numberOfQuestions) * 100
   quizHistoryContainer.innerHTML += `
   <section class="history-item">
     <h3>${quiz.title}</h3>
@@ -50,19 +59,19 @@ const fillHTMLHistory = (quizHistoryContainer, quiz) => {
     </p>
     <p >
       <span class="material-symbols-outlined"> schedule </span>
-      <span>${quiz.timeTaken} minutes taken</span>
+      <span>${quiz.timeTaken} seconds taken</span>
     </p>
     <p>Score: ${quiz.correctAnswers}/${
-    quiz.amountOfQuestions
+    quiz.numberOfQuestions
   } <span style="color:${scorePercentage < 55 ? "red" : "green"}">(${Math.round(
     scorePercentage
   )}%)</span></p>
     <div class="links">
     <a href="#quizReview" style="background-color: white" class="review-quiz-btn" data-quiz-id="${
-      quiz.quiz_id
+      quiz.quiz_history_id
     }">Review quiz</a>
     <a href="#quiz" data-quiz-id="${
-      quiz.quiz_id
+      quiz.id
     }" class="retake-quiz-btn">Retake quiz</a> 
     </div>
   </section>`

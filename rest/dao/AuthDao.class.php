@@ -10,17 +10,19 @@ class AuthDao extends BaseDao {
   }
   public function insertUser($user) {
     try {
-      $query = "INSERT INTO user (email, password, firstName, lastName, role, category, avatar, joinDate) 
-      VALUES (:email, :password, :firstName, :lastName, :role, :category, :avatar, :joinDate)";
+      $query = "INSERT INTO user (id, email, password, firstName, lastName, role, category, avatar)
+                VALUES
+                  (:id, :email, :password, :firstName, :lastName, :role, :category, :avatar)";
+
       $params = array(
+          'id' => $user["id"],
           'email' => $user['email'],
           'password' => $user['password'],
           'firstName' => $user['firstName'],
           'lastName' => $user['lastName'],
           'role' => "user",
           'category' => $user['userType'],
-          'avatar' => "avatar1",
-          'joinDate' => date('Y-m-d'),
+          'avatar' => $user['avatar'],
       );
       $this->execute($query, $params);
       return true;

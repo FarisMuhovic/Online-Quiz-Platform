@@ -9,12 +9,12 @@ class UserDao extends BaseDao {
     parent::__construct("user");
   }
   public function getAllUsers() {
-    return $this->query("SELECT user_id, lastName, firstName, role, email, joinDate FROM user;", []);
+    return $this->query("SELECT id, age, lastName, firstName, role, email, joinDate FROM user;", []);
   }
 
   public function removeUser($userID) {
     try {
-        $query = "DELETE FROM user WHERE user_id = :userID";
+        $query = "DELETE FROM user WHERE id  = :userID";
         $params = [':userID' => $userID];
         
         $this->execute($query, $params);
@@ -26,7 +26,7 @@ class UserDao extends BaseDao {
   }
   public function changeUserRole($userID, $newRole) {
       try {
-          $query = "UPDATE user SET role = :newRole WHERE user_id = :userID";
+          $query = "UPDATE user SET role = :newRole WHERE id = :userID";
           $params = [
               ':newRole' => $newRole,
               ':userID' => $userID
@@ -39,95 +39,46 @@ class UserDao extends BaseDao {
           return false;
       }
     }
-  public function getUserAchievements($userEmail) {
-    return $this->query("select a.title, a.description FROM user_achievements u JOIN achievement a ON a.achievement_id = u.user_achievement_id JOIN user usr ON usr.user_id = u.user_id WHERE usr.email = :email", ["email" => $userEmail]);
+  public function getUserAchievements($id) {
+    $query = "
+      SELECT a.title, a.description, a.banner FROM achievement a 
+      JOIN user_achievement ua ON a.id = ua.achievement_id 
+      JOIN user u ON u.id = ua.user_id 
+      WHERE u.id = :id";
+
+    return $this->query($query, ["id" => $id]);
   }
-  public function changeUserAvatar($avatar, $email) {
-    $query = "UPDATE user SET avatar = :avatar WHERE email = :email";
+  public function changeUserAvatar($avatar, $userID) {
+    $query = "UPDATE user SET avatar = :avatar WHERE id = :id";
     $params = [
         ':avatar' => $avatar,
-        ':email' => $email
+        ':id' => $userID
     ];
 
     $result = $this->execute($query, $params);
-    return $result->rowCount() > 0; 
+    return $result->rowCount() > 0;
 }
   public function changeUserInfo($payload){ 
-    $query = "UPDATE user SET firstName = :firstName, lastName = :lastName, dateOfBirth = :dateOfBirth, country = :country WHERE email = :email";
+    $query = "UPDATE user SET firstName = :firstName, lastName = :lastName, dateOfBirth = :dateOfBirth, country = :country, age = :age WHERE id = :id";
     $params = [
+      ':id' => $payload["id"], 
       ':firstName' => $payload["firstName"],
       ':lastName' => $payload["lastName"],
       ':dateOfBirth' => $payload["dateOfBirth"],
       ':country' => $payload["country"],
-      ':email' => $payload["email"], 
+      ':age'=> $payload["age"],
     ];
 
     $result = $this->execute($query, $params);
-    return $result->rowCount() > 0; 
+    return $result->rowCount() > 0;
   }
   public function getLeaderboard() {
-    return $this->query("select u.firstName, u.lastName, u.avatar , us.points , us.totalAttempts,
-    us.scienceAttempts , us.mathematicsAttempts, us.historyAttempts, us.literatureAttempts, us.geographyAttempts, us.languagesAttempts, us.sportsAttempts, us.musicAttempts, us.moviesAttempts
-    FROM user u JOIN user_stats us ON u.user_id = us.user_stats_id order by(us.points) DESC LIMIT 10", []);
-  }
-  public function insertHistory($payload) {
-    $result = $this->query_unique("SELECT user_id FROM user WHERE email = :email", ["email" => $payload["email"]]);
-    $userID = $result['user_id'];
-
-    $quizInfo = $payload["takenQuiz"];
-    $query = "INSERT INTO quiz_history (user_id, quiz_id, title, dateTaken, timeTaken, category, amountOfQuestions, correctAnswers)
-    VALUES (:userId, :quizId, :title, :dateTaken, :timeTaken, :category, :amountOfQuestions, :correctAnswers)";
-
-    $params = array(
-        ':userId' => $userID,
-        ':quizId' => $quizInfo["id"],
-        ':title' => $quizInfo["title"],
-        ':dateTaken' => date('Y-m-d'), 
-        ':timeTaken' => $quizInfo["timeTaken"],
-        ':category' => $quizInfo["category"],
-        ':amountOfQuestions' => $quizInfo["questionCount"],
-        ':correctAnswers' => $quizInfo["correctAnswers"]
-    );
-
-    $this->execute($query, $params);
-    
-    $quizHistoryID = $this->connection->lastInsertId();
-
-    foreach ($quizInfo["answers"] as $answer) {
-        $responseQuery = "INSERT INTO response (quiz_history_id, questionName, isCorrect)
-                          VALUES (:quizHistoryId, :questionName, :isCorrect)";
-        $responseParams = array(
-            ':quizHistoryId' => $quizHistoryID,
-            ':questionName' => $answer["questionName"],
-            ':isCorrect' => $answer["isUserCorrect"]
-        );
-        $this->execute($responseQuery, $responseParams);
-
-        $responseID = $this->connection->lastInsertId();
-
-        foreach ($answer["fields"] as $field) {
-            $userAnswer = implode(", ", $answer["userAnswer"]);
-            $answerQuery = "INSERT INTO answer (response_id, text)
-                            VALUES (:responseId, :text)";
-            $answerParams = array(
-                ':responseId' => $responseID,
-                ':text' => $userAnswer
-            );
-            $this->execute($answerQuery, $answerParams);
-
-            $answerID = $this->connection->lastInsertId();
-
-            $isCorrect = $field["correct"] == "true" ? "true" : "false";
-            $answerFieldQuery = "INSERT INTO answer_field (response_id, title, isCorrect)
-                                 VALUES (:responseId, :title, :isCorrect)";
-            $answerFieldParams = array(
-                ':responseId' => $responseID,
-                ':title' => $field["title"],
-                ':isCorrect' => $isCorrect
-            );
-            $this->execute($answerFieldQuery, $answerFieldParams);
-        }
-    }
-    return true;
+    $query = "
+      select * from user u 
+      JOIN user_stats us ON u.id = us.user_id 
+      JOIN user_attempts ua ON us.id = ua.id 
+      ORDER BY us.points DESC 
+      LIMIT 10";
+    return $this->query($query, []);
   }
 }

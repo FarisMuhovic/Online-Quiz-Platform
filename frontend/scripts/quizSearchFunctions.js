@@ -1,13 +1,22 @@
 export const fetchQuizzes = (name = "", catg = "none") => {
   const quizContainer = document.getElementById("quiz-search-container")
-  $.get("http://127.0.0.1/quiz-app/rest/routes/getListOfQuizzes.php")
-    .done(function (data) {
-      const parsedData = JSON.parse(data)
-      quizContainer.innerHTML = ""
-      if (parsedData.length == 0) {
-        quizContainer.innerHTML = `<img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" />`
+  $.ajax({
+    url: `${constants.apiURL}/quiz/all`,
+    type: "GET",
+    beforeSend: function (xhr) {
+      if (JSON.parse(localStorage.getItem("userInformation")).token) {
+        xhr.setRequestHeader(
+          "Authorization",
+          JSON.parse(localStorage.getItem("userInformation")).token
+        )
       }
-      parsedData.forEach(quiz => {
+    },
+    success: function (data) {
+      quizContainer.innerHTML = ""
+      if (data.length === 0) {
+        quizContainer.innerHTML = constants.noDataBanner
+      }
+      data.forEach(quiz => {
         // ONLY name filled in
         if (
           quiz.title.toLowerCase().includes(name.toLowerCase()) &&
@@ -33,11 +42,13 @@ export const fetchQuizzes = (name = "", catg = "none") => {
         }
       })
       listenForClick()
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-      // console.error("Error fetching data:", textStatus, errorThrown)
-      quizContainer.innerHTML = `<h3 style="background-color: white; grid-column: 1 / -1; height: 75px; display:flex; justify-content: flex-start; padding:1rem; align-items: center; color: #f65656;   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px">Error loading quizzes. Please try again later.</h3>`
-    })
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      quizContainer.innerHTML = constants.errorBanner(
+        "Error loading quizzes, please try again later."
+      )
+    },
+  })
 }
 export const searchQuiz = () => {
   $("#search-form").on("submit", e => {
@@ -47,6 +58,9 @@ export const searchQuiz = () => {
       category: $("#category").val(),
     }
     fetchQuizzes(inputQuery.title, inputQuery.category)
+  })
+  $("#category").on("change", e => {
+    fetchQuizzes($("#search-bar").val(), $("#category").val())
   })
 }
 
@@ -83,7 +97,7 @@ const fillHTML = (quizContainer, quiz) => {
         ${quiz.description}
       </p>
     </div>
-    <a href="#quiz" data-quiz-id="${quiz.quiz_id}">Start quiz</a> 
+    <a href="#quiz" data-quiz-id="${quiz.id}">Start quiz</a> 
   </section>
 `
 }
