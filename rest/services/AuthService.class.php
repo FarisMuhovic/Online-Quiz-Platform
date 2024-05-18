@@ -24,7 +24,7 @@ class AuthService {
         $jwt_payload = [
           'user' => $result,
           'iat' => time(),
-          'exp' => time() * 60 * 60 * 24 * 3 // 3days
+          'exp' => time() + 60 * 60 * 24 // 1 day
         ];
         $token = JWT::encode($jwt_payload, JWT_SECRET, 'HS256');
         $payload["token"] = $token;
@@ -37,16 +37,21 @@ class AuthService {
   public function loginUser($payload) {
     $email = $payload["email"];
     $password = $payload["password"];
+    $isRememberTrue = $payload["rememberMe"];
     $result = $this->authDao->getUserByEmail($email);
     if ($result == 1) {
       return 0;
     } else {
       if (password_verify($password, $result["password"])) {
         unset($result["password"]);
+        $exp = time() + 60 * 60 * 24;
+        if ($isRememberTrue == "true") {
+          $exp += + 60 * 60 * 24 * 2; // 1 + 2 days
+        }
         $jwt_payload = [
           'user' => $result,
           'iat' => time(),
-          'exp' => time() * 60 * 60 * 24 * 3 // 3days
+          'exp' => $exp
         ];
         $token = JWT::encode($jwt_payload, JWT_SECRET, 'HS256');
         $result["token"] = $token;
@@ -58,11 +63,11 @@ class AuthService {
   }
 
   public function logoutUser($token) {
-    $decoded_token = JWT::decode($token, new Key(JWT_SECRET, 'HS256'));
-    Flight::json([
-      'jwt_decoded' => $decoded_token,
-      'user' => $decoded_token->user
-    ]);
-    // if decode true destroy token, logout, else dont
+    try {
+      $decoded_token = JWT::decode($token, new Key(JWT_SECRET, 'HS256'));
+      return true;
+    } catch (\Exception $e) {
+      Flight::halt(401, $e->getMessage());
+    }
   }
 }

@@ -1,6 +1,7 @@
 <?php 
 
 require_once __DIR__ . '/../services/QuizService.class.php';
+require_once __DIR__ . '/../utils/authMiddleware.php';
 
 Flight::set('quizService', new QuizService());
 
@@ -86,4 +87,4 @@ Flight::group('/quiz', function () {
             Flight::json(array('error' => 'No quiz ID provided'), 400);
         }        
     });
-});
+}, [new authMiddleware()]);

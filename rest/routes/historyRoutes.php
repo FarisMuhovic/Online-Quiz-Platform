@@ -1,6 +1,7 @@
 <?php 
 
 require_once __DIR__ . '/../services/HistoryService.class.php';
+require_once __DIR__ . '/../utils/authMiddleware.php';
 
 Flight::set('historyService', new HistoryService());
 
@@ -85,4 +86,4 @@ Flight::group('/history', function () {
             Flight::json(array('error' => 'No quiz info provided'), 400);
           }
     });
-});
+}, [new authMiddleware()]);

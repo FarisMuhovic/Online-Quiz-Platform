@@ -1,6 +1,7 @@
 <?php 
 
 require_once __DIR__ . '/../services/UserService.class.php';
+require_once __DIR__ . '/../utils/authMiddleware.php';
 
 Flight::set('userService', new UserService());
 
@@ -174,4 +175,4 @@ Flight::group('/users', function () {
             Flight::json(array('error' => 'No user ID provided'), 400);
         }        
     });
-});
+}, [new authMiddleware()]);
