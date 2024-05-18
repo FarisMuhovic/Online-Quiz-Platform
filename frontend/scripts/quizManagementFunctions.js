@@ -6,11 +6,13 @@ export const fetchQuizzesManagement = (value = "") => {
     url: `${constants.apiURL}/quiz/all`,
     type: "GET",
     beforeSend: function (xhr) {
-      if (JSON.parse(localStorage.getItem("userInformation")).token) {
-        xhr.setRequestHeader(
-          "Authorization",
-          JSON.parse(localStorage.getItem("userInformation")).token
-        )
+      if (localStorage.getItem("userInformation")) {
+        if (JSON.parse(localStorage.getItem("userInformation")).token) {
+          xhr.setRequestHeader(
+            "Authorization",
+            JSON.parse(localStorage.getItem("userInformation")).token
+          )
+        }
       }
     },
     success: function (data) {
@@ -27,9 +29,13 @@ export const fetchQuizzesManagement = (value = "") => {
       removeQuiz(data)
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      quizManagementContainer.innerHTML = constants.errorBanner(
-        "Error loading quizzes, please try again later."
-      )
+      if (errorThrown == "Unauthorized") {
+        invalidSession()
+      } else {
+        quizManagementContainer.innerHTML = constants.errorBanner(
+          "Error loading quizzes, please try again later."
+        )
+      }
     },
   })
 }
@@ -202,11 +208,13 @@ const submitFormQuiz = () => {
         url: `${constants.apiURL}/quiz/new`,
         type: "POST",
         beforeSend: function (xhr) {
-          if (JSON.parse(localStorage.getItem("userInformation")).token) {
-            xhr.setRequestHeader(
-              "Authorization",
-              JSON.parse(localStorage.getItem("userInformation")).token
-            )
+          if (localStorage.getItem("userInformation")) {
+            if (JSON.parse(localStorage.getItem("userInformation")).token) {
+              xhr.setRequestHeader(
+                "Authorization",
+                JSON.parse(localStorage.getItem("userInformation")).token
+              )
+            }
           }
         },
         contentType: "application/json",
@@ -216,8 +224,12 @@ const submitFormQuiz = () => {
           $("#modal").css("display", "none")
           $("#questions-container").html("")
         },
-        error: function (xhr, status, error) {
-          statusModal("quizManagement", "error", "Internal server error!")
+        error: function (jqXHR, textStatus, errorThrown) {
+          if (errorThrown == "Unauthorized") {
+            invalidSession()
+          } else {
+            statusModal("quizManagement", "error", "Internal server error!")
+          }
         },
       })
     }
@@ -256,11 +268,13 @@ const viewInDetail = () => {
         url: `${constants.apiURL}/quiz/id?quizID=${quizID}`,
         type: "GET",
         beforeSend: function (xhr) {
-          if (JSON.parse(localStorage.getItem("userInformation")).token) {
-            xhr.setRequestHeader(
-              "Authorization",
-              JSON.parse(localStorage.getItem("userInformation")).token
-            )
+          if (localStorage.getItem("userInformation")) {
+            if (JSON.parse(localStorage.getItem("userInformation")).token) {
+              xhr.setRequestHeader(
+                "Authorization",
+                JSON.parse(localStorage.getItem("userInformation")).token
+              )
+            }
           }
         },
         success: function (data) {
@@ -335,14 +349,17 @@ const removeQuiz = data => {
                   url: `${constants.apiURL}/quiz/remove?quizID=${quizID}`,
                   type: "DELETE",
                   beforeSend: function (xhr) {
-                    if (
-                      JSON.parse(localStorage.getItem("userInformation")).token
-                    ) {
-                      xhr.setRequestHeader(
-                        "Authorization",
+                    if (localStorage.getItem("userInformation")) {
+                      if (
                         JSON.parse(localStorage.getItem("userInformation"))
                           .token
-                      )
+                      ) {
+                        xhr.setRequestHeader(
+                          "Authorization",
+                          JSON.parse(localStorage.getItem("userInformation"))
+                            .token
+                        )
+                      }
                     }
                   },
                   success: function (response) {
@@ -354,11 +371,15 @@ const removeQuiz = data => {
                     )
                   },
                   error: function (jqXHR, textStatus, errorThrown) {
-                    statusModal(
-                      "quizManagement",
-                      "error",
-                      "Internal server error!"
-                    )
+                    if (errorThrown == "Unauthorized") {
+                      invalidSession()
+                    } else {
+                      statusModal(
+                        "quizManagement",
+                        "error",
+                        "Internal server error!"
+                      )
+                    }
                   },
                 })
               }

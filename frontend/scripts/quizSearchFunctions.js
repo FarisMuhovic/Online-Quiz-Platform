@@ -4,11 +4,13 @@ export const fetchQuizzes = (name = "", catg = "none") => {
     url: `${constants.apiURL}/quiz/all`,
     type: "GET",
     beforeSend: function (xhr) {
-      if (JSON.parse(localStorage.getItem("userInformation")).token) {
-        xhr.setRequestHeader(
-          "Authorization",
-          JSON.parse(localStorage.getItem("userInformation")).token
-        )
+      if (localStorage.getItem("userInformation")) {
+        if (JSON.parse(localStorage.getItem("userInformation")).token) {
+          xhr.setRequestHeader(
+            "Authorization",
+            JSON.parse(localStorage.getItem("userInformation")).token
+          )
+        }
       }
     },
     success: function (data) {
@@ -44,9 +46,13 @@ export const fetchQuizzes = (name = "", catg = "none") => {
       listenForClick()
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      quizContainer.innerHTML = constants.errorBanner(
-        "Error loading quizzes, please try again later."
-      )
+      if (errorThrown == "Unauthorized") {
+        invalidSession()
+      } else {
+        quizContainer.innerHTML = constants.errorBanner(
+          "Error loading quizzes, please try again later."
+        )
+      }
     },
   })
 }

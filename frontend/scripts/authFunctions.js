@@ -168,11 +168,13 @@ export const logout = () => {
     contentType: "application/json",
     data: JSON.stringify(localStorage.getItem("userInformation")),
     beforeSend: function (xhr) {
-      if (JSON.parse(localStorage.getItem("userInformation")).token) {
-        xhr.setRequestHeader(
-          "Authorization",
-          JSON.parse(localStorage.getItem("userInformation")).token
-        )
+      if (localStorage.getItem("userInformation")) {
+        if (JSON.parse(localStorage.getItem("userInformation")).token) {
+          xhr.setRequestHeader(
+            "Authorization",
+            JSON.parse(localStorage.getItem("userInformation")).token
+          )
+        }
       }
     },
     success: function (response) {
@@ -181,11 +183,15 @@ export const logout = () => {
     },
     error: function (jqXHR, textStatus, errorThrown) {
       // Failed to destroy session
-      statusModal(
-        "dashboard",
-        "error",
-        "Failed to log out, Internal server error!"
-      )
+      if (errorThrown == "Unauthorized") {
+        invalidSession()
+      } else {
+        statusModal(
+          "dashboard",
+          "error",
+          "Failed to log out, Internal server error!"
+        )
+      }
     },
   })
 }

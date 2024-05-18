@@ -8,8 +8,7 @@ const statusModal = (page, type, message) => {
         <button class="exit-status-modal">
           <span class="material-symbols-outlined">close</span>
         </button>
-      </div>
-    `
+      </div>`
   } else if (type == "success") {
     modal = `
       <div class="status-modal success">
@@ -18,8 +17,7 @@ const statusModal = (page, type, message) => {
         <button class="exit-status-modal">
           <span class="material-symbols-outlined">close</span>
         </button>
-      </div>
-    `
+      </div>`
   } else if (type == "warning") {
     modal = `
       <div class="status-modal warning">
@@ -28,8 +26,7 @@ const statusModal = (page, type, message) => {
         <button class="exit-status-modal">
           <span class="material-symbols-outlined">close</span>
         </button>
-      </div>
-    `
+      </div>`
   } else if (type == "info") {
     modal = `
       <div class="status-modal info">
@@ -38,8 +35,7 @@ const statusModal = (page, type, message) => {
         <button class="exit-status-modal">
           <span class="material-symbols-outlined">close</span>
         </button>
-      </div>
-    `
+      </div>`
   }
   // if modal exists remove it then append new one
   if ($(".status-modal").length > 0) {

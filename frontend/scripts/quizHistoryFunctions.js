@@ -9,11 +9,13 @@ export const fetchQuizHistory = (value = "") => {
     url: `${constants.apiURL}/history/all?id=${id}`,
     type: "GET",
     beforeSend: function (xhr) {
-      if (JSON.parse(localStorage.getItem("userInformation")).token) {
-        xhr.setRequestHeader(
-          "Authorization",
-          JSON.parse(localStorage.getItem("userInformation")).token
-        )
+      if (localStorage.getItem("userInformation")) {
+        if (JSON.parse(localStorage.getItem("userInformation")).token) {
+          xhr.setRequestHeader(
+            "Authorization",
+            JSON.parse(localStorage.getItem("userInformation")).token
+          )
+        }
       }
     },
     success: function (data) {
@@ -29,10 +31,14 @@ export const fetchQuizHistory = (value = "") => {
         listenForAClick()
       }
     },
-    error: function (xhr, status, error) {
-      quizHistoryContainer.innerHTML = constants.errorBanner(
-        "Error loading quiz history. Please try again later."
-      )
+    error: function (jqXHR, textStatus, errorThrown) {
+      if (errorThrown == "Unauthorized") {
+        invalidSession()
+      } else {
+        quizHistoryContainer.innerHTML = constants.errorBanner(
+          "Error loading quiz history. Please try again later."
+        )
+      }
     },
   })
 }

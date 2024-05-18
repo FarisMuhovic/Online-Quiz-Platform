@@ -4,11 +4,13 @@ export const fetchUsers = (value = "") => {
     url: `${constants.apiURL}/users`,
     type: "GET",
     beforeSend: function (xhr) {
-      if (JSON.parse(localStorage.getItem("userInformation")).token) {
-        xhr.setRequestHeader(
-          "Authorization",
-          JSON.parse(localStorage.getItem("userInformation")).token
-        )
+      if (localStorage.getItem("userInformation")) {
+        if (JSON.parse(localStorage.getItem("userInformation")).token) {
+          xhr.setRequestHeader(
+            "Authorization",
+            JSON.parse(localStorage.getItem("userInformation")).token
+          )
+        }
       }
     },
     success: function (data) {
@@ -28,7 +30,11 @@ export const fetchUsers = (value = "") => {
       removeUser(data)
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      userContainer.innerHTML = constants.errorBanner("Failed to load users.")
+      if (errorThrown == "Unauthorized") {
+        invalidSession()
+      } else {
+        userContainer.innerHTML = constants.errorBanner("Failed to load users.")
+      }
     },
   })
 }
@@ -40,6 +46,13 @@ export const searchUser = () => {
 }
 
 const fillHTMLwithUsers = (userContainer, user) => {
+  if (localStorage.getItem("userInformation")) {
+    if (
+      user.email == JSON.parse(localStorage.getItem("userInformation")).email
+    ) {
+      return
+    }
+  }
   userContainer.innerHTML += `    
   <div class="user" data-userID="${user.id}">
     <div class="user-info" id="user-info">

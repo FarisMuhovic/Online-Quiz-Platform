@@ -73,12 +73,6 @@ export const showNavFooter = hash => {
     $("header").css("display", "block")
   }
 }
-export const isUserLoggedIn = () => {
-  if (!localStorage.getItem("userInformation")) {
-    window.location.href = "index.html#login"
-    localStorage.clear()
-  }
-}
 export const updateListItemColor = (hash, elementID) => {
   const headerList = document.getElementById("header-nav-list")
   const hamburgerBtn = document.getElementById("hamburger-menu")

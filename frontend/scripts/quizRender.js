@@ -3,11 +3,13 @@ export const fetchQuestions = quizID => {
     url: `${constants.apiURL}/quiz/id?quizID=${quizID}`,
     type: "GET",
     beforeSend: function (xhr) {
-      if (JSON.parse(localStorage.getItem("userInformation")).token) {
-        xhr.setRequestHeader(
-          "Authorization",
-          JSON.parse(localStorage.getItem("userInformation")).token
-        )
+      if (localStorage.getItem("userInformation")) {
+        if (JSON.parse(localStorage.getItem("userInformation")).token) {
+          xhr.setRequestHeader(
+            "Authorization",
+            JSON.parse(localStorage.getItem("userInformation")).token
+          )
+        }
       }
     },
     success: function (data) {
@@ -26,10 +28,14 @@ export const fetchQuestions = quizID => {
       renderQuestions(data.questions)
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      statusModal("quiz", "error", "Failed to load quiz")
-      setTimeout(() => {
-        window.location.href = "#quizSearch"
-      }, 1500)
+      if (errorThrown == "Unauthorized") {
+        invalidSession()
+      } else {
+        statusModal("quiz", "error", "Failed to load quiz")
+        setTimeout(() => {
+          window.location.href = "#quizSearch"
+        }, 1500)
+      }
     },
   })
 }
@@ -207,11 +213,13 @@ const gradeAnswers = userQuizAnswers => {
     url: `${constants.apiURL}/quiz/id?quizID=${takenQuiz.quizID}`,
     type: "GET",
     beforeSend: function (xhr) {
-      if (JSON.parse(localStorage.getItem("userInformation")).token) {
-        xhr.setRequestHeader(
-          "Authorization",
-          JSON.parse(localStorage.getItem("userInformation")).token
-        )
+      if (localStorage.getItem("userInformation")) {
+        if (JSON.parse(localStorage.getItem("userInformation")).token) {
+          xhr.setRequestHeader(
+            "Authorization",
+            JSON.parse(localStorage.getItem("userInformation")).token
+          )
+        }
       }
     },
     success: function (data, textStatus, jqXHR) {
@@ -281,11 +289,13 @@ const gradeAnswers = userQuizAnswers => {
         url: `${constants.apiURL}/history/new`,
         type: "POST",
         beforeSend: function (xhr) {
-          if (JSON.parse(localStorage.getItem("userInformation")).token) {
-            xhr.setRequestHeader(
-              "Authorization",
-              JSON.parse(localStorage.getItem("userInformation")).token
-            )
+          if (localStorage.getItem("userInformation")) {
+            if (JSON.parse(localStorage.getItem("userInformation")).token) {
+              xhr.setRequestHeader(
+                "Authorization",
+                JSON.parse(localStorage.getItem("userInformation")).token
+              )
+            }
           }
         },
         contentType: "application/json",
@@ -295,12 +305,16 @@ const gradeAnswers = userQuizAnswers => {
           statusModal("quiz", "success", "Quiz history successfully updated")
           showEndText(takenQuiz)
         },
-        error: function (xhr, status, error) {
-          statusModal(
-            "quiz",
-            "error",
-            "Failed to send the quiz to the database"
-          )
+        error: function (jqXHR, textStatus, errorThrown) {
+          if (errorThrown == "Unauthorized") {
+            invalidSession()
+          } else {
+            statusModal(
+              "quiz",
+              "error",
+              "Failed to send the quiz to the database"
+            )
+          }
         },
       })
 
@@ -310,10 +324,14 @@ const gradeAnswers = userQuizAnswers => {
       }, 5000)
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      statusModal("quiz", "error", "Failed to grade the quiz")
-      setTimeout(() => {
-        window.location.href = "#quizSearch"
-      }, 2500)
+      if (errorThrown == "Unauthorized") {
+        invalidSession()
+      } else {
+        statusModal("quiz", "error", "Failed to grade the quiz")
+        setTimeout(() => {
+          window.location.href = "#quizSearch"
+        }, 2500)
+      }
     },
   })
 }

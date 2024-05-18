@@ -3,11 +3,13 @@ export const fetchTopUsers = () => {
     url: `${constants.apiURL}/users/leaderboard`,
     type: "GET",
     beforeSend: function (xhr) {
-      if (JSON.parse(localStorage.getItem("userInformation")).token) {
-        xhr.setRequestHeader(
-          "Authorization",
-          JSON.parse(localStorage.getItem("userInformation")).token
-        )
+      if (localStorage.getItem("userInformation")) {
+        if (JSON.parse(localStorage.getItem("userInformation")).token) {
+          xhr.setRequestHeader(
+            "Authorization",
+            JSON.parse(localStorage.getItem("userInformation")).token
+          )
+        }
       }
     },
     success: function (data, status) {
@@ -23,8 +25,12 @@ export const fetchTopUsers = () => {
         fillLowerLeaderboard(data, i)
       }
     },
-    error: function () {
-      statusModal("leaderboard", "error", "Failed to load the leaderboard.")
+    error: function (jqXHR, textStatus, errorThrown) {
+      if (errorThrown == "Unauthorized") {
+        invalidSession()
+      } else {
+        statusModal("leaderboard", "error", "Failed to load the leaderboard.")
+      }
     },
   })
 }
@@ -76,6 +82,7 @@ const findFavCategory = attempt => {
   return maxCategory.charAt(0).toUpperCase() + maxCategory.slice(1)
 }
 const fillLowerLeaderboard = (data, i) => {
+  $("#rest-players").html("")
   $("#rest-players").append(
     `    
     <div class="user-container">

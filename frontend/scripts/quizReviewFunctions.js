@@ -7,11 +7,13 @@ export const fetchQuizReview = () => {
     url: `${constants.apiURL}/history/id`,
     type: "POST",
     beforeSend: function (xhr) {
-      if (JSON.parse(localStorage.getItem("userInformation")).token) {
-        xhr.setRequestHeader(
-          "Authorization",
-          JSON.parse(localStorage.getItem("userInformation")).token
-        )
+      if (localStorage.getItem("userInformation")) {
+        if (JSON.parse(localStorage.getItem("userInformation")).token) {
+          xhr.setRequestHeader(
+            "Authorization",
+            JSON.parse(localStorage.getItem("userInformation")).token
+          )
+        }
       }
     },
     contentType: "application/json",
@@ -60,10 +62,14 @@ export const fetchQuizReview = () => {
         },
       })
     },
-    error: function () {
-      quizReviewContainer.innerHTML = constants.errorBanner(
-        "Failed to load specific quiz history."
-      )
+    error: function (jqXHR, textStatus, errorThrown) {
+      if (errorThrown == "Unauthorized") {
+        invalidSession()
+      } else {
+        quizReviewContainer.innerHTML = constants.errorBanner(
+          "Failed to load specific quiz history."
+        )
+      }
     },
   })
 }
