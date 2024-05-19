@@ -175,4 +175,12 @@ Flight::group('/users', function () {
             Flight::json(array('error' => 'No user ID provided'), 400);
         }        
     });
+    Flight::route('GET /role', function () {
+        $role = Flight::get("jwt")->user->role;
+        if ($role == "admin") {
+            Flight::json(['message' => 'Admin access granted'], 200);
+        } else {
+            Flight::json(['message' => 'User access granted'], 200);
+        }
+    });
 }, [new authMiddleware()]);

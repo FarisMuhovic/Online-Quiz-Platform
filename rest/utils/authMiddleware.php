@@ -12,7 +12,21 @@ class authMiddleware {
             $token = $headers["Authorization"];
             try {
                 $decoded_token = JWT::decode($token, new Key(JWT_SECRET, 'HS256'));
-                return TRUE;
+                Flight::set("jwt", $decoded_token);
+                // if paths are admin based check roles
+                if (strpos(Flight::request()->url, '/users/updateRole') === 0 ||
+                    strpos(Flight::request()->url, '/users/remove') === 0 ||
+                    strpos(Flight::request()->url, '/quiz/new') === 0 ||
+                    strpos(Flight::request()->url, '/quiz/remove') === 0 
+                ) {
+                    if ($decoded_token->user->role == "admin") {
+                        return true;
+                    } else {
+                        Flight::halt(403, "Forbidden access");
+                    }
+                } else {
+                    return true;
+                }
             } catch (\Exception $e) {
                 Flight::halt(401, $e->getMessage());
             }

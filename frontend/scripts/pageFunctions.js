@@ -89,3 +89,28 @@ export const updateListItemColor = (hash, elementID) => {
       }
     })
 }
+export const giveAdminAccess = () => {
+  $.ajax({
+    url: `${constants.apiURL}/users/role`,
+    type: "GET",
+    beforeSend: function (xhr) {
+      if (localStorage.getItem("userInformation")) {
+        if (JSON.parse(localStorage.getItem("userInformation")).token) {
+          xhr.setRequestHeader(
+            "Authorization",
+            JSON.parse(localStorage.getItem("userInformation")).token
+          )
+        }
+      }
+    },
+    success: function (response) {
+      if (response.message == "Admin access granted") {
+      } else {
+        window.location.href = "index.html#dashboard"
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      window.location.href = "index.html#dashboard"
+    },
+  })
+}

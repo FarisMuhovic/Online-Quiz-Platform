@@ -4,6 +4,7 @@ import {
   exitAfterAnchorClick,
   showNavFooter,
   updateListItemColor,
+  giveAdminAccess,
 } from "../../scripts/pageFunctions.js"
 
 var app = $.spapp({
@@ -205,6 +206,7 @@ app.route({
     fetchTopUsers()
   },
   onReady: function () {
+    giveAdminAccess()
     changeTitle(window.location.hash)
     navSettings(window.location.hash)
   },
@@ -220,6 +222,7 @@ app.route({
     fetchTopUsers()
   },
   onReady: function () {
+    giveAdminAccess()
     changeTitle(window.location.hash)
     navSettings(window.location.hash)
     searchUser()
