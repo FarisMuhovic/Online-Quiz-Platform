@@ -126,10 +126,10 @@ app.route({
   onCreate: function () {
     navRender()
     changePersonalInfo()
-    loadUserInfo()
     fetchAchievements()
   },
   onReady: function () {
+    loadUserInfo()
     changeTitle(window.location.hash)
     navSettings(window.location.hash)
     changeAvatar()
@@ -160,7 +160,9 @@ import {fetchTopUsers} from "../../scripts/leaderboardFunctions.js"
 app.route({
   view: "leaderboard",
   load: "leaderboard.html",
-  onCreate: function () {},
+  onCreate: function () {
+    navRender()
+  },
   onReady: function () {
     fetchTopUsers()
     changeTitle(window.location.hash)
@@ -178,6 +180,7 @@ app.route({
   view: "analytics",
   load: "analytics.html",
   onCreate: function () {
+    navRender()
     fetchTopUsers()
   },
   onReady: function () {
@@ -204,6 +207,7 @@ app.route({
     createANewQuiz()
     searchQuizManagement()
     fetchTopUsers()
+    navRender()
   },
   onReady: function () {
     giveAdminAccess()
@@ -220,6 +224,7 @@ app.route({
   onCreate: function () {
     fetchUsers()
     fetchTopUsers()
+    navRender()
   },
   onReady: function () {
     giveAdminAccess()
@@ -263,6 +268,7 @@ app.route({
   load: "quizReview.html",
   onCreate: function () {
     fetchTopUsers()
+    navRender()
   },
   onReady: function () {
     fetchQuizReview()

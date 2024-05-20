@@ -35,6 +35,16 @@ export const fetchQuizReview = () => {
       $.ajax({
         url: `${constants.apiURL}/quiz/id?quizID=${data.quiz_id}`,
         type: "GET",
+        beforeSend: function (xhr) {
+          if (localStorage.getItem("userInformation")) {
+            if (JSON.parse(localStorage.getItem("userInformation")).token) {
+              xhr.setRequestHeader(
+                "Authorization",
+                JSON.parse(localStorage.getItem("userInformation")).token
+              )
+            }
+          }
+        },
         success: function (quizdata) {
           quizdata.questions.forEach(question => {
             const fields = question.fields.split("|")
