@@ -26,7 +26,7 @@ class AuthService {
           'iat' => time(),
           'exp' => time() + 60 * 60 * 24 // 1 day
         ];
-        $token = JWT::encode($jwt_payload, JWT_SECRET, 'HS256');
+        $token = JWT::encode($jwt_payload, Config::JWT_SECRET(), 'HS256');
         $payload["token"] = $token;
         return $payload;
       }
@@ -53,7 +53,7 @@ class AuthService {
           'iat' => time(),
           'exp' => $exp
         ];
-        $token = JWT::encode($jwt_payload, JWT_SECRET, 'HS256');
+        $token = JWT::encode($jwt_payload, Config::JWT_SECRET(), 'HS256');
         $result["token"] = $token;
         return $result;
       } else {
@@ -64,7 +64,7 @@ class AuthService {
 
   public function logoutUser($token) {
     try {
-      $decoded_token = JWT::decode($token, new Key(JWT_SECRET, 'HS256'));
+      $decoded_token = JWT::decode($token, new Key(Config::JWT_SECRET(), 'HS256'));
       return true;
     } catch (\Exception $e) {
       Flight::halt(401, $e->getMessage());

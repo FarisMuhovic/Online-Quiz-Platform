@@ -127,11 +127,11 @@ app.route({
     navRender()
     changePersonalInfo()
     loadUserInfo()
+    fetchAchievements()
   },
   onReady: function () {
     changeTitle(window.location.hash)
     navSettings(window.location.hash)
-    fetchAchievements()
     changeAvatar()
   },
 })

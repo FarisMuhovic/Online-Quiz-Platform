@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS user (
 CREATE TABLE IF NOT EXISTS achievement (
 	id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
 	title VARCHAR(100) NOT NULL,
-    banner VARCHAR(50) DEFAULT "", -- set default achievement to some image.
+    banner VARCHAR(50),
 	description VARCHAR(500) NOT NULL
 );
 
