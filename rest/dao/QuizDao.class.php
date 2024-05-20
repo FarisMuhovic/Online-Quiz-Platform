@@ -8,9 +8,11 @@ class QuizDao extends BaseDao {
   public function __construct() {
     parent::__construct("quiz");
   }
+
   public function getAllQuizBanners() {
     return $this->query("SELECT * FROM quiz", []);
   }
+
   public function insertQuiz($quiz) {
     try {
         $query = "INSERT INTO quiz (title, description, category, bannerImage, altText, duration, numberOfQuestions, dateCreated)
@@ -32,13 +34,12 @@ class QuizDao extends BaseDao {
         foreach ($quiz['questions'] as $question) {
             $this->insertQuestion($quizId, $question);
         }
-
         return true;
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
         return false;
     }
-}
+  }
 
   private function insertQuestion($quizId, $question) {
       $query = "INSERT INTO question (title, type, quiz_id)
@@ -68,6 +69,7 @@ class QuizDao extends BaseDao {
       ];
       $this->execute($query, $params);
   }
+
   public function getQuizById($ID) {
     $quizData = $this->query_unique("SELECT id, title, description, category, duration, numberOfQuestions FROM quiz WHERE id = :id", ["id" => $ID]);
 
@@ -84,6 +86,7 @@ class QuizDao extends BaseDao {
     $resultObject = (object) $resultArray;  
     return $resultObject;
   }
+  
   public function removeQuiz($quizID) {
     try {
       $query = "DELETE FROM quiz WHERE id = :quizID";

@@ -8,6 +8,7 @@ class HistoryDao extends BaseDao {
   public function __construct() {
     parent::__construct("quiz_history");
   }
+
   public function getQuizHistory($id) {
     $query = "
     select qh.id as quiz_history_id,qh.dateTaken, qh.timeTaken, qh.correctAnswers, q.title, q.description, q.category, q.numberOfQuestions, q.id from quiz_history qh 
@@ -15,6 +16,7 @@ class HistoryDao extends BaseDao {
     WHERE user_id = :id";
     return $this->query($query, ["id" => $id]);
   }
+
   public function getQuizHistoryByID($id, $quiz_id) {
     $query1 = "
     select q.title, q.category, qh.correctAnswers, q.numberOfQuestions, qh.id as quiz_history_id, q.id as quiz_id
@@ -36,6 +38,7 @@ class HistoryDao extends BaseDao {
       return $quizHistoryData;
     }
   }
+
   public function insertHistory($payload) {
     $quizInfo = $payload["takenQuiz"];
 
@@ -82,7 +85,7 @@ class HistoryDao extends BaseDao {
               ':isCorrect' => 0, 
             );
           $this->execute($query3, $params3);
-        }
+      }
     }
   }
 }

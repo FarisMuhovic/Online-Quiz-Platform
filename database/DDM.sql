@@ -45,7 +45,7 @@ INSERT INTO question (quiz_id, title, type)
 VALUES 
     (1, 'What is the smallest unit of an element that maintains the properties of that element', 'MCQ'),
     (1, 'What part of the atom has a negative charge', 'MCQ'),
-    (1, 'Which element is known as the building block of life and is a key component of all organic compounds', 'MCQ'),
+    (1, 'Which of the following statements accurately describes the process of nuclear fusion?', 'MCQ'),
     (1, 'Which principle(s) explain(s) why no two electrons in an atom can have the same four quantum numbers', 'MCQ'),
     (1, 'Which subatomic particle(s) make(s) up the nucleus of an atom', 'MRQ'),
     (1, 'The arrangement of electrons around the nucleus of an atom in shells is best described by which model', 'MCQ'),
@@ -66,10 +66,10 @@ VALUES
     (2, 'Electron', 1),
     (2, 'Nucleus', 0),
 
-    (3, 'Oxygen', 0),
-    (3, 'Carbon', 1),
-    (3, 'Hydrogen', 0),
-    (3, 'Nitrogen', 0),
+    (3, 'It involves the splitting of heavy atomic nuclei into lighter nuclei.', 0),
+    (3, 'It releases energy by combining light atomic nuclei to form heavier nuclei.', 1),
+    (3, 'It is the process by which radioactive isotopes decay into stable isotopes.', 0),
+    (3, 'It occurs naturally in nuclear reactors as a result of radioactive decay.', 0),
 
     (4, 'Aufbau Principle', 0),
     (4, 'Hunds Rule', 0),

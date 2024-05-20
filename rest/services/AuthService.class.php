@@ -34,6 +34,7 @@ class AuthService {
       return 0;
     }
   }
+  
   public function loginUser($payload) {
     $email = $payload["email"];
     $password = $payload["password"];

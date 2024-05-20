@@ -8,6 +8,7 @@ class UserDao extends BaseDao {
   public function __construct() {
     parent::__construct("user");
   }
+
   public function getAllUsers() {
     return $this->query("SELECT id, age, lastName, firstName, role, email, joinDate FROM user;", []);
   }
@@ -24,6 +25,7 @@ class UserDao extends BaseDao {
         return false;
     }
   }
+
   public function changeUserRole($userID, $newRole) {
       try {
           $query = "UPDATE user SET role = :newRole WHERE id = :userID";
@@ -38,7 +40,8 @@ class UserDao extends BaseDao {
           echo "Error: " . $e->getMessage();
           return false;
       }
-    }
+  }
+
   public function getUserAchievements($id) {
     $query = "
       SELECT a.title, a.description, a.banner FROM achievement a 
@@ -48,6 +51,7 @@ class UserDao extends BaseDao {
 
     return $this->query($query, ["id" => $id]);
   }
+
   public function changeUserAvatar($avatar, $userID) {
     $query = "UPDATE user SET avatar = :avatar WHERE id = :id";
     $params = [
@@ -57,7 +61,8 @@ class UserDao extends BaseDao {
 
     $result = $this->execute($query, $params);
     return $result->rowCount() > 0;
-}
+  }
+
   public function changeUserInfo($payload){ 
     $query = "UPDATE user SET firstName = :firstName, lastName = :lastName, dateOfBirth = :dateOfBirth, country = :country, age = :age WHERE id = :id";
     $params = [
@@ -72,6 +77,7 @@ class UserDao extends BaseDao {
     $result = $this->execute($query, $params);
     return $result->rowCount() > 0;
   }
+  
   public function getLeaderboard() {
     $query = "
       select * from user u 
