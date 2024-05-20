@@ -11,7 +11,7 @@ class authMiddleware {
         if(isset($headers["Authorization"])) {
             $token = $headers["Authorization"];
             try {
-                $decoded_token = JWT::decode($token, new Key(JWT_SECRET, 'HS256'));
+                $decoded_token = JWT::decode($token, new Key(Config::JWT_SECRET(), 'HS256'));
                 Flight::set("jwt", $decoded_token);
                 // if paths are admin based check roles
                 if (strpos(Flight::request()->url, '/users/updateRole') === 0 ||
