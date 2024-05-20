@@ -282,10 +282,10 @@ $(".logout-btn").on("click", () => {
 })
 
 const navRender = () => {
-  hamburgerMenu()
   checkUserRole()
 }
 
+hamburgerMenu()
 navRender()
 
 const navSettings = hash => {
