@@ -1,5 +1,6 @@
 export const fetchQuizzes = (name = "", catg = "none") => {
   const quizContainer = document.getElementById("quiz-search-container")
+
   $.ajax({
     url: `${constants.apiURL}/quiz/all`,
     type: "GET",
@@ -16,7 +17,7 @@ export const fetchQuizzes = (name = "", catg = "none") => {
     success: function (data) {
       quizContainer.innerHTML = ""
       if (data.length === 0) {
-        quizContainer.innerHTML = constants.noDataBanner
+        quizContainer.innerHTML = `<img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" id="errbner"/>`
       }
       data.forEach(quiz => {
         // ONLY name filled in

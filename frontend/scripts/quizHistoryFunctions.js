@@ -21,7 +21,7 @@ export const fetchQuizHistory = (value = "") => {
     success: function (data) {
       quizHistoryContainer.innerHTML = ""
       if (data.length === 0) {
-        quizHistoryContainer.innerHTML = constants.noDataBanner
+        quizHistoryContainer.innerHTML = `<img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" id="errbner"/>`
       } else {
         data.forEach(function (quiz) {
           if (quiz.title.toLowerCase().includes(value.toLowerCase())) {

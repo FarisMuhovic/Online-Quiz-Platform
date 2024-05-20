@@ -16,7 +16,7 @@ export const fetchUsers = (value = "") => {
     success: function (data) {
       userContainer.innerHTML = ""
       if (data.length === 0) {
-        userContainer.innerHTML = constants.noDataBanner
+        userContainer.innerHTML = `<img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" id="errbner"/>`
       }
       data.forEach(function (user) {
         if (

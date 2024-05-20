@@ -18,7 +18,7 @@ export const fetchQuizzesManagement = (value = "") => {
     success: function (data) {
       quizManagementContainer.innerHTML = ""
       if (data.length === 0) {
-        quizManagementContainer.innerHTML = constants.noDataBanner
+        quizManagementContainer.innerHTML = `<img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" id="errbner"/>`
       }
       data.forEach(quiz => {
         if (quiz.title.toLowerCase().includes(value.toLowerCase())) {
