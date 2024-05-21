@@ -163,6 +163,6 @@ The platform uses JWT for authentication. Upon login, a token is generated and s
 ```
 # Database
 The database is built using SQL, the code for creating and some default data insertion can be found in the database folder, along with the ER diagram in pdf folder and mwb format.Below is the ER diagram.
-![ER diagram](database/erdiagram.pdf)
+![ER diagram](database/erdiagram.png)
 
 
