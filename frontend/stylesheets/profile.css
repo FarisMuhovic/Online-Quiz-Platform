@@ -79,6 +79,11 @@
   width: 100%;
   padding: 10px;
 }
+.achievement p {
+  white-space: normal;
+  max-width: 400px;
+  text-align: center;
+}
 .btns-wrapper {
   display: flex;
   justify-content: center;

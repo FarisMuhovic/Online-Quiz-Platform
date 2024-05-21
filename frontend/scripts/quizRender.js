@@ -13,6 +13,7 @@ export const fetchQuestions = quizID => {
       }
     },
     success: function (data) {
+      $("#questions-container-form").html("")
       data.questions.forEach(question => {
         const fields = question.fields.split("|")
         question.fields = fields.map(field => {

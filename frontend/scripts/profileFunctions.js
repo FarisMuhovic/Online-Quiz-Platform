@@ -209,7 +209,6 @@ export const changePersonalInfo = () => {
 }
 export const fetchAchievements = () => {
   const achievementsContainer = document.getElementById("achivements-container")
-  achievementsContainer.innerHTML = `<h1>Achievements</h1>`
   $.ajax({
     url: `${constants.apiURL}/users/achievements?id=${
       JSON.parse(localStorage.getItem("userInformation")).id
@@ -226,14 +225,17 @@ export const fetchAchievements = () => {
       }
     },
     success: function (data, status) {
+      achievementsContainer.innerHTML = `<h1>Achievements</h1>`
       data.forEach(achievement => {
         achievementsContainer.innerHTML += `
-          <div class="achievement">
-            <h4>${achievement.title}</h4>
-            <p>${achievement.description}</p>
-          </div>`
+            <div class="achievement">
+              <h4>${achievement.title}</h4>
+              <p>${achievement.description}</p>
+            </div>`
       })
     },
-    error: function () {},
+    error: function () {
+      achievementsContainer.innerHTML = `<h1>Achievements</h1>`
+    },
   })
 }

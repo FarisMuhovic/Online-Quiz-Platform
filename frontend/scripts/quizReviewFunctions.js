@@ -1,8 +1,8 @@
 export const fetchQuizReview = () => {
   const quizReviewContainer = document.getElementById("quiz-review-container")
-  quizReviewContainer.innerHTML = ""
   const selectedQuizID = localStorage.getItem("selectedReviewQuizID")
   const id = JSON.parse(localStorage.getItem("userInformation")).id
+
   $.ajax({
     url: `${constants.apiURL}/history/id`,
     type: "POST",
@@ -20,17 +20,17 @@ export const fetchQuizReview = () => {
     data: JSON.stringify({quizID: selectedQuizID, id: id}),
     success: function (data) {
       quizReviewContainer.innerHTML = `
-        <section class="heading">
-          <h1>${data.title}</h1>
-          <h3>${data.category}</h3>
-          <p>Your score: ${data.correctAnswers}/${data.numberOfQuestions}</p>
-          <h3>Color info:</h3>
-          <div class="info-div">
-            <p>Red: your answer (wrong)</p>
-            <p>Green: right answer, and your answer.</p>
-            <p>Note: if every answer is red (except the right one), that means you didn't answer at all.</p>
-          </div>
-        </section>`
+          <section class="heading">
+            <h1>${data.title}</h1>
+            <h3>${data.category}</h3>
+            <p>Your score: ${data.correctAnswers}/${data.numberOfQuestions}</p>
+            <h3>Color info:</h3>
+            <div class="info-div">
+              <p>Red: your answer (wrong)</p>
+              <p>Green: right answer, and your answer.</p>
+              <p>Note: if every answer is red (except the right one), that means you didn't answer at all.</p>
+            </div>
+          </section>`
 
       $.ajax({
         url: `${constants.apiURL}/quiz/id?quizID=${data.quiz_id}`,
@@ -56,12 +56,12 @@ export const fetchQuizReview = () => {
               }
             })
             quizReviewContainer.innerHTML += `
-              <section class="question">
-                <h4 class="question-title">${question.title}?</h4>
-                <div class="question-answers">
-                  ${insertFields(question.fields)}
-                </div>
-              </section>`
+                <section class="question">
+                  <h4 class="question-title">${question.title}?</h4>
+                  <div class="question-answers">
+                    ${insertFields(question.fields)}
+                  </div>
+                </section>`
           })
           checkAnswers(data.answers)
         },
