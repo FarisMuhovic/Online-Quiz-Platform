@@ -45,7 +45,7 @@ class AuthService {
     } else {
       if (password_verify($password, $result["password"])) {
         unset($result["password"]);
-        $exp = time() + 60 ;
+        $exp = time() + 60 * 60 * 24;
         if ($isRememberTrue == "true") {
           $exp += + 60 * 60 * 24 * 2; // 1 + 2 days
         }
