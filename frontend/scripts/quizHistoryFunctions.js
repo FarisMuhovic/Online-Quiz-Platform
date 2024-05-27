@@ -32,7 +32,11 @@ export const fetchQuizHistory = (value = "") => {
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      if (errorThrown == "Unauthorized") {
+      if (
+        errorThrown == "Unauthorized" ||
+        errorThrown == "Expired token" ||
+        textStatus == "error"
+      ) {
         invalidSession()
       } else {
         quizHistoryContainer.innerHTML = constants.errorBanner(

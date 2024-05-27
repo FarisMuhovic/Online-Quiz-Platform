@@ -62,7 +62,11 @@ export const changeAvatar = () => {
           localStorage.setItem("userInformation", JSON.stringify(localdata))
         },
         error: function (jqXHR, textStatus, errorThrown) {
-          if (errorThrown == "Unauthorized") {
+          if (
+            errorThrown == "Unauthorized" ||
+            errorThrown == "Expired token" ||
+            textStatus == "error"
+          ) {
             invalidSession()
           } else {
             statusModal("profile", "error", "Internal server error!")
@@ -187,7 +191,11 @@ export const changePersonalInfo = () => {
             }
           },
           error: function (jqXHR, textStatus, errorThrown) {
-            if (errorThrown == "Unauthorized") {
+            if (
+              errorThrown == "Unauthorized" ||
+              errorThrown == "Expired token" ||
+              textStatus == "error"
+            ) {
               invalidSession()
             } else {
               statusModal("profile", "error", "Internal server error!")

@@ -29,7 +29,11 @@ export const fetchQuizzesManagement = (value = "") => {
       removeQuiz(data)
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      if (errorThrown == "Unauthorized") {
+      if (
+        errorThrown == "Unauthorized" ||
+        errorThrown == "Expired token" ||
+        textStatus == "error"
+      ) {
         invalidSession()
       } else {
         quizManagementContainer.innerHTML = constants.errorBanner(
@@ -225,7 +229,11 @@ const submitFormQuiz = () => {
           $("#questions-container").html("")
         },
         error: function (jqXHR, textStatus, errorThrown) {
-          if (errorThrown == "Unauthorized") {
+          if (
+            errorThrown == "Unauthorized" ||
+            errorThrown == "Expired token" ||
+            textStatus == "error"
+          ) {
             invalidSession()
           } else {
             statusModal("quizManagement", "error", "Internal server error!")
@@ -371,7 +379,11 @@ const removeQuiz = data => {
                     )
                   },
                   error: function (jqXHR, textStatus, errorThrown) {
-                    if (errorThrown == "Unauthorized") {
+                    if (
+                      errorThrown == "Unauthorized" ||
+                      errorThrown == "Expired token" ||
+                      textStatus == "error"
+                    ) {
                       invalidSession()
                     } else {
                       statusModal(

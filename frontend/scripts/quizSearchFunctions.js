@@ -47,15 +47,17 @@ export const fetchQuizzes = (name = "", catg = "none") => {
       listenForClick()
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      if (errorThrown == "Unauthorized" || errorThrown == "Expired token") {
+      if (
+        errorThrown == "Unauthorized" ||
+        errorThrown == "Expired token" ||
+        textStatus == "error"
+      ) {
         invalidSession()
-        console.log("log user out")
       } else {
         quizContainer.innerHTML = constants.errorBanner(
           "Error loading quizzes, please try again later."
         )
       }
-      console.log(jqXHR, textStatus, errorThrown)
     },
   })
 }

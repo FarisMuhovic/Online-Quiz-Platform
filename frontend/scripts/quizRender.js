@@ -29,7 +29,11 @@ export const fetchQuestions = quizID => {
       renderQuestions(data.questions)
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      if (errorThrown == "Unauthorized") {
+      if (
+        errorThrown == "Unauthorized" ||
+        errorThrown == "Expired token" ||
+        textStatus == "error"
+      ) {
         invalidSession()
       } else {
         statusModal("quiz", "error", "Failed to load quiz")
@@ -307,7 +311,11 @@ const gradeAnswers = userQuizAnswers => {
           showEndText(takenQuiz)
         },
         error: function (jqXHR, textStatus, errorThrown) {
-          if (errorThrown == "Unauthorized") {
+          if (
+            errorThrown == "Unauthorized" ||
+            errorThrown == "Expired token" ||
+            textStatus == "error"
+          ) {
             invalidSession()
           } else {
             statusModal(
@@ -325,7 +333,11 @@ const gradeAnswers = userQuizAnswers => {
       }, 5000)
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      if (errorThrown == "Unauthorized") {
+      if (
+        errorThrown == "Unauthorized" ||
+        errorThrown == "Expired token" ||
+        textStatus == "error"
+      ) {
         invalidSession()
       } else {
         statusModal("quiz", "error", "Failed to grade the quiz")

@@ -73,7 +73,11 @@ export const fetchQuizReview = () => {
       })
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      if (errorThrown == "Unauthorized") {
+      if (
+        errorThrown == "Unauthorized" ||
+        errorThrown == "Expired token" ||
+        textStatus == "error"
+      ) {
         invalidSession()
       } else {
         quizReviewContainer.innerHTML = constants.errorBanner(

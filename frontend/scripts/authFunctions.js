@@ -183,7 +183,11 @@ export const logout = () => {
     },
     error: function (jqXHR, textStatus, errorThrown) {
       // Failed to destroy session
-      if (errorThrown == "Unauthorized") {
+      if (
+        errorThrown == "Unauthorized" ||
+        errorThrown == "Expired token" ||
+        textStatus == "error"
+      ) {
         invalidSession()
       } else {
         statusModal(

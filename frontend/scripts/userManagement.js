@@ -30,7 +30,11 @@ export const fetchUsers = (value = "") => {
       removeUser(data)
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      if (errorThrown == "Unauthorized") {
+      if (
+        errorThrown == "Unauthorized" ||
+        errorThrown == "Expired token" ||
+        textStatus == "error"
+      ) {
         invalidSession()
       } else {
         userContainer.innerHTML = constants.errorBanner("Failed to load users.")
