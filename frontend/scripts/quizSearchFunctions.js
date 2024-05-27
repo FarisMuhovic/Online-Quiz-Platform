@@ -47,7 +47,7 @@ export const fetchQuizzes = (name = "", catg = "none") => {
       listenForClick()
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      if (errorThrown == "Unauthorized") {
+      if (errorThrown == "Unauthorized" || errorThrown == "Expired token") {
         invalidSession()
       } else {
         quizContainer.innerHTML = constants.errorBanner(
