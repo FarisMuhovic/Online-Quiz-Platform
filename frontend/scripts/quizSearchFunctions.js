@@ -55,7 +55,7 @@ export const fetchQuizzes = (name = "", catg = "none") => {
           "Error loading quizzes, please try again later."
         )
       }
-      console.log(errorThrown)
+      console.log(jqXHR, textStatus, errorThrown)
     },
   })
 }
