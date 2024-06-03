@@ -11,10 +11,20 @@ Flight::group('/history', function () {
      *      path="/history/all",
      *      tags={"history"},
      *      summary="Get all taken quizzes",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *      @OA\Response(
      *           response=200,
      *           description="Array of taken quizzes"
      *      )
+     *      @OA\RequestBody(
+     *          description="User credentials",
+     *          @OA\JsonContent(
+     *             required={"id"},
+     *             @OA\Property(property="id", type="string", example="fa245808-6d07-4630-84d9-aebbb57fdb3e"),
+     *          )
+     *      ),
      * )
      */
     Flight::route('GET /all', function () {
@@ -31,6 +41,9 @@ Flight::group('/history', function () {
      *      path="/history/id",
      *      tags={"history"},
      *      summary="Get specific quiz history based on that history ID and that user",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *      @OA\Response(
      *           response=200,
      *           description="Successfully retrieved taken quiz."
@@ -66,6 +79,9 @@ Flight::group('/history', function () {
      *      path="/history/new",
      *      tags={"history"},
      *      summary="Save quiz after the user has done it.",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *      @OA\Response(
      *           response=200,
      *           description="Successfully saved taken quiz."

@@ -47,7 +47,7 @@ class AuthService {
         unset($result["password"]);
         $exp = time() + 60 * 60 * 24;
         if ($isRememberTrue == "true") {
-          $exp += + 60 * 60 * 24 * 2; // 1 + 2 days
+          $exp += 60 * 60 * 24 * 2; // 1 + 2 days
         }
         $jwt_payload = [
           'user' => $result,

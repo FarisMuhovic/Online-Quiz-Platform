@@ -11,6 +11,9 @@ Flight::group('/quiz', function () {
      *      path="/quiz/all",
      *      tags={"quiz"},
      *      summary="Get all quizzes",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *      @OA\Response(
      *           response=200,
      *           description="Array of quizzes"
@@ -26,6 +29,9 @@ Flight::group('/quiz', function () {
      *      path="/quiz/id",
      *      tags={"quiz"},
      *      summary="Get a quiz by id",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *      @OA\Response(
      *           response=200,
      *           description="Object of that quiz"
@@ -47,6 +53,9 @@ Flight::group('/quiz', function () {
      *      path="/quiz/new",
      *      tags={"quiz"},
      *      summary="Create a new quiz.",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *      @OA\Response(
      *           response=200,
      *           description="Successfully created the quiz."
@@ -71,6 +80,9 @@ Flight::group('/quiz', function () {
      *      path="/quiz/remove",
      *      tags={"quiz"},
      *      summary="Removes a quiz from the database by quizID",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *      @OA\Response(
      *           response=200,
      *           description="Quiz successfuly removed"

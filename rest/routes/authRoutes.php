@@ -71,6 +71,7 @@ Flight::group('/auth', function () {
      *             required={"email", "password"},
      *             @OA\Property(property="email", type="string", example="faris.dsfg@ibu.edu.ba"),
      *             @OA\Property(property="password", type="string", format="password", example="123456789"),
+     *             @OA\Property(property="rememberMe", type="boolean", format="rememberMe", example=true),
      *          )
      *      ),
      * )
