@@ -1,38 +1,50 @@
 export const fetchQuizReview = () => {
   const quizReviewContainer = document.getElementById("quiz-review-container")
-  quizReviewContainer.innerHTML = ""
   const selectedQuizID = localStorage.getItem("selectedReviewQuizID")
   const id = JSON.parse(localStorage.getItem("userInformation")).id
+
   $.ajax({
     url: `${constants.apiURL}/history/id`,
     type: "POST",
     beforeSend: function (xhr) {
-      if (JSON.parse(localStorage.getItem("userInformation")).token) {
-        xhr.setRequestHeader(
-          "Authorization",
-          JSON.parse(localStorage.getItem("userInformation")).token
-        )
+      if (localStorage.getItem("userInformation")) {
+        if (JSON.parse(localStorage.getItem("userInformation")).token) {
+          xhr.setRequestHeader(
+            "Authorization",
+            JSON.parse(localStorage.getItem("userInformation")).token
+          )
+        }
       }
     },
     contentType: "application/json",
     data: JSON.stringify({quizID: selectedQuizID, id: id}),
     success: function (data) {
       quizReviewContainer.innerHTML = `
-        <section class="heading">
-          <h1>${data.title}</h1>
-          <h3>${data.category}</h3>
-          <p>Your score: ${data.correctAnswers}/${data.numberOfQuestions}</p>
-          <h3>Color info:</h3>
-          <div class="info-div">
-            <p>Red: your answer (wrong)</p>
-            <p>Green: right answer, and your answer.</p>
-            <p>Note: if every answer is red (except the right one), that means you didn't answer at all.</p>
-          </div>
-        </section>`
+          <section class="heading">
+            <h1>${data.title}</h1>
+            <h3>${data.category}</h3>
+            <p>Your score: ${data.correctAnswers}/${data.numberOfQuestions}</p>
+            <h3>Color info:</h3>
+            <div class="info-div">
+              <p>Red: your answer (wrong)</p>
+              <p>Green: right answer, and your answer.</p>
+              <p>Note: if every answer is red (except the right one), that means you didn't answer at all.</p>
+            </div>
+          </section>`
 
       $.ajax({
         url: `${constants.apiURL}/quiz/id?quizID=${data.quiz_id}`,
         type: "GET",
+        beforeSend: function (xhr) {
+          if (localStorage.getItem("userInformation")) {
+            if (JSON.parse(localStorage.getItem("userInformation")).token) {
+              xhr.setRequestHeader(
+                "Authorization",
+                JSON.parse(localStorage.getItem("userInformation")).token
+              )
+            }
+          }
+        },
         success: function (quizdata) {
           quizdata.questions.forEach(question => {
             const fields = question.fields.split("|")
@@ -44,12 +56,12 @@ export const fetchQuizReview = () => {
               }
             })
             quizReviewContainer.innerHTML += `
-              <section class="question">
-                <h4 class="question-title">${question.title}?</h4>
-                <div class="question-answers">
-                  ${insertFields(question.fields)}
-                </div>
-              </section>`
+                <section class="question">
+                  <h4 class="question-title">${question.title}?</h4>
+                  <div class="question-answers">
+                    ${insertFields(question.fields)}
+                  </div>
+                </section>`
           })
           checkAnswers(data.answers)
         },
@@ -60,10 +72,18 @@ export const fetchQuizReview = () => {
         },
       })
     },
-    error: function () {
-      quizReviewContainer.innerHTML = constants.errorBanner(
-        "Failed to load specific quiz history."
-      )
+    error: function (jqXHR, textStatus, errorThrown) {
+      if (
+        errorThrown == "Unauthorized" ||
+        errorThrown == "Expired token" ||
+        textStatus == "error"
+      ) {
+        invalidSession()
+      } else {
+        quizReviewContainer.innerHTML = constants.errorBanner(
+          "Failed to load specific quiz history."
+        )
+      }
     },
   })
 }

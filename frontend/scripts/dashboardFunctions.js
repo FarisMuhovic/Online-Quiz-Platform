@@ -66,6 +66,8 @@ const addAdminSection = () => {
   const dashboard = document.querySelector(".dashboard")
   const lastSection = dashboard.lastElementChild
 
+  if (dashboard.children.length === 9) return
+
   const quizManagement = document.createElement("section")
   quizManagement.className = "dashboard-item"
   quizManagement.innerHTML = `
@@ -99,6 +101,8 @@ const addAdminSection = () => {
 const addAdminListItem = () => {
   const headerList = document.getElementById("header-nav-list")
   const footerList = document.getElementById("footer-nav-list")
+
+  if (headerList.children.length === 9) return
 
   const lastListItemHeader = headerList.lastElementChild
 

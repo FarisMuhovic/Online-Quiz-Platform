@@ -2,7 +2,7 @@ INSERT INTO user (id,email,password, firstName, lastName, role, category, avatar
 VALUES 
     ('42994af1-612b-46a2-b8f5-63f70038114e', 'john.doe@example.com', '$2y$10$49a1xdow1Qkl64XcNoDgWe8I7hoR.8V85gsOXANeZ7N4MGt1E2seC', 'John', 'Doe', 'user', 'educator', 4 , '2023-03-11', '1990-05-15', 'USA', 19), -- password: sadas4asd
     ('765909b0-7297-4c62-ae90-0bdd41a596be', 'alice.smith@example.com', '$2y$10$acI1NxKxdXgC7JwQzWvMWOifjL.K0I5.jP4ksnZoHzaghwnq7xTAO', 'Alice', 'Smith', 'user', 'quiz enthusiast', 3, '2023-07-02', '1995-07-20', 'Canada', 34), -- password: #$sfasf
-    ('438d407c-b67a-4aff-8d16-96a08c4bd8ad','bob.johnson@example.com', '$2y$10$Nnf4W/75wruybapHyIsIHe6KCqMIjqHmxyKI9pRjBG0ZcU40uH.TS', 'Bob', 'Johnson', 'user', 'student', 5, '2023-03-07', '1988-11-10', 'UK',21), --password: hipposlol
+    ('438d407c-b67a-4aff-8d16-96a08c4bd8ad','bob.johnson@example.com', '$2y$10$Nnf4W/75wruybapHyIsIHe6KCqMIjqHmxyKI9pRjBG0ZcU40uH.TS', 'Bob', 'Johnson', 'user', 'student', 5, '2023-03-07', '1988-11-10', 'UK',21), -- password: hipposlol
     ('d45426d6-1ae4-42ad-b27a-0f418d54856f', 'emily.brown@example.com', '$2y$10$DQrjSfd2HI00.f/MJZDcteKMHxVUY6zFIbqFCRyGt4ib.GEsp3eFa', 'Emily', 'Brown', 'admin', 'student', 4, '2023-06-04', '1992-03-25', 'Australia', 23), -- password: osdasdsd
     ('fa245808-6d07-4630-84d9-aebbb57fdb3e', 'faris.muhovic@stu.ibu.edu.ba', '$2y$10$AzdEKvrCCDJYBQC7/J0riOy.XiaX/koCLjG77rZ9LqIzx5rLVwEn2', 'Faris', 'Muhovic', 'admin', 'student', 8, '2023-04-05', '2002-09-30', 'Germany', 25); -- password: farisfare
    
@@ -43,146 +43,146 @@ VALUES
 
 INSERT INTO question (quiz_id, title, type)
 VALUES 
-    (1, "What is the smallest unit of an element that maintains the properties of that element", "MCQ"),
-    (1, "What part of the atom has a negative charge", "MCQ"),
-    (1, "Which element is known as the building block of life and is a key component of all organic compounds", "MCQ"),
-    (1, "Which principle(s) explain(s) why no two electrons in an atom can have the same four quantum numbers", "MCQ"),
-    (1, "Which subatomic particle(s) make(s) up the nucleus of an atom", "MRQ"),
-    (1, "The arrangement of electrons around the nucleus of an atom in shells is best described by which model", "MCQ"),
-    (1, "Which element is known as the building block of life and is a key component of all organic compounds", "MCQ"),
-    (1, "What type of reaction involves an exchange of electrons between two elements", "MCQ"),
-    (1, "Who developed the periodic table", "MCQ"),
-    (1, "What is the atomic number of an element defined as", "MCQ");
+    (1, 'What is the smallest unit of an element that maintains the properties of that element', 'MCQ'),
+    (1, 'What part of the atom has a negative charge', 'MCQ'),
+    (1, 'Which of the following statements accurately describes the process of nuclear fusion?', 'MCQ'),
+    (1, 'Which principle(s) explain(s) why no two electrons in an atom can have the same four quantum numbers', 'MCQ'),
+    (1, 'Which subatomic particle(s) make(s) up the nucleus of an atom', 'MRQ'),
+    (1, 'The arrangement of electrons around the nucleus of an atom in shells is best described by which model', 'MCQ'),
+    (1, 'Which element is known as the building block of life and is a key component of all organic compounds', 'MCQ'),
+    (1, 'What type of reaction involves an exchange of electrons between two elements', 'MCQ'),
+    (1, 'Who developed the periodic table', 'MCQ'),
+    (1, 'What is the atomic number of an element defined as', 'MCQ');
 
 INSERT INTO question_field (question_id, title, isCorrect)
 VALUES 
-    (1, "Atom", 1),
-    (1, "Molecule", 0),
-    (1, "Compound", 0),
-    (1, "Electron", 0),
+    (1, 'Atom', 1),
+    (1, 'Molecule', 0),
+    (1, 'Compound', 0),
+    (1, 'Electron', 0),
     
-    (2, "Proton", 0),
-    (2, "Neutron", 0),
-    (2, "Electron", 1),
-    (2, "Nucleus", 0),
+    (2, 'Proton', 0),
+    (2, 'Neutron', 0),
+    (2, 'Electron', 1),
+    (2, 'Nucleus', 0),
 
-    (3, "Oxygen", 0),
-    (3, "Carbon", 1),
-    (3, "Hydrogen", 0),
-    (3, "Nitrogen", 0),
+    (3, 'It involves the splitting of heavy atomic nuclei into lighter nuclei.', 0),
+    (3, 'It releases energy by combining light atomic nuclei to form heavier nuclei.', 1),
+    (3, 'It is the process by which radioactive isotopes decay into stable isotopes.', 0),
+    (3, 'It occurs naturally in nuclear reactors as a result of radioactive decay.', 0),
 
-    (4, "Aufbau Principle", 0),
-    (4, "Hund's Rule", 0),
-    (4, "Pauli Exclusion Principle", 1),
-    (4, "Heisenberg Uncertainty Principle", 0),
+    (4, 'Aufbau Principle', 0),
+    (4, 'Hunds Rule', 0),
+    (4, 'Pauli Exclusion Principle', 1),
+    (4, 'Heisenberg Uncertainty Principle', 0),
 
-    (5, "Proton", 1),
-    (5, "Neutron", 1),
-    (5, "Electron", 0),
-    (5, "Photon", 0),
+    (5, 'Proton', 1),
+    (5, 'Neutron', 1),
+    (5, 'Electron', 0),
+    (5, 'Photon', 0),
 
-    (6, "Bohr Model", 1),
-    (6, "Quantum Mechanical Model", 0),
-    (6, "Dalton's Model", 0),
-    (6, "Thomson's Model", 0),
+    (6, 'Bohr Model', 1),
+    (6, 'Quantum Mechanical Model', 0),
+    (6, 'Daltons Model', 0),
+    (6, 'Thomsons Model', 0),
 
-    (7, "Oxygen", 0),
-    (7, "Carbon", 1),
-    (7, "Hydrogen", 0),
-    (7, "Nitrogen", 0),
+    (7, 'Oxygen', 0),
+    (7, 'Carbon', 1),
+    (7, 'Hydrogen', 0),
+    (7, 'Nitrogen', 0),
 
-    (8, "Decomposition", 0),
-    (8, "Synthesis", 0),
-    (8, "Redox", 1),
-    (8, "Precipitation", 0),
+    (8, 'Decomposition', 0),
+    (8, 'Synthesis', 0),
+    (8, 'Redox', 1),
+    (8, 'Precipitation', 0),
 
-    (9, "Isaac Newton", 0),
-    (9, "Albert Einstein", 0),
-    (9, "Dmitri Mendeleev", 1),
-    (9, "Marie Curie", 0),
+    (9, 'Isaac Newton', 0),
+    (9, 'Albert Einstein', 0),
+    (9, 'Dmitri Mendeleev', 1),
+    (9, 'Marie Curie', 0),
 
-    (10, "The number of protons in the nucleus", 1),
-    (10, "The total number of protons and neutrons", 0),
-    (10, "The number of electrons around the nucleus", 0),
-    (10, "The total mass of the atom", 0);
+    (10, 'The number of protons in the nucleus', 1),
+    (10, 'The total number of protons and neutrons', 0),
+    (10, 'The number of electrons around the nucleus', 0),
+    (10, 'The total mass of the atom', 0);
 
 INSERT INTO question (quiz_id, title, type)
 VALUES 
-    (2, "What is the value of π (pi) approximately", "MCQ"),
-    (2, "What is the area of a circle with radius 5 units", "MCQ"),
-    (2, "In a right triangle, what is the length of the hypotenuse if the legs measure 3 units and 4 units, respectively", "MCQ"),
-    (2, "What is the volume of a cube with edge length 6 units", "MCQ"),
-    (2, "What is the value of sin⁡(30 degrees)", "MCQ"),
-    (2, "What is the surface area of a sphere with radius 10 units? (Use ππ = 3.14)", "MCQ"),
-    (2, "What is the equation of the line passing through the points (-1, 3) and (2, -4)", "MCQ"),
-    (2, "Which of the following are Pythagorean triplets", "MRQ"),
-    (2, "Which of the following are solutions to the equation 2x−3=92x−3=9", "MRQ"),
-    (2, "Which of the following pairs of numbers are factors of 24", "MRQ");
+    (2, 'What is the value of π (pi) approximately', 'MCQ'),
+    (2, 'What is the area of a circle with radius 5 units', 'MCQ'),
+    (2, 'In a right triangle, what is the length of the hypotenuse if the legs measure 3 units and 4 units, respectively', 'MCQ'),
+    (2, 'What is the volume of a cube with edge length 6 units', 'MCQ'),
+    (2, 'What is the value of sin⁡(30 degrees)', 'MCQ'),
+    (2, 'What is the surface area of a sphere with radius 10 units? (Use ππ = 3.14)', 'MCQ'),
+    (2, 'What is the equation of the line passing through the points (-1, 3) and (2, -4)', 'MCQ'),
+    (2, 'Which of the following are Pythagorean triplets', 'MRQ'),
+    (2, 'Which of the following are solutions to the equation 2x−3=92x−3=9', 'MRQ'),
+    (2, 'Which of the following pairs of numbers are factors of 24', 'MRQ');
 
 INSERT INTO question_field (question_id, title, isCorrect)
 VALUES
-    (11, "3.14", 1),
-    (11, "4.669", 0),
-    (11, "2.618", 0),
-    (11, "3.21532", 0),
+    (11, '3.14', 1),
+    (11, '4.669', 0),
+    (11, '2.618', 0),
+    (11, '3.21532', 0),
     
-    (12, "5π square units", 0),
-    (12, "10π square units", 0),
-    (12, "50π square units", 0),
-    (12, "25π square units", 1),
+    (12, '5π square units', 0),
+    (12, '10π square units', 0),
+    (12, '50π square units', 0),
+    (12, '25π square units', 1),
 
-    (13, "5 units", 1),
-    (13, "6 units", 0),
-    (13, "4 units", 0),
-    (13, "7 units", 0),
+    (13, '5 units', 1),
+    (13, '6 units', 0),
+    (13, '4 units', 0),
+    (13, '7 units', 0),
 
-    (14, "72 cubic units", 0),
-    (14, "144 cubic units", 0),
-    (14, "36 cubic units", 0),
-    (14, "216 cubic units", 1),
+    (14, '72 cubic units', 0),
+    (14, '144 cubic units', 0),
+    (14, '36 cubic units', 0),
+    (14, '216 cubic units', 1),
 
-    (15, "0.5", 1),
-    (15, "0.632", 0),
-    (15, "0.735", 0),
-    (15, "0.577", 0),
+    (15, '0.5', 1),
+    (15, '0.632', 0),
+    (15, '0.735', 0),
+    (15, '0.577', 0),
 
-    (16, "1250π square units", 0),
-    (16, "1750π square units", 0),
-    (16, "1360π square units", 0),
-    (16, "1500π square units", 1),
+    (16, '1250π square units', 0),
+    (16, '1750π square units', 0),
+    (16, '1360π square units', 0),
+    (16, '1500π square units', 1),
 
-    (17, "y = -7/3x - 2/3", 0),
-    (17, "y = 7/3x + 2/3", 0),
-    (17, "y = 7/3x - 2/3", 0),
-    (17, "y = -7/3x + 2/3", 1),
+    (17, 'y = -7/3x - 2/3', 0),
+    (17, 'y = 7/3x + 2/3', 0),
+    (17, 'y = 7/3x - 2/3', 0),
+    (17, 'y = -7/3x + 2/3', 1),
 
-    (18, "(3, 4, 5)", 1),
-    (18, "(6, 9, 11)", 0),
-    (18, "(5, 12, 13)", 1),
-    (18, "(8, 15, 17)", 0),
+    (18, '(3, 4, 5)', 1),
+    (18, '(6, 9, 11)', 0),
+    (18, '(5, 12, 13)', 1),
+    (18, '(8, 15, 17)', 0),
 
-    (19, "3", 0),
-    (19, "-6", 0),
-    (19, "6", 1),
-    (19, "-3", 1),
+    (19, '3', 0),
+    (19, '-6', 0),
+    (19, '6', 1),
+    (19, '-3', 1),
 
-    (20, "5", 0),
-    (20, "2", 1),
-    (20, "8", 0),
-    (20, "6", 1),
-    (20, "12", 1);
+    (20, '5', 0),
+    (20, '2', 1),
+    (20, '8', 0),
+    (20, '6', 1),
+    (20, '12', 1);
 
 INSERT INTO question (quiz_id, title, type)
 VALUES 
-    (3, 'Who is the author of "Romeo and Juliet"?', 'MCQ'),
-    (3, 'Which author wrote the novel "To Kill a Mockingbird"?', 'MCQ'),
-    (3, 'Who wrote the famous play "Hamlet"?', 'MCQ'),
-    (3, 'Which author is known for the novel "Pride and Prejudice"?', 'MCQ'),
-    (3, 'Who is the author of the epic poem "Paradise Lost"?', 'MCQ'),
-    (3, 'Which writer is known for the novel "Moby-Dick"?', 'MCQ'),
-    (3, 'Who wrote the dystopian novel "1984"?', 'MCQ'),
-    (3, 'Which author wrote the poem "The Waste Land"?', 'MCQ'),
-    (3, 'Which of the following authors wrote both "Dracula" and "Frankenstein"?', 'MRQ'),
+    (3, 'Who is the author of Romeo and Juliet?', 'MCQ'),
+    (3, 'Which author wrote the novel To Kill a Mockingbird?', 'MCQ'),
+    (3, 'Who wrote the famous play Hamlet?', 'MCQ'),
+    (3, 'Which author is known for the novel Pride and Prejudice?', 'MCQ'),
+    (3, 'Who is the author of the epic poem Paradise Lost?', 'MCQ'),
+    (3, 'Which writer is known for the novel Moby-Dick?', 'MCQ'),
+    (3, 'Who wrote the dystopian novel 1984?', 'MCQ'),
+    (3, 'Which author wrote the poem The Waste Land?', 'MCQ'),
+    (3, 'Which of the following authors wrote both Dracula and Frankenstein?', 'MRQ'),
     (3, 'Which of the following literary works is attributed to Miguel de Cervantes?', 'MRQ');
 
 INSERT INTO question_field (question_id, title, isCorrect)
@@ -304,15 +304,15 @@ VALUES
 
 INSERT INTO question (quiz_id, title, type)
 VALUES 
-    (5, 'Who composed the famous symphony "Symphony No. 5"?', 'MCQ'),
+    (5, 'Who composed the famous symphony Symphony No. 5?', 'MCQ'),
     (5, 'Which musical genre originated in New Orleans and is characterized by its lively rhythms and improvisation?', 'MCQ'),
-    (5, 'Who is known as the "King of Pop"?', 'MCQ'),
-    (5, 'Which instrument is known as the "King of Instruments"?', 'MCQ'),
-    (5, 'Which of the following composers is known for his famous "Four Seasons" compositions?', 'MCQ'),
+    (5, 'Who is known as the King of Pop?', 'MCQ'),
+    (5, 'Which instrument is known as the King of Instruments?', 'MCQ'),
+    (5, 'Which of the following composers is known for his famous Four Seasons compositions?', 'MCQ'),
     (5, 'Which musical era is known for its emphasis on emotion, individualism, and the use of contrasting elements?', 'MCQ'),
     (5, 'Which of the following are subgenres of rock music?', 'MRQ'),
-    (5, 'Who is known for his famous guitar solo in the song "Stairway to Heaven"?', 'MRQ'),
-    (5, 'Which composer is famous for his "Moonlight Sonata"?', 'MCQ'),
+    (5, 'Who is known for his famous guitar solo in the song Stairway to Heaven?', 'MRQ'),
+    (5, 'Which composer is famous for his Moonlight Sonata?', 'MCQ'),
     (5, 'Which music style originated in Jamaica and is known for its offbeat rhythms and syncopated melodies?', 'MCQ');
 
 INSERT INTO question_field (question_id, title, isCorrect)
@@ -377,7 +377,7 @@ VALUES
     (6, 'Which of the following were major causes of the French Revolution?', 'MRQ'),
     (6, 'Who was the leader of the Bolshevik Party during the Russian Revolution of 1917?', 'MCQ'),
     (6, 'Which ancient empire was known for its extensive network of roads, administrative efficiency, and adoption of Christianity as the state religion under Emperor Constantine?', 'MCQ'),
-    (6, 'Which conflict, fought from 1914 to 1918, involved many of the world''s great powers and is often referred to as the "Great War"?', 'MCQ'),
+    (6, 'Which conflict, fought from 1914 to 1918, involved many of the world''s great powers and is often referred to as the Great War?', 'MCQ'),
     (6, 'Which of the following factors contributed to the decline of the Roman Empire? (Select all that apply)', 'MRQ');
 
 
@@ -435,16 +435,16 @@ VALUES
 
 INSERT INTO question (quiz_id, title, type)
 VALUES 
-    (7, 'Who directed the 1972 film "The Godfather"?', 'MCQ'),
+    (7, 'Who directed the 1972 film The Godfather?', 'MCQ'),
     (7, 'Which movie won the Academy Award for Best Picture in 1994?', 'MCQ'),
-    (7, 'Who played the role of Rick Blaine in the movie "Casablanca"?', 'MCQ'),
+    (7, 'Who played the role of Rick Blaine in the movie Casablanca?', 'MCQ'),
     (7, 'Which of the following actors played James Bond in the official EON Productions film series? (Select all that apply)', 'MRQ'),
     (7, 'Which of the following movies were directed by Alfred Hitchcock? (Select all that apply)', 'MRQ'),
-    (7, 'Who played the lead role in the movie "Gone with the Wind"?', 'MCQ'),
-    (7, 'Which of the following actors starred in the movie "The Godfather"? (Select all that apply)', 'MRQ'),
-    (7, 'Who directed the film "Psycho"?', 'MCQ'),
-    (7, 'In which movie does the character Travis Bickle famously say, "You talkin'' to me?"?', 'MCQ'),
-    (7, 'Which of the following actors portrayed characters in the movie "The Shawshank Redemption"? (Select all that apply)', 'MRQ');
+    (7, 'Who played the lead role in the movie Gone with the Wind?', 'MCQ'),
+    (7, 'Which of the following actors starred in the movie The Godfather? (Select all that apply)', 'MRQ'),
+    (7, 'Who directed the film Psycho?', 'MCQ'),
+    (7, 'In which movie does the character Travis Bickle famously say, You talkin to me??', 'MCQ'),
+    (7, 'Which of the following actors portrayed characters in the movie The Shawshank Redemption? (Select all that apply)', 'MRQ');
 
 INSERT INTO question_field (question_id, title, isCorrect)
 VALUES 
@@ -571,9 +571,9 @@ VALUES
     (9, 'Which of the following sports are part of the modern Olympic Games? (Select all that apply)', 'MRQ'),
     (9, 'Which of the following athletes have won the FIFA Ballon d''Or award? (Select all that apply)', 'MRQ'),
     (9, 'Which team has won the most Super Bowl titles in NFL history?', 'MCQ'),
-    (9, 'Which of the following are considered "Grand Slam" tennis tournaments? (Select all that apply)', 'MRQ'),
+    (9, 'Which of the following are considered Grand Slam tennis tournaments? (Select all that apply)', 'MRQ'),
     (9, 'Who holds the record for the most goals scored in a single FIFA World Cup tournament?', 'MCQ'),
-    (9, 'In which sport would you perform a "slam dunk"?', 'MCQ'),
+    (9, 'In which sport would you perform a slam dunk?', 'MCQ'),
     (9, 'Which of the following athletes have won the Tour de France multiple times? (Select all that apply)', 'MRQ');
 
 INSERT INTO question_field (question_id, title, isCorrect)

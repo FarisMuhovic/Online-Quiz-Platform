@@ -1,20 +1,23 @@
 export const fetchQuizzes = (name = "", catg = "none") => {
   const quizContainer = document.getElementById("quiz-search-container")
+
   $.ajax({
     url: `${constants.apiURL}/quiz/all`,
     type: "GET",
     beforeSend: function (xhr) {
-      if (JSON.parse(localStorage.getItem("userInformation")).token) {
-        xhr.setRequestHeader(
-          "Authorization",
-          JSON.parse(localStorage.getItem("userInformation")).token
-        )
+      if (localStorage.getItem("userInformation")) {
+        if (JSON.parse(localStorage.getItem("userInformation")).token) {
+          xhr.setRequestHeader(
+            "Authorization",
+            JSON.parse(localStorage.getItem("userInformation")).token
+          )
+        }
       }
     },
     success: function (data) {
       quizContainer.innerHTML = ""
       if (data.length === 0) {
-        quizContainer.innerHTML = constants.noDataBanner
+        quizContainer.innerHTML = `<img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" id="errbner"/>`
       }
       data.forEach(quiz => {
         // ONLY name filled in
@@ -44,9 +47,17 @@ export const fetchQuizzes = (name = "", catg = "none") => {
       listenForClick()
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      quizContainer.innerHTML = constants.errorBanner(
-        "Error loading quizzes, please try again later."
-      )
+      if (
+        errorThrown == "Unauthorized" ||
+        errorThrown == "Expired token" ||
+        textStatus == "error"
+      ) {
+        invalidSession()
+      } else {
+        quizContainer.innerHTML = constants.errorBanner(
+          "Error loading quizzes, please try again later."
+        )
+      }
     },
   })
 }

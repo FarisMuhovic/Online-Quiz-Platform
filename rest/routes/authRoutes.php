@@ -1,7 +1,7 @@
-
 <?php 
 
 require_once __DIR__ . '/../services/AuthService.class.php';
+require_once __DIR__ . '/../utils/authMiddleware.php';
 
 Flight::set('authService', new AuthService());
 
@@ -71,6 +71,7 @@ Flight::group('/auth', function () {
      *             required={"email", "password"},
      *             @OA\Property(property="email", type="string", example="faris.dsfg@ibu.edu.ba"),
      *             @OA\Property(property="password", type="string", format="password", example="123456789"),
+     *             @OA\Property(property="rememberMe", type="boolean", format="rememberMe", example=true),
      *          )
      *      ),
      * )
@@ -107,14 +108,22 @@ Flight::group('/auth', function () {
      * )
      */
     Flight::route('POST /logout', function () {
-      try {
-        $token = Flight::request()->getHeader('Authentication');
-        if($token){
-            Flight::get('authService')->logout($token);
-            return true;
-        }
-      } catch (\Exception $e){
-          Flight::halt(500, $e->getMessage());
-      }            
-    });
+      $headers = getallheaders();
+      if(isset($headers["Authorization"])) {
+          $result = Flight::get('authService')->logoutUser($headers["Authorization"]);
+          if ($result) {
+            Flight::json(array(
+              'success' => true,
+              'message' => 'Logged out successfully!',
+            ), 200);
+          } else {
+            Flight::json(array(
+              'success' => false,
+              'message' => 'Logging out failed!',
+            ), 400);
+          }
+      } else {
+          Flight::halt(401, "Unauthorized access");
+      }        
+    })->addMiddleware(new authMiddleware());
 });

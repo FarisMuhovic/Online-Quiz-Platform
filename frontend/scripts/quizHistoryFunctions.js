@@ -9,17 +9,19 @@ export const fetchQuizHistory = (value = "") => {
     url: `${constants.apiURL}/history/all?id=${id}`,
     type: "GET",
     beforeSend: function (xhr) {
-      if (JSON.parse(localStorage.getItem("userInformation")).token) {
-        xhr.setRequestHeader(
-          "Authorization",
-          JSON.parse(localStorage.getItem("userInformation")).token
-        )
+      if (localStorage.getItem("userInformation")) {
+        if (JSON.parse(localStorage.getItem("userInformation")).token) {
+          xhr.setRequestHeader(
+            "Authorization",
+            JSON.parse(localStorage.getItem("userInformation")).token
+          )
+        }
       }
     },
     success: function (data) {
       quizHistoryContainer.innerHTML = ""
       if (data.length === 0) {
-        quizHistoryContainer.innerHTML = constants.noDataBanner
+        quizHistoryContainer.innerHTML = `<img src="./images/emptybox.svg" alt="empty banner" class="empty-banner" id="errbner"/>`
       } else {
         data.forEach(function (quiz) {
           if (quiz.title.toLowerCase().includes(value.toLowerCase())) {
@@ -29,10 +31,18 @@ export const fetchQuizHistory = (value = "") => {
         listenForAClick()
       }
     },
-    error: function (xhr, status, error) {
-      quizHistoryContainer.innerHTML = constants.errorBanner(
-        "Error loading quiz history. Please try again later."
-      )
+    error: function (jqXHR, textStatus, errorThrown) {
+      if (
+        errorThrown == "Unauthorized" ||
+        errorThrown == "Expired token" ||
+        textStatus == "error"
+      ) {
+        invalidSession()
+      } else {
+        quizHistoryContainer.innerHTML = constants.errorBanner(
+          "Error loading quiz history. Please try again later."
+        )
+      }
     },
   })
 }

@@ -1,6 +1,7 @@
 <?php 
 
 require_once __DIR__ . '/../services/UserService.class.php';
+require_once __DIR__ . '/../utils/authMiddleware.php';
 
 Flight::set('userService', new UserService());
 
@@ -10,6 +11,9 @@ Flight::group('/users', function () {
      *      path="/users",
      *      tags={"users"},
      *      summary="Get all users",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *      @OA\Response(
      *           response=200,
      *           description="Array of users"
@@ -25,6 +29,9 @@ Flight::group('/users', function () {
      *      path="/users/achievements",
      *      tags={"users"},
      *      summary="Get specific user achievements by ID",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *      @OA\Response(
      *           response=200,
      *           description="Array of achievements"
@@ -46,6 +53,9 @@ Flight::group('/users', function () {
      *      path="/users/leaderboard",
      *      tags={"users"},
      *      summary="Get top 10 users for the leaderboard in descending order",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *      @OA\Response(
      *           response=200,
      *           description="Array of users"
@@ -61,6 +71,9 @@ Flight::group('/users', function () {
      *      path="/users/updateRole",
      *      tags={"users"},
      *      summary="Change role of the user",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *      @OA\Response(
      *           response=200,
      *           description="Successfully updated the role."
@@ -96,6 +109,9 @@ Flight::group('/users', function () {
      *      path="/users/updateAvatar",
      *      tags={"users"},
      *      summary="Change avatar of the user",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *      @OA\Response(
      *           response=200,
      *           description="Successfully updated the avatar."
@@ -130,6 +146,9 @@ Flight::group('/users', function () {
      *      path="/users/updateInformation",
      *      tags={"users"},
      *      summary="Change information of the user",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *      @OA\Response(
      *           response=200,
      *           description="Successfully updated the information."
@@ -154,6 +173,9 @@ Flight::group('/users', function () {
      *      path="/users/remove",
      *      tags={"users"},
      *      summary="Remove an user from the system.",
+     *      security={
+     *          {"ApiKey": {}}
+     *      },
      *      @OA\Response(
      *           response=200,
      *           description="Successfully removed an user."
@@ -174,4 +196,13 @@ Flight::group('/users', function () {
             Flight::json(array('error' => 'No user ID provided'), 400);
         }        
     });
-});
+    
+    Flight::route('GET /role', function () {
+        $role = Flight::get("jwt")->user->role;
+        if ($role == "admin") {
+            Flight::json(['message' => 'Admin access granted'], 200);
+        } else {
+            Flight::json(['message' => 'User access granted'], 200);
+        }
+    });
+}, [new authMiddleware()]);

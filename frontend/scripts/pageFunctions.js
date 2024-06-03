@@ -73,12 +73,6 @@ export const showNavFooter = hash => {
     $("header").css("display", "block")
   }
 }
-export const isUserLoggedIn = () => {
-  if (!localStorage.getItem("userInformation")) {
-    window.location.href = "index.html#login"
-    localStorage.clear()
-  }
-}
 export const updateListItemColor = (hash, elementID) => {
   const headerList = document.getElementById("header-nav-list")
   const hamburgerBtn = document.getElementById("hamburger-menu")
@@ -94,4 +88,29 @@ export const updateListItemColor = (hash, elementID) => {
         }
       }
     })
+}
+export const giveAdminAccess = () => {
+  $.ajax({
+    url: `${constants.apiURL}/users/role`,
+    type: "GET",
+    beforeSend: function (xhr) {
+      if (localStorage.getItem("userInformation")) {
+        if (JSON.parse(localStorage.getItem("userInformation")).token) {
+          xhr.setRequestHeader(
+            "Authorization",
+            JSON.parse(localStorage.getItem("userInformation")).token
+          )
+        }
+      }
+    },
+    success: function (response) {
+      if (response.message == "Admin access granted") {
+      } else {
+        window.location.href = "index.html#dashboard"
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      window.location.href = "index.html#dashboard"
+    },
+  })
 }

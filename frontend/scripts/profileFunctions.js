@@ -27,17 +27,23 @@ export const changeAvatar = () => {
 
   $("#save-changes-for-avatar-change-btn").on("click", () => {
     if (clickedAvatar) {
+      if (typeof clickedAvatar === "number") {
+        statusModal("profile", "error", "Please select a different avatar.")
+        return
+      }
       clickedAvatar = Number(clickedAvatar.charAt(clickedAvatar.length - 1))
       $.ajax({
         url: `${constants.apiURL}/users/updateAvatar`,
         type: "PUT",
         contentType: "application/json",
         beforeSend: function (xhr) {
-          if (JSON.parse(localStorage.getItem("userInformation")).token) {
-            xhr.setRequestHeader(
-              "Authorization",
-              JSON.parse(localStorage.getItem("userInformation")).token
-            )
+          if (localStorage.getItem("userInformation")) {
+            if (JSON.parse(localStorage.getItem("userInformation")).token) {
+              xhr.setRequestHeader(
+                "Authorization",
+                JSON.parse(localStorage.getItem("userInformation")).token
+              )
+            }
           }
         },
         data: JSON.stringify({
@@ -56,7 +62,15 @@ export const changeAvatar = () => {
           localStorage.setItem("userInformation", JSON.stringify(localdata))
         },
         error: function (jqXHR, textStatus, errorThrown) {
-          statusModal("profile", "error", "Internal server error!")
+          if (
+            errorThrown == "Unauthorized" ||
+            errorThrown == "Expired token" ||
+            textStatus == "error"
+          ) {
+            invalidSession()
+          } else {
+            statusModal("profile", "error", "Internal server error!")
+          }
         },
       })
     } else {
@@ -111,7 +125,6 @@ export const loadUserInfo = () => {
 export const changePersonalInfo = () => {
   $("#change-info-btn").on("click", () => {
     const formInputs = document.querySelectorAll(".personal-info form input")
-    // get user info
     if ($("#save-changes-btn").css("display") == "none") {
       $("#save-changes-btn").css("display", "inline")
       $("#change-info-btn").text("Cancel")
@@ -121,7 +134,7 @@ export const changePersonalInfo = () => {
           input.disabled = false
         }
       })
-      $("#details-form").on("submit", e => {
+      $("#details-form").on("submit.myNamespace", e => {
         e.preventDefault()
         const data = {
           id: JSON.parse(localStorage.getItem("userInformation")).id,
@@ -142,11 +155,13 @@ export const changePersonalInfo = () => {
           type: "POST",
           data: data,
           beforeSend: function (xhr) {
-            if (JSON.parse(localStorage.getItem("userInformation")).token) {
-              xhr.setRequestHeader(
-                "Authorization",
-                JSON.parse(localStorage.getItem("userInformation")).token
-              )
+            if (localStorage.getItem("userInformation")) {
+              if (JSON.parse(localStorage.getItem("userInformation")).token) {
+                xhr.setRequestHeader(
+                  "Authorization",
+                  JSON.parse(localStorage.getItem("userInformation")).token
+                )
+              }
             }
           },
           success: function (response) {
@@ -176,12 +191,21 @@ export const changePersonalInfo = () => {
             }
           },
           error: function (jqXHR, textStatus, errorThrown) {
-            statusModal("profile", "error", "Internal server error!")
-            formInputs.forEach(input => (input.disabled = true))
+            if (
+              errorThrown == "Unauthorized" ||
+              errorThrown == "Expired token" ||
+              textStatus == "error"
+            ) {
+              invalidSession()
+            } else {
+              statusModal("profile", "error", "Internal server error!")
+              formInputs.forEach(input => (input.disabled = true))
+            }
           },
         })
         $("#save-changes-btn").css("display", "none")
         $("#change-info-btn").text("Change information")
+        $("#details-form").off("submit.myNamespace")
       })
     } else {
       $("#save-changes-btn").css("display", "none")
@@ -193,29 +217,33 @@ export const changePersonalInfo = () => {
 }
 export const fetchAchievements = () => {
   const achievementsContainer = document.getElementById("achivements-container")
-  achievementsContainer.innerHTML = `<h1>Achievements</h1>`
   $.ajax({
     url: `${constants.apiURL}/users/achievements?id=${
       JSON.parse(localStorage.getItem("userInformation")).id
     }`,
     type: "GET",
     beforeSend: function (xhr) {
-      if (JSON.parse(localStorage.getItem("userInformation")).token) {
-        xhr.setRequestHeader(
-          "Authorization",
-          JSON.parse(localStorage.getItem("userInformation")).token
-        )
+      if (localStorage.getItem("userInformation")) {
+        if (JSON.parse(localStorage.getItem("userInformation")).token) {
+          xhr.setRequestHeader(
+            "Authorization",
+            JSON.parse(localStorage.getItem("userInformation")).token
+          )
+        }
       }
     },
     success: function (data, status) {
+      achievementsContainer.innerHTML = `<h1>Achievements</h1>`
       data.forEach(achievement => {
         achievementsContainer.innerHTML += `
-          <div class="achievement">
-            <h4>${achievement.title}</h4>
-            <p>${achievement.description}</p>
-          </div>`
+            <div class="achievement">
+              <h4>${achievement.title}</h4>
+              <p>${achievement.description}</p>
+            </div>`
       })
     },
-    error: function () {},
+    error: function () {
+      achievementsContainer.innerHTML = `<h1>Achievements</h1>`
+    },
   })
 }

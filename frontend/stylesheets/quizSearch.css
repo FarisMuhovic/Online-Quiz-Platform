@@ -104,6 +104,9 @@
   transition: var(--transition-time);
 }
 
+#errbner {
+  width: 100%;
+}
 /*  Large devices (desktops, less than 1300px) */
 @media (max-width: 1299.98px) {
   .quizzes-container {
