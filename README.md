@@ -1,9 +1,10 @@
 # Online-Quiz-Platform
 An online quiz platform where users can take quizzes across various categories, create their own quizzes, and engage in real-time chat discussions. Administrators can manage and create new quizzes, view analytics, and moderate user interactions and users overall.
-## Hosted Website
-[Visit My Website](https://quizapp.farismuhovic.online)
+## Website Demo
+<!-- [Visit My Website](https://quizapp.farismuhovic.online) -->
 ## Swagger Documentation
-[View API Documentation](https://shark-app-vkogd.ondigitalocean.app/public/v1/docs/)
+![Alt Text]("./demoappgifs/swagger.gif")
+<!-- [View API Documentation](https://shark-app-vkogd.ondigitalocean.app/public/v1/docs/) -->
 ## Local Hosting Guide
 If you want to host the website and Swagger documentation locally, follow these steps:
 1. **Requirements:**
@@ -163,6 +164,7 @@ The platform uses JWT for authentication. Upon login, a token is generated and s
 ```
 # Database
 The database is built using SQL, the code for creating and some default data insertion can be found in the database folder, along with the ER diagram in pdf folder and mwb format.Below is the ER diagram.
-![ER diagram](database/erdiagram.png)
+
+![ER diagram](database/erdiagram.pdf)
 
 
