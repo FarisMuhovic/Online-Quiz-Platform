@@ -6,10 +6,11 @@ An online quiz platform where users can take quizzes across various categories, 
 
 ![Dashboard, quiz doing](https://github.com/FarisMuhovic/Online-Quiz-Platform/blob/main/demoappgifs/dash-quiz.gif)
 
-## Swagger Documentation
-![Profile, Quiz history](https://github.com/FarisMuhovic/Online-Quiz-Platform/blob/main/demoappgifs/profile-quiz-history.gif)
-
 ![Quiz and User management](https://github.com/FarisMuhovic/Online-Quiz-Platform/blob/main/demoappgifs/admin.gif)
+
+![Profile, Quiz history](https://github.com/FarisMuhovic/Online-Quiz-Platform/blob/main/demoappgifs/profile-quiz-history.gif)
+## Swagger Documentation
+![Swagger API Docs](https://github.com/FarisMuhovic/Online-Quiz-Platform/blob/main/demoappgifs/swagger.gif)
 <!-- [View API Documentation](https://shark-app-vkogd.ondigitalocean.app/public/v1/docs/) -->
 ## Local Hosting Guide
 If you want to host the website and Swagger documentation locally, follow these steps:
