@@ -2,8 +2,14 @@
 An online quiz platform where users can take quizzes across various categories, create their own quizzes, and engage in real-time chat discussions. Administrators can manage and create new quizzes, view analytics, and moderate user interactions and users overall.
 ## Website Demo
 <!-- [Visit My Website](https://quizapp.farismuhovic.online) -->
+![Website authentication](https://github.com/FarisMuhovic/Online-Quiz-Platform/blob/main/demoappgifs/auth.gif)
+
+![Dashboard, quiz doing](https://github.com/FarisMuhovic/Online-Quiz-Platform/blob/main/demoappgifs/dash-quiz.gif)
+
 ## Swagger Documentation
-![Alt Text](https://github.com/FarisMuhovic/Online-Quiz-Platform/blob/main/demoappgifs/swagger.gif)
+![Profile, Quiz history](https://github.com/FarisMuhovic/Online-Quiz-Platform/blob/main/demoappgifs/profile-quiz-history.gif)
+
+![Quiz and User management](https://github.com/FarisMuhovic/Online-Quiz-Platform/blob/main/demoappgifs/admin.gif)
 <!-- [View API Documentation](https://shark-app-vkogd.ondigitalocean.app/public/v1/docs/) -->
 ## Local Hosting Guide
 If you want to host the website and Swagger documentation locally, follow these steps:
