@@ -3,7 +3,7 @@ An online quiz platform where users can take quizzes across various categories, 
 ## Website Demo
 <!-- [Visit My Website](https://quizapp.farismuhovic.online) -->
 ## Swagger Documentation
-![Alt Text]("/demoappgifs/swagger.gif")
+![Alt Text]("https://github.com/FarisMuhovic/Online-Quiz-Platform/blob/main/demoappgifs/swagger.gif")
 <!-- [View API Documentation](https://shark-app-vkogd.ondigitalocean.app/public/v1/docs/) -->
 ## Local Hosting Guide
 If you want to host the website and Swagger documentation locally, follow these steps:
