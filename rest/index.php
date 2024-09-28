@@ -6,7 +6,7 @@ require 'routes/historyRoutes.php';
 require 'routes/userRoutes.php';
 require 'routes/quizRoutes.php';
 
-$allowedOrigin = "https://onlinequizplatform.netlify.app/";
+$allowedOrigin = "https://onlinequizplatform.netlify.app";
 
 Flight::route('OPTIONS /*', function() use ($allowedOrigin) {
     header("Access-Control-Allow-Origin: $allowedOrigin");
